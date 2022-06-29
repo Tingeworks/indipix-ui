@@ -33,4 +33,4 @@ Build NodeJS App:
 Deploy App:
   stage: deploy
   script:
-    - yarn instance:restart
+    - yarn instance:start
