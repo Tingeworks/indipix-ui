@@ -33,4 +33,4 @@ Build NodeJS App:
 Deploy App:
   stage: deploy
   script:
-    - pm2 restart
+    - /usr/bin/pm2 restart
