@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start -p 80",
     "lint": "next lint",
-    "instance:start": "pm2 restart next_server"
+    "instance:start": "pm2 start yarn --name api -- start"
   },
   "dependencies": {
     "next": "12.1.6",
