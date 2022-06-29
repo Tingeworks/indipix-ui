@@ -1,5 +1,12 @@
+image: node:16
+
 stages:
+  - test
   - build
+
+cache:
+  paths:
+    - node_modules/
 
 Build NodeJS App:
   stage: build
@@ -7,4 +14,8 @@ Build NodeJS App:
     - yarn install
   artifacts:
     paths:
-      - /home/gitlab-runner/
+      - node_modules/
+
+Test App:
+  stage: Test
+  script: yarn lint
