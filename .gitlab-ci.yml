@@ -1,6 +1,7 @@
 image: node:16
 
 stages:
+  - pre
   - test
   - build
 
@@ -8,14 +9,22 @@ cache:
   paths:
     - node_modules/
 
-Build NodeJS App:
-  stage: build
+
+Pre Build:
+  stage: pre
   script:
     - yarn install
   artifacts:
     paths:
       - node_modules/
 
+
 Test App:
   stage: test
   script: yarn lint
+
+
+Build NodeJS App:
+  stage: build
+  script:
+    - yarn build
