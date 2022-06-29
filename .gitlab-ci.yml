@@ -33,4 +33,4 @@ Build NodeJS App:
 Deploy App:
   stage: deploy
   script:
-    - /usr/bin/pm2 restart
+    - yarn instance:restart
