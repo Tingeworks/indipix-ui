@@ -5,6 +5,3 @@ Build NodeJS App:
   stage: build
   script:
     - yarn install
-  artifacts:
-    paths:
-      - /home/gitlab-runner/
