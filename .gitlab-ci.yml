@@ -12,10 +12,3 @@ Build NodeJS App:
   stage: build
   script:
     - yarn install
-  artifacts:
-    paths:
-      - node_modules/
-
-Test App:
-  stage: Test
-  script: yarn lint
