@@ -4,6 +4,7 @@ stages:
   - pre
   - test
   - build
+  - deploy
 
 cache:
   paths:
@@ -28,3 +29,8 @@ Build NodeJS App:
   stage: build
   script:
     - yarn build
+
+Deploy App:
+  stage: deploy
+  script:
+    - yarn start
