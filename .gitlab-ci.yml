@@ -17,5 +17,5 @@ Build NodeJS App:
       - node_modules/
 
 Test App:
-  stage: Test
+  stage: test
   script: yarn lint
