@@ -7,6 +7,7 @@ import Image from 'next/image'
 // Domestic imports
 import { SEO } from '../Components/SEO'
 
+/** Home page */
 const Home: NextPage = () => {
   return (
     <div>
