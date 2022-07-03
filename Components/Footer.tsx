@@ -12,8 +12,8 @@ const footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-800 p-10">
-      <div className="grid md:grid-cols-4 gap-8 ">
+    <footer className="bg-gray-800 md:p-10 p-2">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
         <div>
             <div className="flex">
             <Image src={logo} alt="logo"></Image>  
@@ -29,7 +29,7 @@ const footer = () => {
           </p>
         </div>
 
-        <div className="text-white pl-32 ">
+        <div className="text-white md:pl-32 ">
           <h1 className="text-2xl font-semibold">Usefull links</h1>
           <div className="mt-8 text-sm flex flex-col gap-2">
             <p>
@@ -53,7 +53,7 @@ const footer = () => {
           </div>
         </div>
 
-        <div className="text-white pl-32 font-nunito">
+        <div className="text-white md:pl-24 font-nunito">
           <h1 className="text-2xl font-semibold">Help?</h1>
           <div className="mt-8 text-sm flex flex-col gap-2">
             <p>
@@ -77,7 +77,7 @@ const footer = () => {
           </div>
         </div>
 
-        <div className="text-white pl-32 font-nunito">
+        <div className="text-white md:pl-20 font-nunito">
           <h1 className="text-2xl font-semibold">Contact</h1>
           <div className="mt-8 text-sm flex flex-col gap-2">
             <p>
@@ -101,7 +101,7 @@ const footer = () => {
             <span className="text-white text-sm">, Indipix</span>
           </p>
         </div>
-        <div className="md:mr-10 flex text-2xl gap-5">
+        <div className="md:mr-10 flex md:text-2xl gap-5">
             <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><FaFacebookF/></a>
             <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><BsTwitter/></a>
             <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><FaInstagramSquare/></a>
