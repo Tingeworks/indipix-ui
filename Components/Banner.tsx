@@ -7,15 +7,14 @@ const Banner = () => {
     //   height: "566px",
       width: "100wh"
      }}
-      className="mb-10 bg-cover h-full"
-    >
+      className="mb-10 bg-cover h-full">
       <div className="flex flex-col items-center md:py-40">
-        <div className="text-white text-2xl md:text-7xl font-sans font-semibold leading-normal">
-          <h1>Stunning Fee images</h1>
+        <div className="text-white text-2xl md:text-7xl font-sans font-semibold leading-snug">
+          <h1>Stunning Free images</h1>
           <p>Change the world</p>
         </div>
 
-        <form className="md:pl-28 w-8/12 md:mt-9 mt-3 mb-5 md:mb-0">
+        <form className="md:pl-24 w-8/12 md:mt-9 mt-3 mb-5 md:mb-0">
           <div className="flex justify-center ">
             <label
               htmlFor="search-dropdown"
