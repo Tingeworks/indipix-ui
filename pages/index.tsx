@@ -12,7 +12,6 @@ const Home: NextPage = () => {
   return (
     <div>
       <SEO title="Indipix" description="" />
-      <Gallery />
     </div>
   );
 };
