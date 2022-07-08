@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap');
+
 html,
 body {
-    font-family: "Nunito","inter";
+    font-family: "Nunito",inter, roboto;
 }
