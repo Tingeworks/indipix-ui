@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 // Domestic imports
 import { SEO } from '../Components/SEO'
+import  Footer  from '../Components/Footer'
 
 /** Home page */
 const Home: NextPage = () => {
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
         title="Indipix"
         description="" 
       />
+      <Footer/>
     </div>
   )
 }
