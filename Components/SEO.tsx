@@ -1,26 +1,35 @@
 // NextJS & React imports
-import React from "react"
-import Head from 'next/head'
+import Head from "next/head";
+import React from "react";
 
 // Third Party imports
 
 // Domestic imports
 
-
 // Props interface for SEO
 interface SEOPROPS {
-    title: string;
-    description: string;
+  title: string;
+  keywords: string;
+  description: string;
 }
-
 
 /** Let's you set meta data as props for each page. `Mendatory for all pages for better SEO` */
-export const SEO: React.FC<SEOPROPS> = (props) => {
-    return (
-        <Head>
-            <title>{props.title}</title>
-            <meta name="description" content={props.description}/>
-            <link rel="icon" href="/favicon.ico" />    
-        </Head>
-    )
-}
+const SEO: React.FC<SEOPROPS> = (props) => {
+  return (
+    <Head>
+      <title>{props.title}</title>
+      <meta name="description" content={props.keywords} />
+      <meta name="description" content={props.description} />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
+  );
+};
+
+SEO.defaultProps = {
+  title: "Indipix",
+  keywords:
+    "photo, images, free photo, premium photo, creative photo, professional photo",
+  description: "Get the best Photos with high quality",
+};
+
+export default SEO;

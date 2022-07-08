@@ -6,13 +6,13 @@ import type { NextPage } from "next";
 // Domestic imports
 import Banner from "../Components/Banner";
 import Gallery from "../Components/Gallery";
-import { SEO } from "../Components/SEO";
+import SEO from "../Components/SEO";
 
 /** Home page */
 const Home: NextPage = () => {
   return (
     <div>
-      <SEO title="Indipix" description="" />
+      <SEO title="Indipix" description="" keywords="" />
       <Banner />
       <Gallery />
     </div>
