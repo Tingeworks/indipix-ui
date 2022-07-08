@@ -1,26 +1,22 @@
 // NextJS & React imports
-import type { NextPage } from 'next'
-import Image from 'next/image'
+import type { NextPage } from "next";
 
 // Third Party imports
 
 // Domestic imports
-import { SEO } from '../Components/SEO'
-import  Footer  from '../Components/Footer'
-import Banner from '../Components/Banner'
+import Banner from "../Components/Banner";
+import Gallery from "../Components/Gallery";
+import SEO from "../Components/SEO";
 
 /** Home page */
 const Home: NextPage = () => {
   return (
     <div>
-      <SEO 
-        title="Indipix"
-        description="" 
-      />
-      <Banner/>
-      <Footer/>
+      <SEO title="Indipix" description="" keywords="" />
+      <Banner />
+      <Gallery />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
