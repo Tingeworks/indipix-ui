@@ -6,6 +6,7 @@ import type { NextPage } from "next";
 // Domestic imports
 import { SEO } from '../Components/SEO'
 import  Footer  from '../Components/Footer'
+import Banner from '../Components/Banner'
 
 /** Home page */
 const Home: NextPage = () => {
@@ -15,6 +16,7 @@ const Home: NextPage = () => {
         title="Indipix"
         description="" 
       />
+      <Banner/>
       <Footer/>
     </div>
   );
