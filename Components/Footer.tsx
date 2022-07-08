@@ -1,26 +1,22 @@
-import React from "react";
-import { FaFacebookF } from 'react-icons/fa';
-import { BsTwitter } from 'react-icons/bs';
-import { FaInstagramSquare } from 'react-icons/fa';
-import { IoLogoYoutube } from 'react-icons/io';
-import { FaPinterestP } from 'react-icons/fa';
-import Image from 'next/image';
-import logo from '../public/indipixLogo.png';
+import Image from "next/image";
+import { BsTwitter } from "react-icons/bs";
+import { FaFacebookF, FaInstagramSquare, FaPinterestP } from "react-icons/fa";
+import { IoLogoYoutube } from "react-icons/io";
+import logo from "../public/indipixLogo.png";
 
-
-const footer = () => {
+const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
     <footer className="bg-zinc-800 md:p-10 p-2">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
         <div>
-            <div className="flex">
-            <Image src={logo} alt="logo"></Image>  
-          <p className="text-white text-4xl font-semibold font-inter">
-            Indi<span className="text-red-700">pix</span>
-          </p>
-            </div>
+          <div className="flex">
+            <Image src={logo} alt="logo"></Image>
+            <p className="text-white text-4xl font-semibold font-inter">
+              Indi<span className="text-red-700">pix</span>
+            </p>
+          </div>
 
           <p className="text-white text-sm mt-10 text-justify font-nunito">
             orporate clients and leisure travelers has been relying on
@@ -102,15 +98,25 @@ const footer = () => {
           </p>
         </div>
         <div className="md:mr-10 flex md:text-2xl gap-5">
-            <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><FaFacebookF/></a>
-            <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><BsTwitter/></a>
-            <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><FaInstagramSquare/></a>
-            <a className="bg-red-600 p-1 text-white rounded-md" href="#"><IoLogoYoutube/></a>
-            <a className="bg-gray-700 p-1 text-white rounded-md" href="#"><FaPinterestP/></a>
+          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+            <FaFacebookF />
+          </a>
+          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+            <BsTwitter />
+          </a>
+          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+            <FaInstagramSquare />
+          </a>
+          <a className="bg-red-600 p-1 text-white rounded-md" href="#">
+            <IoLogoYoutube />
+          </a>
+          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+            <FaPinterestP />
+          </a>
         </div>
       </div>
     </footer>
   );
 };
 
-export default footer;
+export default Footer;
