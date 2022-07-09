@@ -73,13 +73,14 @@ const SignUp = () => {
                 <label htmlFor="password">
                   <input type="password" name="password" placeholder="Confirm Password" className="border border-slate-200 rounded w-full py-2 px-3 mb-7 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
                 </label>
-                <label htmlFor="checkbox">
-                  <input type="checkbox" name="checkbox" id="checkbox" /> I have read and agree with your <Link href="/help/privacy-policy">
+                <div className="flex items-center">
+                  <input id="signup-checkbox" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300" />
+                  <label htmlFor="signup-checkbox" className="ml-2 text-sm font-medium text-gray-900">I&apos;ve read and agree with your <Link href="/help/privacy-policy">
                     <a className="text-red-500">Privacy Policy</a>
                   </Link> and <Link href="/help/terms-condition">
-                    <a className="text-red-500">Terms &amp; Conditions</a>
-                  </Link>
-                </label>
+                      <a className="text-red-500">Terms &amp; Conditions</a>
+                    </Link></label>
+                </div>
                 <label htmlFor="submit">
                   <input type="submit" name="submit" value="Sign Up" className="border border-slate-200 rounded w-full py-2 px-3 mt-7 text-slate-50 bg-red-500 leading-tight focus:outline-none focus:shadow-outline" />
                 </label>
