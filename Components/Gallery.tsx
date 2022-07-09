@@ -1,6 +1,11 @@
+// NextJS & React imports
 import { useEffect, useState } from "react";
-import Images from "./Images";
 
+
+// Domestic Imports
+import ImageCard from "./ImageCard";
+
+// Props interface
 interface Gallery {
   index: number;
   name: string;
@@ -21,10 +26,10 @@ const Gallery = () => {
   }, []);
 
   return (
-    <div className="container max-w-7xl mx-auto py-10 ">
+    <div className="container px-5 lg:px-10 xl:px-20 mx-auto py-5">
       <div className="columns-3">
         {gallery.map((image) => (
-          <Images
+          <ImageCard
             key={image.index}
             name={image.name}
             address={image.address}

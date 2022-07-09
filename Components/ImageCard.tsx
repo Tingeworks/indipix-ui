@@ -4,7 +4,8 @@ interface Images {
   authorImg: string;
   galleryImg: string;
 }
-const Images = ({ galleryImg, name, address, authorImg }: Images) => {
+
+const ImageCard = ({ galleryImg, name, address, authorImg }: Images) => {
   return (
     <figure className="group relative rounded-xl mb-5">
       <div className="align-right absolute right-0 hidden group-hover:block ">
@@ -82,4 +83,4 @@ const Images = ({ galleryImg, name, address, authorImg }: Images) => {
   );
 };
 
-export default Images;
+export default ImageCard;

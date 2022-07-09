@@ -6,7 +6,7 @@ const Banner = () => {
       style={{
         backgroundImage: "url(/Images/banner-image.png)",
         //   height: "566px",
-        width: "100wh",
+        width: "70wh",
       }}
       className="mb-10 bg-cover h-full"
     >
