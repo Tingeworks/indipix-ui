@@ -10,7 +10,7 @@ const Banner = () => {
       }}
       className="mb-10 bg-cover h-full"
     >
-      <div className="flex flex-col items-center md:py-40">
+      <div className="flex flex-col items-center md:py-28">
         <div className="text-white text-3xl md:text-7xl font-sans font-semibold leading-snug">
           <h1>Stunning Free images</h1>
           <p>Change the world</p>

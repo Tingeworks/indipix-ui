@@ -3,6 +3,8 @@ import Link from "next/link";
 
 // Third Party imports
 import { FaFacebook, FaGoogle } from "react-icons/fa";
+import ForgotPass from "../Components/ForgotPass";
+import NameAndPass from "../Components/nameAndPass";
 
 
 
@@ -59,20 +61,10 @@ const SignIn = () => {
                             </div>
                             <form action="" className="form">
 
-                                <label htmlFor="email or username">
-                                    <input type="email" name="email or username" placeholder="Username or Email Address" className="border border-slate-200 rounded w-full py-2 px-3 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                </label>
-                                <label htmlFor="password">
-                                    <input type="password" name="password" placeholder="Enter Password" className="border border-slate-200 rounded w-full py-2 px-3 mb-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-                                </label>
+                               
+                               <NameAndPass/>
+                               <ForgotPass/>
 
-                                <div className="flex justify-between my-5">
-                                    <div className="flex items-center">
-                                        <input id="signin-checkbox" type="checkbox" value="" className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300" />
-                                        <label htmlFor="signin-checkbox" className="ml-2 text-sm font-medium text-gray-900">Keep logged in</label>
-                                    </div>
-                                    <button className="text-red-500"><Link href="/help/forgot-password"><a>Forgot password</a></Link></button>
-                                </div>
                                 <label htmlFor="submit">
                                     <input type="submit" name="submit" value="Sign In" className="border border-slate-200 rounded w-full py-2 px-3 mt-7 text-slate-50 bg-red-500 leading-tight focus:outline-none focus:shadow-outline" />
                                 </label>
