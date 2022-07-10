@@ -1,6 +1,6 @@
 import Footer from "./Footer";
 import Navbar from "./Navbar";
-import SEO from "./SEO";
+import SEO from "../Misc/SEO";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
