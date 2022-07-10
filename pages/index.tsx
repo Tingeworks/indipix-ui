@@ -4,14 +4,17 @@ import type { NextPage } from "next";
 // Third Party imports
 
 // Domestic imports
-import SEO from "../Components/SEO";
+import SEO from "../Components/Misc/SEO";
+import Layout from "../Components/Layout/Layout";
+import Banner from "../Components/Banner";
 
 /** Home page */
 const Home: NextPage = () => {
   return (
-    <div>
+    <Layout>
       <SEO title="Indipix" description="" keywords="" />
-    </div>
+      <Banner />
+    </Layout>
   );
 };
 

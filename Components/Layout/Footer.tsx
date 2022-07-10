@@ -2,7 +2,6 @@ import Image from "next/image";
 import { BsTwitter } from "react-icons/bs";
 import { FaFacebookF, FaInstagramSquare, FaPinterestP } from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io";
-import logo from "../public/indipixLogo.png";
 
 const Footer = () => {
   const year = new Date().getFullYear();
@@ -12,10 +11,10 @@ const Footer = () => {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
         <div>
           <div className="flex">
-            <Image src={logo} alt="logo"></Image>
-            <p className="text-white text-4xl font-semibold font-inter">
+            <Image src="/logoN.svg" height={54} width={164} alt="logo"></Image>
+            {/* <p className="text-white text-4xl font-semibold font-inter">
               Indi<span className="text-red-700">pix</span>
-            </p>
+            </p> */}
           </div>
 
           <p className="text-white text-sm mt-10 text-justify font-nunito">
