@@ -1,36 +1,15 @@
-image: node:16
-
 stages:
-  - pre
-  - test
-  - build
   - deploy
-
 cache:
   paths:
     - node_modules/
-
-
-Pre Build:
-  stage: pre
-  script:
-    - yarn install
-  artifacts:
-    paths:
-      - node_modules/
-
-
-Test App:
-  stage: test
-  script: yarn lint
-
-
-Build NodeJS App:
-  stage: build
-  script:
-    - yarn build
-
-Deploy App:
+deploy:
+  image: docker:dind
   stage: deploy
   script:
-    - yarn instance:start
+    - docker build -t app/blog .
+    - docker run -d -p 3000:3000 --rm --name next-blog app/blog
+  tags:
+    - docker
+  only:
+    - master
