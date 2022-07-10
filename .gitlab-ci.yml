@@ -7,8 +7,8 @@ deploy:
   image: docker:dind
   stage: deploy
   script:
-    - docker build -t app/blog .
-    - docker run -d -p 3000:3000 --rm --name next-blog app/blog
+    - docker build . -t $TAG_COMMIT -t $TAG_LATEST
+    - docker run -d -p 3000:3000 --rm --name indipix-ui app/blog
   tags:
     - docker
   only:
