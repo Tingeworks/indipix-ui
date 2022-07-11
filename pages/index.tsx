@@ -4,8 +4,8 @@ import type { NextPage } from "next";
 // Third Party imports
 
 // Domestic imports
-import SEO from "../components/Misc/SEO";
-import Layout from "../components/Layout/Layout";
+import SEO from "../components/misc/SEO";
+import Layout from "../components/layout/Layout";
 import Banner from "../components/Banner";
 
 /** Home page */

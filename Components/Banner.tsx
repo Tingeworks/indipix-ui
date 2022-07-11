@@ -2,7 +2,7 @@
 import React from "react";
 
 // Domestic Imports
-import TextFieldWithDropdown from "./Form/TextFieldWithDropdown";
+import TextFieldWithDropdown from "./form/TextFieldWithDropdown";
 
 const Banner = () => {
   return (
