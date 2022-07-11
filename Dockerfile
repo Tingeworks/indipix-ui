@@ -12,4 +12,4 @@ COPY . .
 RUN yarn build
 EXPOSE 3000
 ENTRYPOINT ["yarn"]
-CMD ["serve"]
+CMD ["start"]
