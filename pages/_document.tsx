@@ -25,6 +25,11 @@ export default function Document() {
             href="http://fonts.cdnfonts.com/css/helvetica-neue-9"
             rel="stylesheet"
           ></link>
+
+          <link rel="shortcut icon" href="/favicon.ico" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/logoLight.svg" />
+          <link rel="icon" type="image/png" sizes="32x32" href="/logoLight.svg"/>
+          <link rel="icon" type="image/png" sizes="16x16" href="/logoLight.svg"/>
         </Head>
         <body>
           <Main />

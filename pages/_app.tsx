@@ -10,7 +10,6 @@
 // 
 // # Introduction
 // - Frontend written in TypeScript
-// - State Management using Redux 
 // - Styling using tailwindCSS
 
 
