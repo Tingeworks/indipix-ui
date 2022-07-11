@@ -1,12 +1,13 @@
 import React from "react";
 import {useRouter} from "next/router";
-import Footer from "../../components/Layout/Footer";
+import Layout from "../../components/Layout/Layout";
+
 
 const Legal = () => {
   const router = useRouter();
   const {queryName} = router.query;
   return (
-    <div>
+    <Layout>
       <h1 className="text-4xl text-center mt-10 fs-nunito font-semibold">
         {queryName}
       </h1>
@@ -32,9 +33,7 @@ const Legal = () => {
             </p>
         </div>
       </div>
-
-      <Footer/>
-    </div>
+    </Layout>
   );
 };
 
