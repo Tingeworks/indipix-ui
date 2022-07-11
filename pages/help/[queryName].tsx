@@ -1,6 +1,6 @@
 import React from "react";
 import {useRouter} from "next/router";
-import Footer from '../../Components/Layout/Footer';
+import Footer from '../../components/Layout/Footer';
 
 const Legal = () => {
   const router = useRouter();
