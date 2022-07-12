@@ -2,7 +2,7 @@
 import React from "react";
 
 // Domestic imports
-import SearchBox from "./form/searchBox";
+import SearchBox from "./form/SearchBox";
 
 const Banner = () => {
   return (
