@@ -1,11 +1,18 @@
+import { ReactPropTypes } from "react";
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+
+interface LayoutProps {
+  isLoggedIn: boolean;
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = (props) => {
   return (
     <div>
-      <Navbar />
-      <main>{children}</main>
+      <Navbar isLoggedIn={props.isLoggedIn} />
+      <main>{props.children}</main>
       <Footer />
     </div>
   );

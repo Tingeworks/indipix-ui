@@ -11,7 +11,7 @@ import Banner from "../Components/Banner";
 /** Home page */
 const Home: NextPage = () => {
   return (
-    <Layout>
+    <Layout isLoggedIn={false}>
       <SEO title="Indipix" description="" keywords="" />
       <Banner />
     </Layout>

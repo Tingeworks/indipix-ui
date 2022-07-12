@@ -5,11 +5,11 @@ import Layout from "../../Components/Layout/Layout";
 
 const Legal = () => {
   const router = useRouter();
-  const {queryName} = router.query;
+  const {policy} = router.query;
   return (
-    <Layout>
+    <Layout isLoggedIn={false}>
       <h1 className="text-4xl text-center mt-10 fs-nunito font-semibold">
-        {queryName}
+        {policy}
       </h1>
       <div className="text-justify">
         <div className="m-16 font-nunito">
