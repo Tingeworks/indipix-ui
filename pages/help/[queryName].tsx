@@ -1,6 +1,6 @@
 import React from "react";
 import {useRouter} from "next/router";
-import Layout from "../../components/layout/Layout";
+import Layout from "../../components/Layout/Layout";
 
 
 const Legal = () => {

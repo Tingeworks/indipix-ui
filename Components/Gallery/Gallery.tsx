@@ -1,7 +1,6 @@
 // NextJS & React imports
 import { useEffect, useState } from "react";
 
-
 // Domestic Imports
 import ImageCard from "./ImageCard";
 
