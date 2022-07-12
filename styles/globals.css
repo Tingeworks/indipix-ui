@@ -1,8 +1,8 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
 
 html,
 body {
-    font-family: "Nunito",inter, roboto;
+    font-family: "Nunito";
 }
