@@ -2,9 +2,9 @@
 import React from "react";
 
 // Domestic imports
-import SearchBox from "./form/SearchBox";
+import SearchBox from "./form/SearchBox"
 
-const Banner = () => {
+const Banner: React.FC = () => {
   return (
     <div
       style={{
