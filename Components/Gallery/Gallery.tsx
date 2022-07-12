@@ -1,8 +1,8 @@
 // NextJS & React imports
 import { useEffect, useState } from "react";
+import ImageCard from "./ImageCard";
 
 // Domestic Imports
-import ImageCard from "./ImageCard";
 
 // Props interface
 interface Gallery {
