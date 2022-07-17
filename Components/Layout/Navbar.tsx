@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   FaDownload,
   FaFileDownload,
@@ -17,7 +18,9 @@ const Navbar: React.FC<navbarProps> = (props) => {
   return (
     <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-3 justify-between">
       <div className="">
-        <img width={25} src="/logo.png" alt="" />
+        <Link href="/">
+          <img className="cursor-pointer" width={25} src="/logo.png" alt="" />
+        </Link>
       </div>
       <div className="pl-4">
         <ul className="flex text-xs">
@@ -74,9 +77,11 @@ const Navbar: React.FC<navbarProps> = (props) => {
           ) : (
             <>
               <li>
-                <button className="text-gray-600 px-2 mx-2">
-                  login
-                </button>
+                <Link href="/auth/login">
+                  <button className="text-gray-600 px-2 mx-2">
+                    login
+                  </button>
+                </Link>
               </li>
 
               <li>
