@@ -15,8 +15,8 @@ import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
 import Image from "next/image";
 
-/** Login page */
-const Login: NextPage = () => {
+/** Register page */
+const Register: NextPage = () => {
 
   return (
     <>
@@ -91,4 +91,4 @@ const Login: NextPage = () => {
   );
 };
 
-export default Login;
+export default Register;
