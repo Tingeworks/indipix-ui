@@ -31,8 +31,9 @@ const Navbar: React.FC<navbarProps> = (props) => {
         <Link href="/">
           <Image
             className="cursor-pointer mr-2"
-            width={25}
-            src="/logo.png"
+            width={32}
+            height={32}
+            src="/logo_white_bg.png"
             alt=""
           />
         </Link>
