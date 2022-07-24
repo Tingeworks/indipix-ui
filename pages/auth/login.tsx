@@ -1,10 +1,12 @@
 // NextJS & React imports
 import type { NextPage } from "next";
 import { useState } from "react";
+import Image from "next/image";
 
 // Third Party imports
 import axios from "axios";
 import { Formik, Field, Form } from "formik";
+import { setCookie } from 'nookies'
 
 // Domestic imports
 import SEO from "../../Components/Misc/SEO";
@@ -13,7 +15,7 @@ import Banner from "../../Components/Banner";
 import Link from "next/link";
 import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
-import Image from "next/image";
+import Input from "../../Components/Form/Input";
 
 /** Login page */
 const Login: NextPage = () => {
@@ -53,16 +55,16 @@ const Login: NextPage = () => {
                   }
                 );
 
-                localStorage.setItem("token", data.jwt);
+                setCookie(undefined, "jwt", data.jwt);
               }}
             >
                 <Form>
               <div className="my-5">
-                <Field type="text" className="focus:outline-none border rounded p-2 text-sm w-full" id="identifier" name="identifier" placeholder="Username or email address" />
+                <Input usingFormik={true} name="identifier" id="identifier" type="text" placeholder="Username or email address" className="focus:outline-none border rounded p-2 text-sm w-full" />
               </div>
 
               <div className="my-5">
-                <Field type="password" className="focus:outline-none border rounded p-2 text-sm w-full" id="password" name="password" placeholder="Password" />
+                <Input usingFormik={true} id="password" name="password" type="password" placeholder="Password" className="focus:outline-none border rounded p-2 text-sm w-full" />
               </div>
 
               <p className="text-xs text-center text-red text-red-700">

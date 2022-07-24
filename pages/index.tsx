@@ -2,27 +2,24 @@
 import type { NextPage } from "next";
 
 // Third Party imports
+import { FaEnvelope, FaSearch } from "react-icons/fa";
+import { parseCookies } from "nookies";
 
 // Domestic imports
 import SEO from "../Components/Misc/SEO";
 import Layout from "../Components/Layout/Layout";
 import Banner from "../Components/Banner";
 import Button from "../Components/Form/Button";
-import { FaSearch } from "react-icons/fa";
+import Input from "../Components/Form/Input";
 
 /** Home page */
 const Home: NextPage = () => {
+  const cookies = parseCookies();
+  console.log(cookies)
   return (
-    <Layout isLoggedIn={false}>
+    <Layout isLoggedIn={cookies.jwt ? true : false}>
       <SEO title="Indipix" description="" keywords="" />
       <Banner />
-      <Button style="Primary" Label="Submit" type="submit" />
-      <br />
-      <Button style="Primary"  icon={<FaSearch />} Label="Search" type="button" />
-      <br />
-      <Button style="Secondary" Label="Search" type="button" />
-      <br />
-      <Button style="Warning" Label="Search" type="button" className=" mx-6 my-3  text-2xl px-10" />
     </Layout>
   );
 };

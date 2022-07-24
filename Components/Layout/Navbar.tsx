@@ -1,28 +1,42 @@
+import { Field, Form, Formik } from "formik";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
 import {
   FaDownload,
   FaFileDownload,
   FaHeart,
   FaSearch,
   FaShoppingCart,
+  FaSlackHash,
   FaUpload,
   FaUser,
 } from "react-icons/fa";
+import Button from "../Form/Button";
 import ButtonWithIcon from "../Form/ButtonWithIcon";
+import Input from "../Form/Input";
 
 interface navbarProps {
   isLoggedIn: boolean;
 }
 
 const Navbar: React.FC<navbarProps> = (props) => {
+  const [menuStatus, setMenuStatus] = useState(false);
+  const router = useRouter();
+
   return (
     <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-3 justify-between">
       <div className="">
         <Link href="/">
-          <img className="cursor-pointer" width={25} src="/logo.png" alt="" />
+          <img
+            className="cursor-pointer mr-2"
+            width={25}
+            src="/logo.png"
+            alt=""
+          />
         </Link>
       </div>
-      <div className="pl-4">
+      <div className="pl-4 hidden md:inline-flex">
         <ul className="flex text-xs">
           <li className="pr-6">
             <a href="">Explore</a>
@@ -39,24 +53,38 @@ const Navbar: React.FC<navbarProps> = (props) => {
         </ul>
       </div>
       <div className="flex-1">
-        <div className="flex items-center bg-gray-100 py-2 px-2 rounded-sm">
-          <FaSearch className="text-gray-400" />
-          <input
-            placeholder="Search images &amp; gallaries"
-            className="focus:outline-none bg-gray-100 pl-2 text-sm flex-1"
-            type="text"
-          />
-        </div>
+        <Formik
+          initialValues={{
+            search: ""
+          }}
+          onSubmit={(values) => {
+            router.push(`/imgs/${values.search}`);
+          }}
+        >
+          <Form className="flex items-center bg-gray-100 py-2 px-2 rounded-sm">
+            <Input
+            icon={<FaSearch />}
+             usingFormik
+              id="search"
+              name="search"
+              placeholder="Search images &amp; gallaries"
+              className="focus:outline-none bg-gray-100 pl-2 text-sm flex-1"
+              type="text"
+            />
+          </Form>
+        </Formik>
       </div>
-      <div>
+      <div className="hidden md:inline-flex">
         <ul className="flex items-center">
           {props.isLoggedIn ? (
             <>
               <li className="px-2">
-                <button className="flex items-center px-4 border border-gray-200 py-2 text-gray-600 rounded-sm">
-                  <FaUpload />
-                  <span className="pl-2 text-sm">Submit</span>
-                </button>
+                <Link href="/user/submit">
+                  <button className="flex items-center px-4 border border-gray-200 py-2 text-gray-600 rounded-sm">
+                    <FaUpload />
+                    <span className="pl-2 text-sm">Submit</span>
+                  </button>
+                </Link>
               </li>
               <li className="px-2">
                 <button className="text-gray-600">
@@ -69,29 +97,118 @@ const Navbar: React.FC<navbarProps> = (props) => {
                 </button>
               </li>
               <li className="pl-2">
-                <button className="text-gray-600">
-                  <FaUser />
-                </button>
+                <Link href="/user/">
+                  <button className="text-gray-600">
+                    <FaUser />
+                  </button>
+                </Link>
               </li>
             </>
           ) : (
             <>
               <li>
                 <Link href="/auth/login">
-                  <button className="text-gray-600 px-2 mx-2">
-                    login
-                  </button>
+                  <button className="text-gray-600 px-2 mx-2">login</button>
                 </Link>
               </li>
 
               <li>
-                <button className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black">
-                  Join
-                </button>
+                <Link href="/auth/register">
+                  <button className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black">
+                    Join
+                  </button>
+                </Link>
               </li>
             </>
           )}
         </ul>
+      </div>
+
+      <div className="md:hidden select-none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="icon icon-tabler icon-tabler-menu-2 cursor-pointer select-none"
+          width="44"
+          height="44"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="#2c3e50"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          onClick={() => setMenuStatus(true)}
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <line x1="4" y1="6" x2="20" y2="6" />
+          <line x1="4" y1="12" x2="20" y2="12" />
+          <line x1="4" y1="18" x2="20" y2="18" />
+        </svg>
+
+        <div
+          className={`${
+            menuStatus ? "" : "hidden"
+          } fixed top-0 bottom-0 right-0 bg-white w-full z-50 px-5`}
+        >
+          <div className="flex justify-end">
+            <span
+              onClick={() => setMenuStatus(false)}
+              className="text-6xl select-none"
+            >
+              &times;
+            </span>
+          </div>
+
+          <ul className="flex w-full mt-5">
+            <li className="px-2 bg-slate-300 p-2 py-3 flex items-center justify-center flex-1">
+              <button className="text-gray-600">
+                <FaShoppingCart />
+              </button>
+            </li>
+
+            <li className="px-2 bg-slate-400 p-2 py-3 flex items-center justify-center flex-1">
+              <button className="text-gray-600">
+                <FaHeart />
+              </button>
+            </li>
+
+            <li className="px-2 bg-slate-500 p-2 py-3 flex items-center justify-center flex-1">
+              <Link href="/user/">
+                <button className="text-gray-100">
+                  <FaUser />
+                </button>
+              </Link>
+            </li>
+          </ul>
+
+          <hr className=" my-5 " />
+
+          <ul className="flex flex-col">
+            <li className="p-2 flex">
+              <a href="">Explore</a>
+            </li>
+            <li className="p-2 flex">
+              <a href="">Advertise</a>
+            </li>
+            <li className="p-2 flex">
+              <a href="">Blog</a>
+            </li>
+            <li className="p-2 flex">
+              <a href="">Price</a>
+            </li>
+          </ul>
+
+          <Link href="/user/submit">
+            <a onClick={() => setMenuStatus(false)} >
+              <Button
+                className="w-full py-3 mt-5"
+                icon={<FaUpload />}
+                Label="Submit"
+                style="Secondary"
+                type="button"
+              />
+            </a>
+          </Link>
+        </div>
       </div>
     </nav>
   );

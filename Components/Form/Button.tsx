@@ -8,11 +8,13 @@ interface ButtonProps {
   type: "submit" | "button" | "reset";
   style: "Primary" | "Secondary" | "Danger" | "Warning";
   className?: string;
+  onClick?: Function;
 }
 
 /** Textfield in the banner component */
 const Button: React.FC<ButtonProps> = (props) => (
   <button
+    onClick={()=> props.onClick}
     type={props.type}
     className={`
       ${ props.style == "Primary" && " bg-red-700 text-white hover:bg-black "}
@@ -23,7 +25,7 @@ const Button: React.FC<ButtonProps> = (props) => (
        px-2 py-2 rounded ${props.icon !== null ? "flex items-center justify-center" : ""
     }`}
   >
-    {props.icon !== null ? <span className="pr-2">{props.icon}</span> : ""}
+    {props.icon !== undefined ? <span className="pr-2">{props.icon}</span> : ""}
     <span>{props.Label}</span>
   </button>
 );

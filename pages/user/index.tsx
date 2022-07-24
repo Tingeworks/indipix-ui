@@ -1,9 +1,9 @@
 // NextJS & React imports
 import axios from "axios";
 import type { NextPage } from "next";
+import nookies, { parseCookies } from "nookies";
 
 // Third Party imports
-import nookies, { parseCookies } from 'nookies'
 
 // Domestic imports
 import Layout from "../../Components/Layout/Layout";
@@ -11,12 +11,12 @@ import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
 
 /** Home page */
-const Submit: NextPage = ({user}: any) => {
-  const {jwt} = parseCookies();
+const User: NextPage = ({ user }: any) => {
+  const cookies = parseCookies();
 
   return (
-    <Layout isLoggedIn={jwt ? true : false}>
-      <SEO title="Submit a new photo | Indipix" description="" keywords="" />
+    <Layout isLoggedIn={ cookies.jwt ? true : false}>
+      <SEO title={`${user.username} is on Indipix`} description="" keywords="" />
     </Layout>
   );
 };
@@ -37,4 +37,4 @@ export async function getServerSideProps(context:any) {
   };
 }
 
-export default Submit;
+export default User;
