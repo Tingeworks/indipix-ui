@@ -26,7 +26,7 @@ const Register: NextPage = () => {
             <span className="absolute top-0 left-0">
                 <FaArrowCircleLeft />
             </span>
-            <Image height={1080} width={1080} src="https://source.unsplash.com/random/1000x1000" />
+            <Image alt="login image" height={1080} width={1080} src="https://source.unsplash.com/random/1000x1000" />
         </div>
         <div className="w-1/2 flex items-center justify-center">
           <div className="py-4 px-6 bg-white w-96 rounded-lg">
@@ -77,7 +77,7 @@ const Register: NextPage = () => {
             </Formik>
 
             <div className="text-xs text-center mt-5">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/">
                 <span className="text-red-700 cursor-pointer ml-1">
                   Sign up
