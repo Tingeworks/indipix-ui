@@ -184,9 +184,11 @@ const Navbar: React.FC<navbarProps> = (props) => {
 
           <hr className=" my-5 " />
 
-          <ul className="flex flex-col">
-            <li className="p-2 flex">
-              <a href="">Explore</a>
+          <ul className="flex flex-col text-xl">
+            <li className="flex">
+              <Link href="/">
+              <a className="p-2" href="">Explore</a>
+              </Link>
             </li>
             <li className="p-2 flex">
               <a href="">Advertise</a>
