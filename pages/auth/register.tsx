@@ -17,16 +17,20 @@ import Image from "next/image";
 
 /** Register page */
 const Register: NextPage = () => {
-
   return (
     <>
       <SEO title="Login in to Indipix" description="" keywords="" />
-      <div className="h-screen flex">
-        <div className="w-1/2 overflow-hidden relative">
-            <span className="absolute top-0 left-0">
-                <FaArrowCircleLeft />
-            </span>
-            <Image alt="login image" height={1080} width={1080} src="https://source.unsplash.com/random/1000x1000" />
+      <div className="h-screen flex justify-center">
+        <div className="w-1/2 overflow-hidden relative hidden lg:inline-flex">
+          <span className="absolute top-0 left-0">
+            <FaArrowCircleLeft />
+          </span>
+          <Image
+            alt="login image"
+            height={1080}
+            width={1080}
+            src="https://source.unsplash.com/random/1000x1000"
+          />
         </div>
         <div className="w-1/2 flex items-center justify-center">
           <div className="py-4 px-6 bg-white w-96 rounded-lg">
@@ -35,44 +39,94 @@ const Register: NextPage = () => {
               <hr className="my-5" />
               <p className="-mt-9 text-center">
                 <span className="bg-white px-4 text-sm">
-                  or Sign in with Email
+                  or Sign up with Email
                 </span>
               </p>
             </div>
             <Formik
               initialValues={{
-                identifier: "",
+                username: "",
+                first_name: "",
+                last_name: "",
+                email: "",
                 password: "",
               }}
               onSubmit={async (values) => {
+                
                 const { data } = await axios.post(
                   `${CONFIG.API_URL}/auth/local`,
                   {
-                    identifier: values.identifier,
+                    username: values.username,
+                    email: values.email,
+                    fullName: values.first_name + " " + values.last_name,
                     password: values.password,
                   }
                 );
 
-                localStorage.setItem("token", data.jwt);
+                console.log(data)
+                // localStorage.setItem("token", data.jwt);
               }}
             >
-                <Form>
-              <div className="my-5">
-                <Field type="text" className="focus:outline-none border rounded p-2 text-sm w-full" id="identifier" name="identifier" placeholder="Username or email address" />
-              </div>
+              <Form>
+                <div className="my-5">
+                  <Field
+                    type="text"
+                    className="focus:outline-none border rounded p-2 text-sm w-full"
+                    id="username"
+                    name="username"
+                    placeholder="Username"
+                  />
+                </div>
 
-              <div className="my-5">
-                <Field type="password" className="focus:outline-none border rounded p-2 text-sm w-full" id="password" name="password" placeholder="Password" />
-              </div>
+                <div className="my-5">
+                  <Field
+                    type="email"
+                    className="focus:outline-none border rounded p-2 text-sm w-full"
+                    id="email"
+                    name="email"
+                    placeholder="Emai"
+                  />
+                </div>
 
-              <p className="text-xs text-center text-red text-red-700">
-                <Link href="/">Forgot Password</Link>
-              </p>
+                <div className="my-5 flex gap-3">
+                  <Field
+                    type="text"
+                    className="focus:outline-none border rounded p-2 text-sm w-full"
+                    id="first_name"
+                    name="first_name"
+                    placeholder="First Name"
+                  />
 
-              <button type="submit" className="flex items-center justify-center text-white bg-red-700 w-full mt-5 py-3 hover:bg-black rounded-sm select-none">
-                <span className="mr-2">Continue </span>
-                <FaChevronRight />
-              </button>
+                  <Field
+                    type="text"
+                    className="focus:outline-none border rounded p-2 text-sm w-full"
+                    id="last_name"
+                    name="last_name"
+                    placeholder="Last Name"
+                  />
+                </div>
+
+                <div className="my-5">
+                  <Field
+                    type="password"
+                    className="focus:outline-none border rounded p-2 text-sm w-full"
+                    id="password"
+                    name="password"
+                    placeholder="Password"
+                  />
+                </div>
+
+                <p className="text-xs text-center text-red text-red-700">
+                  <Link href="/">Forgot Password</Link>
+                </p>
+
+                <button
+                  type="submit"
+                  className="flex items-center justify-center text-white bg-red-700 w-full mt-5 py-3 hover:bg-black rounded-sm select-none"
+                >
+                  <span className="mr-2">Continue </span>
+                  <FaChevronRight />
+                </button>
               </Form>
             </Formik>
 
