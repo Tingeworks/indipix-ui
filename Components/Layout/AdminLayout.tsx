@@ -47,7 +47,7 @@ const AdminLayout: React.FC<AdminProps> = ({
                 </li>
               </Link>
 
-              <Link href="/admin">
+              <Link href="/admin/submissions">
                 <li className=" text-white text-sm items-center hover:bg-gray-800 p-4 cursor-pointer">
                   📸 Submissions
                 </li>

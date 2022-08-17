@@ -14,6 +14,7 @@ import Link from "next/link";
 import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
 import Image from "next/image";
+import Router from "next/router";
 
 /** Register page */
 const Register: NextPage = () => {
@@ -53,8 +54,8 @@ const Register: NextPage = () => {
               }}
               onSubmit={async (values) => {
                 
-                const { data } = await axios.post(
-                  `${CONFIG.API_URL}/auth/local`,
+                const response = await axios.post(
+                  `${CONFIG.API_URL}/auth/register`,
                   {
                     username: values.username,
                     email: values.email,
@@ -63,7 +64,10 @@ const Register: NextPage = () => {
                   }
                 );
 
-                console.log(data)
+                console.log(response)
+                if (response.status == 201) {
+                  Router.push("/auth/done");
+                }
                 // localStorage.setItem("token", data.jwt);
               }}
             >
@@ -109,6 +113,7 @@ const Register: NextPage = () => {
                 <div className="my-5">
                   <Field
                     type="password"
+                    autoComplete="true"
                     className="focus:outline-none border rounded p-2 text-sm w-full"
                     id="password"
                     name="password"
