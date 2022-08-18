@@ -24,8 +24,7 @@ const AdminLayout: React.FC<AdminProps> = ({
 
   return (
     <div
-      style={{ fontFamily: "Roboto" }}
-      className="flex flex-col min-h-screen"
+      className="flex flex-col max-h-screen"
     >
       <SEO title="Indipix Admin" />
       <div
@@ -81,11 +80,13 @@ const AdminLayout: React.FC<AdminProps> = ({
           </div>
         </div>
 
-        <div className="flex-1 h-full">
+        <div className="flex-1 max-h-full flex flex-col">
           <div className=" p-4 flex gap-2 justify-end">
             <span className="text-gray-500">Imtiaz Al Shariar</span>
           </div>
-          <div className="p-10">{children}</div>
+          <div className=" overflow-y-scroll overflow-x-hidden flex-1 p-10">
+          {children}
+          </div>
         </div>
       </div>
     </div>
