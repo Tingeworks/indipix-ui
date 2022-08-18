@@ -13,13 +13,13 @@ import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
 
 /** Home page */
-const User: NextPage = ({ user }: any) => {
+const User: NextPage = () => {
   const cookies = parseCookies();
-
+  
   return (
     <Layout isLoggedIn={ cookies.jwt ? true : false}>
-      <SEO title={`${user.username} is on Indipix`} description="" keywords="" />
-      <div className="my-20 container px-5 lg:px-10 xl:px-20 mx-auto flex items-center">
+      {/* <SEO title={`${user.username} is on Indipix`} description="" keywords="" /> */}
+      {/* <div className="my-20 container px-5 lg:px-10 xl:px-20 mx-auto flex items-center">
         <div className="">
           <img className="rounded-full" height={200} width={200} src="https://source.unsplash.com/random/500x500" />
         </div>
@@ -29,27 +29,27 @@ const User: NextPage = ({ user }: any) => {
           <p>{user.location.state}, {user.location.country}</p>
           <p className="mt-5"><span className="pr-3 font-bold">{user.products.length} <span className="text-gray-500 font-normal">products posted</span></span> <span className="text-gray-500 font-medium">Joined on {moment(user.createdAt).format("MMMM Do YYYY")}</span></p>
         </div>
-      </div>
+      </div> */}
     </Layout>
   );
 };
 
-export async function getServerSideProps(context:any) {
-  const cookies = nookies.get(context);
+// export async function getServerSideProps(context:any) {
+//   // const cookies = nookies.get();
 
-  const {data} = await axios.get(`${CONFIG.API_URL}/users/me?populate=*`, {
-    headers: {
-      Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU4NjY2ODMzLCJleHAiOjE2NjEyNTg4MzN9.lUoQ_FSyaI-gzZfH6hJB7xlKutVU_5v0VCxLfWns56c`
-    }
-  });
+//   // const {data} = await axios.get(`${CONFIG.API_URL}/users/me?populate=*`, {
+//   //   headers: {
+//   //     Authorization: `Bearer ${cookies.jwt}`
+//   //   }
+//   // });
 
-  console.log(data)
+//   // console.log(data)
 
-  return {
-    props: {
-      user: data,
-    },
-  };
-}
+//   // return {
+//   //   props: {
+//   //     user: data,
+//   //   },
+//   // };
+// }
 
 export default User;

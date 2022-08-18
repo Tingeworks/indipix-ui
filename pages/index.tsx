@@ -16,7 +16,6 @@ import Gallery from "../Components/Gallery/Gallery";
 /** Home page */
 const Home: NextPage = () => {
   const cookies = parseCookies();
-  console.log(cookies)
   return (
     <Layout isLoggedIn={cookies.jwt ? true : false}>
       <SEO title="Indipix" description="" keywords="" />

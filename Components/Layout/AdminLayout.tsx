@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { parseCookies } from "nookies";
 import { FaHome } from "react-icons/fa";
 import SEO from "../Misc/AdminSEO";
 import AdminNavbar from "./AdminNavbar";
@@ -17,6 +18,10 @@ const AdminLayout: React.FC<AdminProps> = ({
   isLoggedIn,
   className,
 }) => {
+
+  const cookies = parseCookies();
+
+
   return (
     <div
       style={{ fontFamily: "Roboto" }}

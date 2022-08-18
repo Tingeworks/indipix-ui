@@ -16,6 +16,7 @@ import Link from "next/link";
 import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
 import Input from "../../Components/Form/Input";
+import Router from "next/router";
 
 /** Login page */
 const Login: NextPage = () => {
@@ -47,29 +48,32 @@ const Login: NextPage = () => {
                 password: "",
               }}
               onSubmit={async (values) => {
-                const { data } = await axios.post(
-                  `${CONFIG.API_URL}/auth/local`,
+                const response = await axios.post(
+                  `${CONFIG.API_URL}/auth/login`,
                   {
-                    identifier: values.identifier,
+                    email: values.identifier,
                     password: values.password,
                   }
                 );
-
-                setCookie(undefined, "jwt", data.jwt);
+                
+                if (response.status == 201) {
+                  setCookie(undefined, "jwt", response.data.token);
+                  Router.push("/");
+                }
               }}
             >
                 <Form>
               <div className="my-5">
-                <Input usingFormik={true} name="identifier" id="identifier" type="text" placeholder="Username or email address" className="focus:outline-none border rounded p-2 text-sm w-full" />
+                <Input usingFormik={true} name="identifier" id="identifier" type="email" placeholder="Username or email address" className="focus:outline-none border rounded p-2 text-sm w-full" />
               </div>
 
               <div className="my-5">
                 <Input usingFormik={true} id="password" name="password" type="password" placeholder="Password" className="focus:outline-none border rounded p-2 text-sm w-full" />
               </div>
 
-              <p className="text-xs text-center text-red text-red-700">
+              <div className="text-xs text-center text-red text-red-700">
                 <Link href="/">Forgot Password</Link>
-              </p>
+              </div>
 
               <button type="submit" className="flex items-center justify-center text-white bg-red-700 w-full mt-5 py-3 hover:bg-black rounded-sm select-none">
                 <span className="mr-2">Continue </span>
@@ -80,7 +84,7 @@ const Login: NextPage = () => {
 
             <div className="text-xs text-center mt-5">
               Don&apos;t have an account?{" "}
-              <Link href="/">
+              <Link href="/auth/register">
                 <span className="text-red-700 cursor-pointer ml-1">
                   Sign up
                 </span>
