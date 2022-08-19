@@ -12,19 +12,27 @@ import Banner from "../Components/Banner";
 import Button from "../Components/Form/Button";
 import Input from "../Components/Form/Input";
 import Gallery from "../Components/Gallery/Gallery";
+import { useEffect, useState } from "react";
 
 /** Home page */
 const Home: NextPage = () => {
-  const cookies = parseCookies();
+  const [isLoggedIn, setLoggedInStatus] = useState(false);
+  
+  useEffect(()=> {
+    const {jwt} = parseCookies();
+
+    if (jwt) {
+      setLoggedInStatus(true);
+    }
+  }, [])
+
   return (
-    <Layout isLoggedIn={cookies.jwt ? true : false}>
+    <Layout isLoggedIn={isLoggedIn}>
       <SEO title="Indipix" description="" keywords="" />
       <Banner />
       {/* <Gallery /> */}
     </Layout>
   );
 };
-
-
 
 export default Home;

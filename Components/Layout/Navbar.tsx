@@ -57,7 +57,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
       <div className="flex-1">
         <Formik
           initialValues={{
-            search: ""
+            search: "",
           }}
           onSubmit={(values) => {
             router.push(`/imgs/${values.search}`);
@@ -65,8 +65,8 @@ const Navbar: React.FC<navbarProps> = (props) => {
         >
           <Form className="flex items-center bg-gray-100 py-2 px-2 rounded-sm">
             <Input
-            icon={<FaSearch />}
-             usingFormik
+              icon={<FaSearch />}
+              usingFormik
               id="search"
               name="search"
               placeholder="Search images &amp; gallaries"
@@ -77,53 +77,51 @@ const Navbar: React.FC<navbarProps> = (props) => {
         </Formik>
       </div>
       <div className="hidden md:inline-flex">
-        <ul className="flex items-center">
-          {props.isLoggedIn ? (
-            <>
+        {props.isLoggedIn == true ? (
+          <ul className="flex items-center">
+            <Link href="/user/submit">
               <li className="px-2">
-                <Link href="/user/submit">
-                  <button className="flex items-center px-4 border border-gray-200 py-2 text-gray-600 rounded-sm">
-                    <FaUpload />
-                    <span className="pl-2 text-sm">Submit</span>
-                  </button>
-                </Link>
+                <a className="flex items-center px-4 border border-gray-200 py-2 text-gray-600 rounded-sm cursor-pointer ">
+                  <FaUpload />
+                  <span className="pl-2 text-sm">Submit</span>
+                </a>
               </li>
-              <li className="px-2">
-                <button className="text-gray-600">
-                  <FaShoppingCart />
-                </button>
-              </li>
-              <li className="px-2">
-                <button className="text-gray-600">
-                  <FaHeart />
-                </button>
-              </li>
+            </Link>
+            <li className="px-2">
+              <a className="text-gray-600">
+                <FaShoppingCart />
+              </a>
+            </li>
+            <li className="px-2">
+              <a className="text-gray-600">
+                <FaHeart />
+              </a>
+            </li>
+            <Link href="/user/">
               <li className="pl-2">
-                <Link href="/user/">
-                  <button className="text-gray-600">
-                    <FaUser />
-                  </button>
-                </Link>
+                <a className="text-gray-600">
+                  <FaUser />
+                </a>
               </li>
-            </>
-          ) : (
-            <>
+            </Link>
+          </ul>
+        ) : (
+          <ul className="flex items-center">
+            <Link href="/auth/login">
               <li>
-                <Link href="/auth/login">
-                  <button className="text-gray-600 px-2 mx-2">login</button>
-                </Link>
+                <a className="text-gray-600 px-2 mx-2">login</a>
               </li>
+            </Link>
 
+            <Link href="/auth/register">
               <li>
-                <Link href="/auth/register">
-                  <button className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black">
-                    Join
-                  </button>
-                </Link>
+                <a className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black">
+                  Join
+                </a>
               </li>
-            </>
-          )}
-        </ul>
+            </Link>
+          </ul>
+        )}
       </div>
 
       <div className="md:hidden select-none">
@@ -187,7 +185,9 @@ const Navbar: React.FC<navbarProps> = (props) => {
           <ul className="flex flex-col text-xl">
             <li className="flex">
               <Link href="/">
-              <a className="p-2" href="">Explore</a>
+                <a className="p-2" href="">
+                  Explore
+                </a>
               </Link>
             </li>
             <li className="p-2 flex">
@@ -202,7 +202,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
           </ul>
 
           <Link href="/user/submit">
-            <a onClick={() => setMenuStatus(false)} >
+            <a onClick={() => setMenuStatus(false)}>
               <Button
                 className="w-full py-3 mt-5"
                 icon={<FaUpload />}

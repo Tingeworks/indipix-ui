@@ -3,6 +3,7 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import type { NextPage } from "next";
 import Link from "next/link";
+import Router from "next/router";
 
 // Third Party imports
 import nookies, { parseCookies } from "nookies";
@@ -16,6 +17,9 @@ import CONFIG from "../../CONFIG";
 /** Home page */
 const Submit: NextPage = () => {
   const { jwt } = parseCookies();
+  if (!jwt) {
+    Router.push('/auth/login');
+  }
 
   return (
     <Layout isLoggedIn={jwt ? true : false}>
