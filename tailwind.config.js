@@ -3,6 +3,12 @@ module.exports = {
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./Components/**/*.{js,ts,jsx,tsx}",
   ],
-  theme:{},
+  theme:{
+    extends: {
+      FontFace: {
+        'sans': ['Inter', 'sans-serif']
+      }
+    }
+  },
   plugins: [],
 }
