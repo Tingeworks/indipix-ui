@@ -22,7 +22,7 @@ const Submissions: NextPage = () => {
     <>
       <AdminLayout className="flex" isLoggedIn={true}>
         {image == "" ? "" : overlayBox(image, setImage)}
-        <h1 className="text-3xl font-bold">We've got some submissions </h1>
+        <h1 className="text-3xl font-bold">We&#39;ve got some submissions </h1>
         <p className="text-gray-400">
           Make sure to judge them before rejecting
         </p>

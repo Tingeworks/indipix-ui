@@ -6,18 +6,11 @@ import axios from "axios";
 import CONFIG from "../../CONFIG";
 import Router, { useRouter } from "next/router";
 
-const Admin: NextPage = ({ user }: any) => {
-  // const router = useRouter();
-
-  // if (typeof document !== "undefined") {
-  //   if (user.role == "user") {
-  //     Router.push("/admin/login");
-  //   }
-  // }
+const Admin: NextPage = ({ user, loggedIn }: any) => {
 
   return (
     <>
-      <AdminLayout className="flex" isLoggedIn={true}>
+      <AdminLayout className="flex" isLoggedIn={loggedIn}>
         <div className="p-10">
           <h1 className="text-3xl font-bold">Hi, Username 👋.</h1>
           <p className="text-gray-400">Welcome back!</p>
@@ -29,33 +22,27 @@ const Admin: NextPage = ({ user }: any) => {
 
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
+  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
 
-  if (cookies.jwt) {
-    const response = await axios.get(`${CONFIG.API_URL}/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${cookies.jwt}`,
-      },
-    });
+  const data = await response.json();
 
-    if (response.data.role !== "user") {
-      return {
-        props: {
-          user: response.data,
-        },
-      };
-    } else {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/"
-        }
-      }
-    }
-  } else {
+  if (response.status == 401) {
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/admin/login",
+      },
+    };
+  } else {
+    return {
+      props: {
+        loggedIn: false,
+        user: {},
       },
     };
   }

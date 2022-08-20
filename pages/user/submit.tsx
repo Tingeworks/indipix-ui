@@ -1,35 +1,55 @@
 // NextJS & React imports
-import axios from "axios";
-import { Form, Formik } from "formik";
 import type { NextPage } from "next";
 import Link from "next/link";
 import Router from "next/router";
+import { useCallback, useEffect, useState } from "react";
 
 // Third Party imports
 import nookies, { parseCookies } from "nookies";
-import Button from "../../Components/Form/Button";
+import { Form, Formik } from "formik";
+import {useDropzone} from 'react-dropzone'
+
 
 // Domestic imports
 import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
+import Button from "../../Components/Form/Button";
+
+
+
+interface pageProps {
+  loggedIn: boolean
+  user: Object
+}
+
 
 /** Home page */
-const Submit: NextPage = () => {
-  const { jwt } = parseCookies();
-  if (!jwt) {
-    Router.push('/auth/login');
-  }
+const Submit: NextPage <pageProps> = ({ loggedIn, user }) => {
+
+  const onDrop = useCallback((acceptedFiles : any) => {
+    console.log(acceptedFiles)
+  }, []);
+
+  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
+
 
   return (
-    <Layout isLoggedIn={jwt ? true : false}>
+    <Layout isLoggedIn={loggedIn}>
       <SEO title="Submit a new photo | Indipix" description="" keywords="" />
       <div className="flex flex-col md:flex-row gap-10 container mx-auto px-5 lg:px-10 xl:px-20 py-20">
         <div className="w-full md:w-4/12">
           <h2 className=" text-2xl font-bold ">Upload your images</h2>
           <p className="text-sm">PNG &amp; JPEG files are allowed</p>
 
-          <div className="mt-5 p-20 bg-gray-100 border-4 border-dashed rounded border-gray-200"></div>
+          <div {...getRootProps()} className="mt-5 p-20 bg-gray-100 border-4 border-dashed rounded border-gray-200">
+            <input {...getInputProps()} />
+            {
+              isDragActive ? 
+              <p>Drop the file here ...</p> :
+              <p>Drag &lsquo;n&rsquo; drop some files here, or click to select files</p>
+            }
+          </div>
         </div>
 
         <div className="pt-12 flex-1 text-sm">
@@ -90,7 +110,7 @@ const Submit: NextPage = () => {
                     Price
                   </label>
                   <div className="flex  p-2 border rounded mt-1 gap-5">
-                  <span className="text-gray-500">₹</span>
+                    <span className="text-gray-500">₹</span>
                     <input
                       placeholder="00.00"
                       className="w-full focus:outline-none text-right"
@@ -104,7 +124,7 @@ const Submit: NextPage = () => {
 
                 <div className="flex-1">
                   <label className="font-bold" htmlFor="name">
-                    You'll recieve
+                    You&apos;ll recieve
                   </label>
                   <div className="flex  p-2 border rounded mt-1 gap-5 opacity-80">
                     <span className="text-gray-500">₹</span>
@@ -135,16 +155,28 @@ const Submit: NextPage = () => {
                 <small>Maximum 5 tags, separate using comma</small>
               </div>
 
-
               <div className="mt-5 flex gap-3">
                 <input type="checkbox" name="" id="" />
-                <p className="text-gray-500">By submiting I agree to comply with the <Link href="/policy"><a className="
-                text-[#C72127]">terms and condition</a></Link></p>
+                <p className="text-gray-500">
+                  By submiting I agree to comply with the{" "}
+                  <Link passHref href="/policy">
+                    <a
+                      className="
+                text-[#C72127]"
+                    >
+                      terms and condition
+                    </a>
+                  </Link>
+                </p>
               </div>
 
-
               <div className="mt-20">
-                <button className="bg-[#C72127] hover:bg-black text-white py-3 px-10 rounded w-full md:w-auto " type="submit">Submit</button>
+                <button
+                  className="bg-[#C72127] hover:bg-black text-white py-3 px-10 rounded w-full md:w-auto "
+                  type="submit"
+                >
+                  Submit
+                </button>
                 {/* <Button className="px-20" Label="Submit" type="submit" style="Primary" /> */}
               </div>
             </Form>
@@ -155,20 +187,41 @@ const Submit: NextPage = () => {
   );
 };
 
-// export async function getServerSideProps(context:any) {
-//   const cookies = nookies.get(context);
+export async function getServerSideProps(context: any) {
+  const cookies = nookies.get(context);
+  if (cookies.jwt) {
+    const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    });
 
-//   const {data} = await axios.get(`${CONFIG.API_URL}/users/me`, {
-//     headers: {
-//       Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU4NjY2ODMzLCJleHAiOjE2NjEyNTg4MzN9.lUoQ_FSyaI-gzZfH6hJB7xlKutVU_5v0VCxLfWns56c`
-//     }
-//   });
-
-//   return {
-//     props: {
-//       user: data,
-//     },
-//   };
-// }
+    const data = await response.json();
+    
+    if (response.status == 401) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/auth/login",
+        },
+      };
+    } else {
+      return {
+        props: {
+          loggedIn: true,
+          user: data,
+        },
+      };
+    }
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/auth/login",
+      },
+    };
+  }
+}
 
 export default Submit;
