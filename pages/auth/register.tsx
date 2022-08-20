@@ -23,9 +23,11 @@ const Register: NextPage = () => {
       <SEO title="Login in to Indipix" description="" keywords="" />
       <div className="h-screen flex justify-center">
         <div className="w-1/2 overflow-hidden relative hidden lg:inline-flex">
-          <span className="absolute top-0 left-0">
-            <FaArrowCircleLeft />
-          </span>
+          <Link href="/">
+            <span className="absolute top-0 left-0 z-20 m-10 cursor-pointer">
+              <FaArrowCircleLeft className="text-3xl text-white drop-shadow-lg" />
+            </span>
+          </Link>
           <Image
             alt="login image"
             height={1080}
@@ -35,7 +37,7 @@ const Register: NextPage = () => {
         </div>
         <div className="w-1/2 flex items-center justify-center">
           <div className="py-4 px-6 bg-white w-96 rounded-lg">
-            <h2 className="text-2xl text-center font-semibold">Sign In</h2>
+            <h2 className="text-2xl text-center font-semibold">Join</h2>
             <div className="my-4">
               <hr className="my-5" />
               <p className="-mt-9 text-center">
@@ -53,7 +55,6 @@ const Register: NextPage = () => {
                 password: "",
               }}
               onSubmit={async (values) => {
-                
                 const response = await axios.post(
                   `${CONFIG.API_URL}/auth/register`,
                   {
@@ -64,7 +65,7 @@ const Register: NextPage = () => {
                   }
                 );
 
-                console.log(response)
+                console.log(response);
                 if (response.status == 201) {
                   Router.push("/auth/done");
                 }

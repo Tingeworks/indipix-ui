@@ -27,14 +27,14 @@ const Navbar: React.FC<navbarProps> = (props) => {
 
   return (
     <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-3 justify-between">
-      <div className="">
+      <div>
         <Link href="/">
           <Image
             className="cursor-pointer mr-2"
             width={32}
             height={32}
             src="/logo_white_bg.png"
-            alt=""
+            alt="logo"
           />
         </Link>
       </div>
@@ -109,13 +109,13 @@ const Navbar: React.FC<navbarProps> = (props) => {
           <ul className="flex items-center">
             <Link href="/auth/login">
               <li>
-                <a className="text-gray-600 px-2 mx-2">login</a>
+                <a className="text-gray-600 px-2 mx-2 cursor-pointer">login</a>
               </li>
             </Link>
 
             <Link href="/auth/register">
               <li>
-                <a className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black">
+                <a className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black cursor-pointer">
                   Join
                 </a>
               </li>

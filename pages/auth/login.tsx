@@ -25,9 +25,11 @@ const Login: NextPage = () => {
       <SEO title="Login in to Indipix" description="" keywords="" />
       <div className="h-screen flex">
         <div className="hidden lg:inline-flex lg:w-1/2 overflow-hidden relative">
-          <span className="absolute top-0 left-0 z-20 m-10">
-            <FaArrowCircleLeft className=" text-3xl text-white drop-shadow-lg" />
-          </span>
+          <Link href={"/"}>
+            <span className="absolute top-0 left-0 z-20 m-10 cursor-pointer">
+              <FaArrowCircleLeft className=" text-3xl text-white drop-shadow-lg" />
+            </span>
+          </Link>
           <Image
             alt="login image"
             height={1080}

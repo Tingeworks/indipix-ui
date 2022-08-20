@@ -46,8 +46,8 @@ export async function getServerSideProps(context: any) {
     });
 
     const data = await response.json();
-
-    if (response.status == 401) {
+    
+    if (data.statusCode == 401) {
       return {
         props: {
           loggedIn: false,

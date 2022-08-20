@@ -6,9 +6,8 @@ import { useCallback, useEffect, useState } from "react";
 
 // Third Party imports
 import nookies, { parseCookies } from "nookies";
-import { Form, Formik } from "formik";
-import {useDropzone} from 'react-dropzone'
-
+import { Field, Form, Formik } from "formik";
+import { useDropzone } from "react-dropzone";
 
 // Domestic imports
 import Layout from "../../Components/Layout/Layout";
@@ -16,23 +15,28 @@ import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
 import Button from "../../Components/Form/Button";
 
-
-
 interface pageProps {
-  loggedIn: boolean
-  user: Object
+  loggedIn: boolean;
+  user: Object;
 }
 
-
 /** Home page */
-const Submit: NextPage <pageProps> = ({ loggedIn, user }) => {
+const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
+  const {jwt} = parseCookies();
+  const [image, setImage] = useState<any>();
 
-  const onDrop = useCallback((acceptedFiles : any) => {
-    console.log(acceptedFiles)
+  const onDrop = useCallback((acceptedFiles: any) => {
+    setImage(acceptedFiles);
+    console.log(acceptedFiles);
   }, []);
 
-  const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
-
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      "image/jpeg": [".jpeg", ".png"],
+    },
+    maxFiles: 1,
+  });
 
   return (
     <Layout isLoggedIn={loggedIn}>
@@ -42,24 +46,56 @@ const Submit: NextPage <pageProps> = ({ loggedIn, user }) => {
           <h2 className=" text-2xl font-bold ">Upload your images</h2>
           <p className="text-sm">PNG &amp; JPEG files are allowed</p>
 
-          <div {...getRootProps()} className="mt-5 p-20 bg-gray-100 border-4 border-dashed rounded border-gray-200">
+          <div
+            {...getRootProps()}
+            className="mt-5 p-20 bg-gray-100 border-4 border-dashed rounded border-gray-200"
+          >
             <input {...getInputProps()} />
-            {
-              isDragActive ? 
-              <p>Drop the file here ...</p> :
-              <p>Drag &lsquo;n&rsquo; drop some files here, or click to select files</p>
-            }
+            {isDragActive ? (
+              <p className="text-center text-sm font-bold text-gray-400">
+                Drop the file here ...
+              </p>
+            ) : (
+              <p className="text-center text-sm font-bold text-gray-400">
+                Drop your high resolution image here or click to browse
+              </p>
+            )}
           </div>
         </div>
 
         <div className="pt-12 flex-1 text-sm">
-          <Formik initialValues={{}} onSubmit={() => {}}>
+          <Formik
+            initialValues={{
+              name: "",
+              description: "",
+              location: "",
+              price: "",
+            }}
+            onSubmit={(values) => {
+              fetch(`${CONFIG.API_URL}/product`, {
+                method: "POST",
+                headers: {
+                  "Authorization": `Bearer ${jwt}`
+                },
+                body: JSON.stringify({
+                  title: values.name,
+                  description: values.description,
+                  location: values.location,
+                  productPlaceHolder: URL.createObjectURL(image[0])
+                }),
+              })
+              .then(res => res.json())
+              .then(data=> {
+                console.log(data)
+              })
+            }}
+          >
             <Form>
               <div className="flex flex-col w-full">
                 <label className="font-bold" htmlFor="name">
                   Name
                 </label>
-                <input
+                <Field
                   placeholder="e.g. Hill Tracks"
                   className="w-full p-2 focus:outline-none border rounded mt-1 "
                   id="name"
@@ -81,11 +117,11 @@ const Submit: NextPage <pageProps> = ({ loggedIn, user }) => {
                     type="text"
                     disabled
                   />
-                  <input
+                  <Field
                     placeholder="e.g. Jaipur, Rajasthan"
                     className="w-full p-2 focus:outline-none border rounded mt-1"
-                    id="name"
-                    name="name"
+                    id="place"
+                    name="place"
                     type="text"
                   />
                 </div>
@@ -95,13 +131,14 @@ const Submit: NextPage <pageProps> = ({ loggedIn, user }) => {
                 <label className="font-bold" htmlFor="description">
                   Description
                 </label>
-                <textarea
+                <Field
+                  as="textarea"
                   placeholder="Summarize your image"
                   className="w-full p-2 focus:outline-none border rounded mt-1 "
                   id="description"
                   name="description"
                   rows={5}
-                ></textarea>
+                />
               </div>
 
               <div className="flex gap-5 mt-5 w-full">
@@ -198,8 +235,8 @@ export async function getServerSideProps(context: any) {
     });
 
     const data = await response.json();
-    
-    if (response.status == 401) {
+
+    if (data.statusCode == 401) {
       return {
         redirect: {
           permanent: false,
