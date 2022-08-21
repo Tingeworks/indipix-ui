@@ -1,9 +1,17 @@
+// core imports
 import { NextPage } from "next";
 import Image from "next/image";
 import { useState } from "react";
-import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
-import AdminLayout from "../../Components/Layout/AdminLayout";
 
+// Third Party Imports
+import nookies from 'nookies'
+import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
+
+// Domestic Imports
+import AdminLayout from "../../Components/Layout/AdminLayout";
+import CONFIG from "../../CONFIG";
+
+// Image Overlay Component
 const overlayBox = (image: string, setImage: Function) => {
   return (
     <div
@@ -15,6 +23,7 @@ const overlayBox = (image: string, setImage: Function) => {
   );
 };
 
+// Page
 const Submissions: NextPage = () => {
   const [image, setImage] = useState("");
 
@@ -83,5 +92,33 @@ const Submissions: NextPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = nookies.get(context);
+  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+  const data = await response.json();
+
+  if (data.statusCode >= 400) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/auth/login",
+      },
+    };
+  } else {
+    console.log(data);
+    return {
+      props: {
+        loggedIn: true,
+        user: data,
+      },
+    };
+  }
+}
 
 export default Submissions;

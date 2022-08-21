@@ -1,20 +1,20 @@
 // NextJS & React imports
 import type { NextPage } from "next";
 import { useState } from "react";
+import Image from "next/image";
+import Router from "next/router";
 
 // Third Party imports
-import axios from "axios";
 import { Formik, Field, Form } from "formik";
+import nookies from "nookies";
+import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 
 // Domestic imports
 import SEO from "../../Components/Misc/SEO";
 import Layout from "../../Components/Layout/Layout";
 import Banner from "../../Components/Banner";
 import Link from "next/link";
-import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
-import Image from "next/image";
-import Router from "next/router";
 
 /** Register page */
 const Register: NextPage = () => {
@@ -55,21 +55,24 @@ const Register: NextPage = () => {
                 password: "",
               }}
               onSubmit={async (values) => {
-                const response = await axios.post(
+                const response = await fetch(
                   `${CONFIG.API_URL}/auth/register`,
                   {
-                    username: values.username,
-                    email: values.email,
-                    fullName: values.first_name + " " + values.last_name,
-                    password: values.password,
+                    method: "POST",
+                    body: JSON.stringify({
+                      username: values.username,
+                      email: values.email,
+                      fullName: values.first_name + " " + values.last_name,
+                      password: values.password,
+                    }),
                   }
-                );
+                )
 
-                console.log(response);
+                const data = await response.json()
+
                 if (response.status == 201) {
                   Router.push("/auth/done");
                 }
-                // localStorage.setItem("token", data.jwt);
               }}
             >
               <Form>
@@ -150,5 +153,30 @@ const Register: NextPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = nookies.get(context);
+  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (data.statusCode >= 400) {
+    return {
+      props: {},
+    };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+}
 
 export default Register;

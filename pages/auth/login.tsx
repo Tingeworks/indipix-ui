@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 // Third Party imports
-import axios from "axios";
+import nookies from "nookies";
 import { Formik, Field, Form } from "formik";
 import { setCookie } from "nookies";
 
@@ -54,19 +54,18 @@ const Login: NextPage = () => {
                 password: "",
               }}
               onSubmit={async (values) => {
-                const response = await axios.post(
-                  `${CONFIG.API_URL}/auth/login`,
-                  {
+                const response = await fetch(`${CONFIG.API_URL}/auth/login`, {
+                  method: "POST",
+                  body: JSON.stringify({
                     email: values.identifier,
                     password: values.password,
-                  }
-                );
+                  }),
+                });
+
+                const data = await response.json();
 
                 if (response.status == 201) {
-                  setCookie(undefined, "jwt", response.data.token, {
-                    maxAge: 30 * 24 * 60 * 60 * 1000,
-                    path: "/",
-                  });
+                  setCookie(null, "jwt", data.token);
                   Router.push("/");
                 }
               }}
@@ -122,5 +121,30 @@ const Login: NextPage = () => {
     </>
   );
 };
+
+export async function getServerSideProps(context: any) {
+  const cookies = nookies.get(context);
+  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+
+  const data = await response.json();
+
+  if (data.statusCode >= 400) {
+    return {
+      props: {},
+    };
+  } else {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    };
+  }
+}
 
 export default Login;

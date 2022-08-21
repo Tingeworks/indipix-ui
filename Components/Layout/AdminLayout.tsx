@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import Router, { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { FaHome } from "react-icons/fa";
 import SEO from "../Misc/AdminSEO";
@@ -10,17 +11,18 @@ interface AdminProps {
   center?: boolean;
   isLoggedIn: boolean;
   className?: string;
+  userdata?: object
 }
 
 const AdminLayout: React.FC<AdminProps> = ({
   children,
+  userdata,
   center,
   isLoggedIn,
   className,
 }) => {
 
-  const cookies = parseCookies();
-
+  const router = useRouter();
 
   return (
     <div

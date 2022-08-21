@@ -1,5 +1,19 @@
 powered by [tingeworks](https://tingeworks.com) 
 
+`
+// 
+// 
+// '||'               '||   ||            ||          
+//  ||  .. ...      .. ||  ...  ... ...  ...  ... ... 
+//  ||   ||  ||   .'  '||   ||   ||'  ||  ||   '|..'  
+//  ||   ||  ||   |.   ||   ||   ||    |  ||    .|.   
+// .||. .||. ||.  '|..'||. .||.  ||...'  .||. .|  ||. 
+//                               ||                   
+//                              ''''                  
+// 
+`
+
+
 ## Getting Started
 Indipix is a image buying and selling platform targeted towards the Indian market. The frontend is developed using tailwindcss and NextJS (TypeScript).
 

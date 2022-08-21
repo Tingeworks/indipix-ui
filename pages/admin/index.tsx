@@ -23,7 +23,7 @@ const Admin: NextPage = ({ user, loggedIn }: any) => {
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
   const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-    method: "POST",
+    method: "GET",
     headers: {
       Authorization: `Bearer ${cookies.jwt}`,
     },
@@ -31,18 +31,18 @@ export async function getServerSideProps(context: any) {
 
   const data = await response.json();
 
-  if (response.status == 401) {
+  if (data.statusCode >= 400) {
     return {
       redirect: {
         permanent: false,
-        destination: "/admin/login",
+        destination: "/auth/login",
       },
     };
   } else {
     return {
       props: {
-        loggedIn: false,
-        user: {},
+        loggedIn: true,
+        user: data,
       },
     };
   }
