@@ -22,7 +22,7 @@ interface pageProps {
 
 /** Home page */
 const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
-  const {jwt} = parseCookies();
+  const { jwt } = parseCookies();
   const [image, setImage] = useState<any>();
 
   const onDrop = useCallback((acceptedFiles: any) => {
@@ -75,19 +75,19 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
               fetch(`${CONFIG.API_URL}/product`, {
                 method: "POST",
                 headers: {
-                  "Authorization": `Bearer ${jwt}`
+                  Authorization: `Bearer ${jwt}`,
                 },
                 body: JSON.stringify({
                   title: values.name,
                   description: values.description,
                   location: values.location,
-                  productPlaceHolder: URL.createObjectURL(image[0])
+                  productPlaceHolder: URL.createObjectURL(image[0]),
                 }),
               })
-              .then(res => res.json())
-              .then(data=> {
-                console.log(data)
-              })
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log(data);
+                });
             }}
           >
             <Form>
@@ -224,8 +224,10 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
   );
 };
 
+
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
+
   if (cookies.jwt) {
     const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
       method: "GET",
@@ -234,9 +236,9 @@ export async function getServerSideProps(context: any) {
       },
     });
 
-    const data = await response.json();
+    const userData = await response.json();
 
-    if (data.statusCode == 401) {
+    if (userData.statusCode >= 400) {
       return {
         redirect: {
           permanent: false,
@@ -247,7 +249,7 @@ export async function getServerSideProps(context: any) {
       return {
         props: {
           loggedIn: true,
-          user: data,
+          user: userData,
         },
       };
     }

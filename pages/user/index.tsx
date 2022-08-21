@@ -66,9 +66,14 @@ export async function getServerSideProps(context: any) {
     });
 
     const userData = await response.json();
-
-    if (userData.statusCode == 401) {
-      
+    console.log(userData)
+    if (userData.statusCode >= 400) {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/auth/login",
+        },
+      };
     } else {
       return {
         props: {
@@ -82,7 +87,7 @@ export async function getServerSideProps(context: any) {
       redirect: {
         permanent: false,
         destination: "/auth/login",
-      }
+      },
     };
   }
 }

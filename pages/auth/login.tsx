@@ -17,6 +17,7 @@ import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
 import Input from "../../Components/Form/Input";
 import Router from "next/router";
+import axios from "axios";
 
 /** Login page */
 const Login: NextPage = () => {
@@ -54,18 +55,21 @@ const Login: NextPage = () => {
                 password: "",
               }}
               onSubmit={async (values) => {
-                const response = await fetch(`${CONFIG.API_URL}/auth/login`, {
-                  method: "POST",
-                  body: JSON.stringify({
+                const response = await axios.post(
+                  `${CONFIG.API_URL}/auth/login`,
+                  {
                     email: values.identifier,
                     password: values.password,
-                  }),
-                });
+                  }
+                );
 
-                const data = await response.json();
+                // const data = await response.json();
 
                 if (response.status == 201) {
-                  setCookie(null, "jwt", data.token);
+                  setCookie(null, "jwt", response.data.token, {
+                    maxAge: 30 * 24 * 60 * 60 * 60,
+                    path: "/"
+                  });
                   Router.push("/");
                 }
               }}
