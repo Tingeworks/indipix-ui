@@ -67,7 +67,7 @@ const Login: NextPage = () => {
 
                 if (response.status == 201) {
                   setCookie(null, "jwt", response.data.token, {
-                    maxAge: 30 * 24 * 60 * 60 * 60,
+                    maxAge: 30 * 24 * 60 * 60 * 60 * 60,
                     path: "/"
                   });
                   Router.push("/");

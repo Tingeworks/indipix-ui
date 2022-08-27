@@ -11,7 +11,8 @@ interface AdminProps {
   center?: boolean;
   isLoggedIn: boolean;
   className?: string;
-  userdata?: object
+  userdata?: object;
+  username?: string;
 }
 
 const AdminLayout: React.FC<AdminProps> = ({
@@ -20,6 +21,7 @@ const AdminLayout: React.FC<AdminProps> = ({
   center,
   isLoggedIn,
   className,
+  username
 }) => {
 
   const router = useRouter();
@@ -84,7 +86,7 @@ const AdminLayout: React.FC<AdminProps> = ({
 
         <div className="flex-1 max-h-full flex flex-col">
           <div className=" p-4 flex gap-2 justify-end">
-            <span className="text-gray-500">Imtiaz Al Shariar</span>
+            <span className="text-gray-500">{username}</span>
           </div>
           <div className=" overflow-y-scroll overflow-x-hidden flex-1 p-10">
           {children}

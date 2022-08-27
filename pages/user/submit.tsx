@@ -8,6 +8,8 @@ import { useCallback, useEffect, useState } from "react";
 import nookies, { parseCookies } from "nookies";
 import { Field, Form, Formik } from "formik";
 import { useDropzone } from "react-dropzone";
+import { FaCheck, FaImage } from "react-icons/fa";
+// import FormData from "form-data";
 
 // Domestic imports
 import Layout from "../../Components/Layout/Layout";
@@ -23,19 +25,23 @@ interface pageProps {
 /** Home page */
 const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
   const { jwt } = parseCookies();
-  const [image, setImage] = useState<any>();
-
-  const onDrop = useCallback((acceptedFiles: any) => {
-    setImage(acceptedFiles);
-    console.log(acceptedFiles);
-  }, []);
+  const [images, setImages] = useState<{ file: "" | {}, preview: string}>({
+    file: "undefined",
+    preview: "",
+  });
+  const [debugImage, setDebugImage] = useState(null);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
     accept: {
       "image/jpeg": [".jpeg", ".png"],
     },
     maxFiles: 1,
+    onDrop: (acceptedFiles) => {
+      setImages({
+        file: acceptedFiles[0],
+        preview: URL.createObjectURL(acceptedFiles[0]),
+      });
+    },
   });
 
   return (
@@ -46,19 +52,23 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
           <h2 className=" text-2xl font-bold ">Upload your images</h2>
           <p className="text-sm">PNG &amp; JPEG files are allowed</p>
 
+          {/* {images.file == "undefined" ? ( */}
           <div
             {...getRootProps()}
-            className="mt-5 p-20 bg-gray-100 border-4 border-dashed rounded border-gray-200"
+            className={`mt-5 ${
+              images.file == "undefined" ? " p-20 " : " "
+            } bg-gray-100 border-4 border-dashed rounded border-gray-200 relative`}
           >
-            <input {...getInputProps()} />
-            {isDragActive ? (
-              <p className="text-center text-sm font-bold text-gray-400">
-                Drop the file here ...
-              </p>
-            ) : (
-              <p className="text-center text-sm font-bold text-gray-400">
-                Drop your high resolution image here or click to browse
-              </p>
+            <input
+              className="absolute top-0 left-0 right-0 bottom-0"
+              {...getInputProps()}
+            />
+            {images.file !== "undefined" && (
+              <img
+                className="w-full"
+                // {...getInputProps()}
+                src={images.preview}
+              />
             )}
           </div>
         </div>
@@ -67,22 +77,32 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
           <Formik
             initialValues={{
               name: "",
-              description: "",
-              location: "",
+              description: " ",
+              location: " ",
               price: "",
+              // testFile: "",
             }}
             onSubmit={(values) => {
+              const formData = new FormData();
+              console.log(values);
+              console.log(images);
+              console.log(debugImage);
+              formData.append("title", values.name);
+              formData.append("description", values.description);
+              formData.append("location", values.location);
+              // formData.append(
+              //   "productPlaceHolder",
+              //   images.file
+              //   // URL.createObjectURL(debugImage)
+              // );
+
+              console.log(formData);
               fetch(`${CONFIG.API_URL}/product`, {
                 method: "POST",
                 headers: {
                   Authorization: `Bearer ${jwt}`,
                 },
-                body: JSON.stringify({
-                  title: values.name,
-                  description: values.description,
-                  location: values.location,
-                  productPlaceHolder: URL.createObjectURL(image[0]),
-                }),
+                body: JSON.stringify(formData),
               })
                 .then((res) => res.json())
                 .then((data) => {
@@ -120,8 +140,8 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
                   <Field
                     placeholder="e.g. Jaipur, Rajasthan"
                     className="w-full p-2 focus:outline-none border rounded mt-1"
-                    id="place"
-                    name="place"
+                    id="location"
+                    name="location"
                     type="text"
                   />
                 </div>
@@ -224,19 +244,29 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
   );
 };
 
-
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
 
   if (cookies.jwt) {
-    const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+    const userResponse = await fetch(`${CONFIG.API_URL}/auth/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${cookies.jwt}`,
       },
     });
 
-    const userData = await response.json();
+    const userData = await userResponse.json();
+
+    const submissionResponse = await fetch(`${CONFIG.API_URL}/product/all`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    });
+
+    const submissionData = await submissionResponse.json();
+
+    console.log(submissionData);
 
     if (userData.statusCode >= 400) {
       return {

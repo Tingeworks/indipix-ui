@@ -5,9 +5,9 @@ import nookies from "nookies";
 import axios from "axios";
 import CONFIG from "../../CONFIG";
 import Router, { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const Admin: NextPage = ({ user, loggedIn }: any) => {
-
   return (
     <>
       <AdminLayout className="flex" isLoggedIn={loggedIn}>
@@ -39,12 +39,21 @@ export async function getServerSideProps(context: any) {
       },
     };
   } else {
-    return {
-      props: {
-        loggedIn: true,
-        user: data,
-      },
-    };
+    if (data.role == "user") {
+      return {
+        redirect: {
+          permanent: false,
+          destination: "/auth/login",
+        },
+      };
+    } else {
+      return {
+        props: {
+          loggedIn: true,
+          user: data,
+        },
+      };
+    }
   }
 }
 
