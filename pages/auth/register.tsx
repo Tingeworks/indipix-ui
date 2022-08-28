@@ -15,7 +15,8 @@ import Layout from "../../Components/Layout/Layout";
 import Banner from "../../Components/Banner";
 import Link from "next/link";
 import CONFIG from "../../CONFIG";
-
+var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json")
 /** Register page */
 const Register: NextPage = () => {
   return (
@@ -59,6 +60,7 @@ const Register: NextPage = () => {
                   `${CONFIG.API_URL}/auth/register`,
                   {
                     method: "POST",
+                    headers: myHeaders,
                     body: JSON.stringify({
                       username: values.username,
                       email: values.email,
