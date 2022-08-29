@@ -7,17 +7,31 @@ import Image from "next/image";
 import nookies from "nookies";
 import { Formik, Field, Form } from "formik";
 import { setCookie } from "nookies";
+import axios from "axios";
+import jwtDecode from "jwt-decode";
+import Router from "next/router";
+import Link from "next/link";
+import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 
 // Domestic imports
 import SEO from "../../Components/Misc/SEO";
 import Layout from "../../Components/Layout/Layout";
 import Banner from "../../Components/Banner";
-import Link from "next/link";
-import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
 import CONFIG from "../../CONFIG";
 import Input from "../../Components/Form/Input";
-import Router from "next/router";
-import axios from "axios";
+
+const decodeJWT = (
+  str: string
+): {
+  id: number;
+  username: string;
+  role: string;
+  email: string;
+  iat: number;
+  exp: number;
+} => {
+  return jwtDecode(str);
+};
 
 /** Login page */
 const Login: NextPage = () => {
@@ -68,9 +82,16 @@ const Login: NextPage = () => {
                 if (response.status == 201) {
                   setCookie(null, "jwt", response.data.token, {
                     maxAge: 30 * 24 * 60 * 60 * 60 * 60,
-                    path: "/"
+                    path: "/",
                   });
-                  Router.push("/");
+
+                  const { role } = decodeJWT(response.data.token);
+
+                  if (role == "admin") {
+                    Router.push("/admin");
+                  } else {
+                    Router.push("/");
+                  }
                 }
               }}
             >
