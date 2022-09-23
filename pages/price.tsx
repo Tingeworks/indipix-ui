@@ -1,32 +1,18 @@
-// NextJS & React imports
-import type { NextPage } from "next";
-import { useEffect, useState } from "react";
-
-// Third Party imports
-import { FaEnvelope, FaSearch } from "react-icons/fa";
-import nookies, { parseCookies } from "nookies";
-
-// Domestic imports
-import SEO from "../Components/Misc/SEO";
 import Layout from "../Components/Layout/Layout";
-import Banner from "../Components/Banner";
-import Button from "../Components/Form/Button";
-import Input from "../Components/Form/Input";
-import Gallery from "../Components/Gallery/Gallery";
+import nookies from "nookies";
 import CONFIG from "../CONFIG";
+import SEO from "../Components/Misc/SEO";
 
-
-
-/** Home page */
-const Home: NextPage = ({ loggedIn, user }: any) => {
+export default function Price({ loggedIn }: any) {
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
-      <Banner />
-      {/* <Gallery /> */}
+      <div className="">
+
+      </div>
     </Layout>
   );
-};
+}
 
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
@@ -43,8 +29,8 @@ export async function getServerSideProps(context: any) {
     return {
       props: {
         loggedIn: false,
-        user: {}
-      }
+        user: {},
+      },
     };
   } else {
     return {
@@ -55,5 +41,3 @@ export async function getServerSideProps(context: any) {
     };
   }
 }
-
-export default Home;

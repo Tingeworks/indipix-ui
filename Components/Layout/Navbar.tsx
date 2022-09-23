@@ -7,15 +7,22 @@ import {
   FaDownload,
   FaFileDownload,
   FaHeart,
+  FaLightbulb,
+  FaRegUserCircle,
   FaSearch,
   FaShoppingCart,
+  FaSignInAlt,
   FaSlackHash,
   FaUpload,
   FaUser,
+  FaUserAlt,
+  FaUserCircle,
 } from "react-icons/fa";
+import CONFIG from "../../CONFIG";
 import Button from "../Form/Button";
 import ButtonWithIcon from "../Form/ButtonWithIcon";
 import Input from "../Form/Input";
+import Modal from "../Modal/Modal";
 
 interface navbarProps {
   isLoggedIn: boolean;
@@ -23,105 +30,76 @@ interface navbarProps {
 
 const Navbar: React.FC<navbarProps> = (props) => {
   const [menuStatus, setMenuStatus] = useState(false);
+  const [modal, setModal] = useState(false);
   const router = useRouter();
 
   return (
-    <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-3 justify-between">
+    <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-5 justify-between gap-0">
       <div>
         <Link href="/">
-          <Image
-            className="cursor-pointer mr-2"
-            width={32}
-            height={32}
-            src="/logo_white_bg.png"
-            alt="logo"
-          />
+          <div className="font-bold flex items-center">
+            <Image
+              className="cursor-pointer mr-2"
+              width={32}
+              height={32}
+              src="/logo_white_bg.png"
+              alt="logo"
+            />
+            <span>Indi</span>
+            <span className="text-red-700 font-normal">pix</span>
+          </div>
         </Link>
       </div>
-      <div className="pl-4 hidden md:inline-flex">
-        <ul className="flex text-xs">
-          <li className="pr-6">
-            <a href="">Explore</a>
-          </li>
-          <li className="pr-6">
-            <a href="">Advertise</a>
-          </li>
-          <li className="pr-6">
-            <a href="">Blog</a>
-          </li>
-          <li className="pr-6">
-            <a href="">Price</a>
-          </li>
+      <div className="pl-4 hidden md:inline-flex flex-1 uppercase text-md">
+        <ul className="flex text-sm gap-10 items-center justify-center w-full">
+          {CONFIG.Navigation.map((item) => (
+            <li key={item.id} className="text-xs font-semibold px-10">
+              <Link href={item.url}>
+                <a>{item.label}</a>
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
-      <div className="flex-1">
-        <Formik
-          initialValues={{
-            search: "",
-          }}
-          onSubmit={(values) => {
-            router.push(`/imgs/${values.search}`);
-          }}
-        >
-          <Form className="flex items-center bg-gray-100 py-2 px-2 rounded-sm">
-            <Input
-              icon={<FaSearch />}
-              usingFormik
-              id="search"
-              name="search"
-              placeholder="Search images &amp; gallaries"
-              className="focus:outline-none bg-gray-100 pl-2 text-sm flex-1"
-              type="text"
-            />
-          </Form>
-        </Formik>
-      </div>
       <div className="hidden md:inline-flex">
-        {props.isLoggedIn == true ? (
-          <ul className="flex items-center">
-            <Link href="/user/submit">
-              <li className="px-2">
-                <a className="flex items-center px-4 border border-gray-200 py-2 text-gray-600 rounded-sm cursor-pointer ">
-                  <FaUpload />
-                  <span className="pl-2 text-sm">Submit</span>
-                </a>
-              </li>
-            </Link>
-            <li className="px-2">
-              <a className="text-gray-600">
-                <FaShoppingCart />
+        <ul className="flex items-center">
+          <li className="mx-10">
+            <Link href="/price">
+              <a className="px-5 py-2 hover:bg-black hover:text-white rounded-md border-black  border uppercase text-xs">
+                Pricing
               </a>
-            </li>
-            <li className="px-2">
-              <a className="text-gray-600">
-                <FaHeart />
-              </a>
-            </li>
-            <Link href="/user/">
-              <li className="pl-2">
-                <a className="text-gray-600">
-                  <FaUser />
-                </a>
-              </li>
             </Link>
-          </ul>
-        ) : (
-          <ul className="flex items-center">
-            <Link href="/auth/login">
-              <li>
-                <a className="text-gray-600 px-2 mx-2 cursor-pointer">login</a>
-              </li>
-            </Link>
+          </li>
+          <li className="relative">
+            <FaRegUserCircle
+              className="text-2xl"
+              onClick={() => setModal(!modal)}
+            />
+            {modal && (
+              <Modal onMouseLeave={() => setModal(false)} className="right-0">
+                <div className="w-48">
+                  <Button
+                    url="/auth/login"
+                    className="w-full"
+                    type="button"
+                    Label="Login"
+                    style="Secondary"
+                    icon={<FaSignInAlt />}
+                  />
 
-            <Link href="/auth/register">
-              <li>
-                <a className="text-white rounded-sm px-4 py-1 bg-red-700 hover:bg-black cursor-pointer">
-                  Join
-                </a>
-              </li>
-            </Link>
-          </ul>
-        )}
+                  <Button
+                    url="/auth/register"
+                    className="w-full mt-5"
+                    type="button"
+                    Label="Join"
+                    style="Primary"
+                    // icon={<FaSignInAlt />}
+                  />
+                </div>
+              </Modal>
+            )}
+          </li>
+        </ul>
       </div>
 
       <div className="md:hidden select-none">
@@ -158,60 +136,36 @@ const Navbar: React.FC<navbarProps> = (props) => {
             </span>
           </div>
 
-          <ul className="flex w-full mt-5">
-            <li className="px-2 bg-slate-300 p-2 py-3 flex items-center justify-center flex-1">
-              <button className="text-gray-600">
-                <FaShoppingCart />
-              </button>
-            </li>
-
-            <li className="px-2 bg-slate-400 p-2 py-3 flex items-center justify-center flex-1">
-              <button className="text-gray-600">
-                <FaHeart />
-              </button>
-            </li>
-
-            <li className="px-2 bg-slate-500 p-2 py-3 flex items-center justify-center flex-1">
-              <Link href="/user/">
-                <button className="text-gray-100">
-                  <FaUser />
-                </button>
-              </Link>
-            </li>
-          </ul>
-
           <hr className=" my-5 " />
 
           <ul className="flex flex-col text-xl">
-            <li className="flex">
-              <Link href="/">
-                <a className="p-2" href="">
-                  Explore
-                </a>
-              </Link>
-            </li>
-            <li className="p-2 flex">
-              <a href="">Advertise</a>
-            </li>
-            <li className="p-2 flex">
-              <a href="">Blog</a>
-            </li>
-            <li className="p-2 flex">
-              <a href="">Price</a>
-            </li>
+            {CONFIG.Navigation.map((item) => (
+              <li key={item.id} className="flex">
+                <Link href={item.url}>
+                  <a className="p-2">{item.label}</a>
+                </Link>
+              </li>
+            ))}
           </ul>
 
-          <Link href="/user/submit">
-            <a onClick={() => setMenuStatus(false)}>
+          <div className="flex items-center mt-10">
+            <div className="w-1/6">
+              <Link href="/user">
+                <FaUserCircle className="text-4xl cursor-pointer" />
+              </Link>
+            </div>
+            {/* <div className="flex-1"> */}
+            <Link className="flex-1" href="/pricing">
               <Button
-                className="w-full py-3 mt-5"
-                icon={<FaUpload />}
-                Label="Submit"
+                className="py-5 font-bold w-full"
+                icon={<FaLightbulb className=" text-yellow-500 " />}
+                Label="Pricing"
                 style="Secondary"
                 type="button"
               />
-            </a>
-          </Link>
+            </Link>
+            {/* </div> */}
+          </div>
         </div>
       </div>
     </nav>

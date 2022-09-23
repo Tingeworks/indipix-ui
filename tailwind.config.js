@@ -4,11 +4,6 @@ module.exports = {
     "./Components/**/*.{js,ts,jsx,tsx}",
   ],
   theme:{
-    extends: {
-      FontFace: {
-        'sans': ['Inter', 'sans-serif']
-      }
-    }
   },
   plugins: [],
 }
