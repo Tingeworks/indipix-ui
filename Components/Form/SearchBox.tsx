@@ -9,10 +9,7 @@ import Input from "./Input";
 const SearchBox: React.FC = () => {
   const router = useRouter();
   return (
-    <div className="w-full flex bg-white py-4 rounded-sm shadow-lg">
-      <div className=" text-gray-600 px-4 flex items-center">
-        <FaSearch />
-      </div>
+    <div className="w-full flex p-1 items-center rounded-full shadow-lg bg-[#ffffff51]">
       <Formik
         initialValues={{
           search: "",
@@ -21,17 +18,28 @@ const SearchBox: React.FC = () => {
           router.push(`/imgs/${values.search}`);
         }}
       >
-        <Form>
+        <Form className="flex-1 px-2">
           <Input
             usingFormik
             id="search"
             name="search"
-            placeholder="Search for images and galleries"
+            placeholder="Search for humans, plants and more"
             type="text"
-            className="focus:outline-none pl-1 flex-1 w-full"
+            className="focus:outline-none pl-1 flex-1"
           />
         </Form>
       </Formik>
+      <div className=" text-white flex items-center">
+        <button
+        className="px-6 py-5 rounded-full"
+          style={{
+            background:
+              "linear-gradient(270deg, rgba(234, 105, 64, 0.75) 0%, rgba(236, 48, 48, 0.75) 100%)",
+          }}
+        >
+          <FaSearch />
+        </button>
+      </div>
     </div>
   );
 };

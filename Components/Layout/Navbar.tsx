@@ -12,6 +12,7 @@ import {
   FaSearch,
   FaShoppingCart,
   FaSignInAlt,
+  FaSignOutAlt,
   FaSlackHash,
   FaUpload,
   FaUser,
@@ -77,25 +78,47 @@ const Navbar: React.FC<navbarProps> = (props) => {
             />
             {modal && (
               <Modal onMouseLeave={() => setModal(false)} className="right-0">
-                <div className="w-48">
-                  <Button
-                    url="/auth/login"
-                    className="w-full"
-                    type="button"
-                    Label="Login"
-                    style="Secondary"
-                    icon={<FaSignInAlt />}
-                  />
+                {props.isLoggedIn != true ? (
+                  <div className="w-48">
+                    <Button
+                      url="/auth/login"
+                      className="w-full"
+                      type="button"
+                      Label="Login"
+                      style="Secondary"
+                      icon={<FaSignInAlt />}
+                    />
 
-                  <Button
-                    url="/auth/register"
-                    className="w-full mt-5"
-                    type="button"
-                    Label="Join"
-                    style="Primary"
-                    // icon={<FaSignInAlt />}
-                  />
-                </div>
+                    <Button
+                      url="/auth/register"
+                      className="w-full mt-5"
+                      type="button"
+                      Label="Join"
+                      style="Primary"
+                      // icon={<FaSignInAlt />}
+                    />
+                  </div>
+                ) : (
+                  <div className="w-48">
+                    <Button
+                      url="/user/"
+                      className="w-full"
+                      type="button"
+                      Label="Profile"
+                      style="Secondary"
+                      icon={<FaUserAlt />}
+                    />
+
+                    <Button
+                      url="/auth/register"
+                      className="w-full mt-5"
+                      type="button"
+                      Label="Sign out"
+                      style="Warning"
+                      icon={<FaSignOutAlt />}
+                    />
+                  </div>
+                )}
               </Modal>
             )}
           </li>

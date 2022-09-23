@@ -6,15 +6,26 @@ const Banner: React.FC = () => {
   return (
     <div
       style={{
-        backgroundImage: "url(/Images/banner-image.png)",
-        height: "60vh"
+        backgroundImage: "url(/banner.png)",
+        height: "85vh",
       }}
       className="bg-cover bg-no-repeat bg-center"
     >
-      <div className="flex items-center justify-center w-full h-full">
-        <div className="flex-col font-bold w-4/5 lg:w-4/5 xl:w-2/5 mb-10">
-          <h1 className="text-white text-3xl mb-2">Find the best captures in India from professional lenses</h1>
+      <div className="flex items-center h-full container mx-auto px-5 lg:px-20">
+        <div className="w-1/2">
+          <h1 className="text-white font-bold text-5xl mb-8 capitalize">
+            India's Largest collection of stock images
+          </h1>
           <SearchBox />
+          <ul className="flex mt-10">
+            {["Summer", "Business", "Water", "Abstract"].map((item, index) => (
+              <li key={index}>
+                <a className="cursor-pointer px-8 text-xs rounded-full py-1.5 text-white bg-[#ffffff6c] mr-3">
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

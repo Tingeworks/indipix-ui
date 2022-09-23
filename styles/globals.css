@@ -8,6 +8,33 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "CGothic";
+  src: url("/fonts/GOTHICI.ttf");
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "CGothic";
+  src: url("/fonts/GOTHICBI.ttf");
+  font-style: italic;
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "CGothic";
+  src: url("/fonts/GOTHICB.ttf");
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: "CGothic";
+  src: url("/fonts/GOTHICB0.ttf");
+  font-weight: 900;
+}
+
+
+
 body {
     font-family: 'CGothic';
 }

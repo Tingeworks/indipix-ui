@@ -23,7 +23,11 @@ const Home: NextPage = ({ loggedIn, user }: any) => {
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
       <Banner />
-      {/* <Gallery /> */}
+      <div className="container mx-auto px-5 lg:px-20 py-10">
+        <h2 className="text-2xl font-black">Last viewed</h2>
+        <p className="text-sm">Pick up where you left</p>
+        <Gallery />
+      </div>
     </Layout>
   );
 };

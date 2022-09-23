@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
     <div>
       <Navbar isLoggedIn={props.isLoggedIn} />
       <main>{props.children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };
