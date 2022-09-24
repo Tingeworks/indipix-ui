@@ -9,10 +9,8 @@ import ImageCard from "./ImageCard";
 
 const Gallery = (props: any) => {
   return (
-    <div className="container px-5 lg:px-20 mx-auto py-5">
-      <div className="columns-3">
+    <div className="my-5 gap-5 w-full columns-1 lg:columns-3 xl:columns-4 content-center">
         {props.children}
-      </div>
     </div>
   );
 };

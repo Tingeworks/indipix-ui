@@ -14,8 +14,7 @@ import Button from "../Components/Form/Button";
 import Input from "../Components/Form/Input";
 import Gallery from "../Components/Gallery/Gallery";
 import CONFIG from "../CONFIG";
-
-
+import ImageCard from "../Components/Gallery/ImageCard";
 
 /** Home page */
 const Home: NextPage = ({ loggedIn, user }: any) => {
@@ -24,9 +23,13 @@ const Home: NextPage = ({ loggedIn, user }: any) => {
       <SEO title="Indipix" description="" keywords="" />
       <Banner />
       <div className="container mx-auto px-5 lg:px-20 py-10">
-        <h2 className="text-2xl font-black">Last viewed</h2>
-        <p className="text-sm">Pick up where you left</p>
-        <Gallery />
+        <h2 className="text-2xl font-black">Popular images</h2>
+        <p className="text-sm">Explore what's been trending recently</p>
+        <Gallery>
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
+            <ImageCard id={""+item} key={item} name={" " +item} imageURL={`https://source.unsplash.com/random/${item}`} />
+          ))}
+        </Gallery>
       </div>
     </Layout>
   );
@@ -47,8 +50,8 @@ export async function getServerSideProps(context: any) {
     return {
       props: {
         loggedIn: false,
-        user: {}
-      }
+        user: {},
+      },
     };
   } else {
     return {

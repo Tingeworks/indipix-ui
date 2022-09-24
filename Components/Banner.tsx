@@ -16,7 +16,7 @@ const Banner: React.FC = () => {
           <h1 className="text-white font-bold text-5xl mb-8 capitalize">
             India's Largest collection of stock images
           </h1>
-          <SearchBox />
+          <SearchBox className="bg-white" />
           <ul className="flex mt-10">
             {["Summer", "Business", "Water", "Abstract"].map((item, index) => (
               <li key={index}>
