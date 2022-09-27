@@ -9,7 +9,7 @@ export default {
         {
             id: 2,
             label: 'Sell',
-            url: '/sell'
+            url: '/user/submit'
         },
         {
             id: 3,
