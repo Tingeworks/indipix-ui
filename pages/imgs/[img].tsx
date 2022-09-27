@@ -50,7 +50,7 @@ const Image: NextPage = () => {
             <button className="rounded-full text-xs font-bold border-[#F87C52] border-4 px-8 py-0.5 uppercase">
               Share
             </button>
-            <Link href="/checkout/subscription">
+            <Link href="/checkout/select">
               <button className="rounded-full hover:bg-black hover:border-black text-xs font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-8 py-0.5 uppercase">
                 Download
               </button>

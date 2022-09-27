@@ -3,6 +3,7 @@ import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import { useState } from "react";
 import Button from "../../Components/Form/Button";
+import Link from "next/link";
 
 export default function Select(props: any) {
   const [imageformat, setImageFormat] = useState(0);
@@ -155,9 +156,11 @@ export default function Select(props: any) {
             </div>
 
             <div className="text-center mt-5">
-              <button className=" hover:bg-black uppercase bg-[#EA6940] text-white px-5 py-1 font-bold text-xl rounded-full">
-                Continue
-              </button>
+              <Link href="/checkout/confirm">
+                <button className=" hover:bg-black uppercase bg-[#EA6940] text-white px-5 py-1 font-bold text-xl rounded-full">
+                  Continue
+                </button>
+              </Link>
             </div>
           </div>
         </div>
