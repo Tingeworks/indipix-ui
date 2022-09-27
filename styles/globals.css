@@ -4,37 +4,40 @@
 
 @font-face {
   font-family: "CGothic";
-  src: url("../fonts/GOTHIC.ttf");
+  src: url("/fonts/GOTHIC.ttf");
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "CGothic";
-  src: url("../fonts/GOTHICI.ttf");
+  src: url("/fonts/GOTHICI.ttf");
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "CGothic";
-  src: url("../fonts/GOTHICBI.ttf");
+  src: url("/fonts/GOTHICBI.ttf");
   font-style: italic;
   font-weight: bold;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "CGothic";
-  src: url("../fonts/GOTHICB.ttf");
+  src: url("/fonts/GOTHICB.ttf");
   font-weight: bold;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "CGothic";
-  src: url("../fonts/GOTHICB0.ttf");
+  src: url("/fonts/GOTHICB0.ttf");
   font-weight: 900;
+  font-display: swap;
 }
-
-
 
 body {
-    font-family: 'CGothic';
+  font-family: "CGothic", sans-serif;
 }
