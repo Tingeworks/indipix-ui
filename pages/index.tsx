@@ -17,7 +17,8 @@ import CONFIG from "../CONFIG";
 import ImageCard from "../Components/Gallery/ImageCard";
 
 /** Home page */
-const Home: NextPage = ({ loggedIn, user }: any) => {
+const Home: NextPage = ({ loggedIn, user, products }: any) => {
+  console.log(products)
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
@@ -25,11 +26,21 @@ const Home: NextPage = ({ loggedIn, user }: any) => {
       <div className="container mx-auto px-5 lg:px-20 py-10">
         <h2 className="text-2xl font-black">Popular images</h2>
         <p className="text-sm">Explore what&apos;s been trending recently</p>
-        <Gallery>
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
-            <ImageCard id={""+item} key={item} name={" " +item} imageURL={`https://source.unsplash.com/random/${item}`} />
+        {
+          products.length != 0 ? <Gallery>
+          {products.map((item: any) => (
+            <ImageCard
+              id={item.id}
+              key={item.id}
+              name={item.title}
+              imageURL={`${CONFIG.API_URL}/product/image/${item.productPlaceHolder}`}
+            />
           ))}
-        </Gallery>
+        </Gallery>  : 
+         <div className="p-10 bg-gray-50 rounded-sm mt-5 text-xl text-gray-500">
+          <p>No products added yet</p>
+         </div>
+        }
       </div>
     </Layout>
   );
@@ -43,13 +54,16 @@ export async function getServerSideProps(context: any) {
       Authorization: `Bearer ${cookies.jwt}`,
     },
   });
-
   const data = await response.json();
 
+  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/all`);
+  const ProductData = await ProductResponse.json();
+  
   if (data.statusCode >= 400) {
     return {
       props: {
         loggedIn: false,
+        products: ProductData || [],
         user: {},
       },
     };
@@ -57,6 +71,7 @@ export async function getServerSideProps(context: any) {
     return {
       props: {
         loggedIn: true,
+        products: ProductData || [],
         user: data,
       },
     };

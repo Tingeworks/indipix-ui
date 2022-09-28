@@ -21,15 +21,12 @@ const AdminLayout: React.FC<AdminProps> = ({
   center,
   isLoggedIn,
   className,
-  username
+  username,
 }) => {
-
   const router = useRouter();
 
   return (
-    <div
-      className="flex flex-col max-h-screen"
-    >
+    <div className="flex flex-col max-h-screen">
       <SEO title="Indipix Admin" />
       <div
         className={`flex-1 w-full min-h-full  bg-gray-100 
@@ -67,6 +64,12 @@ const AdminLayout: React.FC<AdminProps> = ({
                 </li>
               </Link>
 
+              <Link href="/admin/subscription">
+                <li className="text-white text-sm items-center hover:bg-gray-800 p-4 cursor-pointer">
+                  💸 Subscriptions
+                </li>
+              </Link>
+
               <Link href="/admin">
                 <li className=" text-white text-sm items-center p-4 hover:bg-gray-800  cursor-pointer">
                   🧑 Users
@@ -74,7 +77,7 @@ const AdminLayout: React.FC<AdminProps> = ({
               </Link>
             </ul>
             <ul>
-              <hr className="border-red-400" />
+              {/* <hr className="border-red-400" /> */}
               <Link href="/admin">
                 <li className="text-white text-sm items-center hover:bg-gray-600 p-4 cursor-pointer">
                   ⚙️ Settings
@@ -89,7 +92,7 @@ const AdminLayout: React.FC<AdminProps> = ({
             <span className="text-gray-500">{username}</span>
           </div>
           <div className=" overflow-y-scroll overflow-x-hidden flex-1 p-10">
-          {children}
+            {children}
           </div>
         </div>
       </div>

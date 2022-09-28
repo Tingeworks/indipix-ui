@@ -1,5 +1,5 @@
 // NextJS & React imports
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 
 // Third Party imports
@@ -11,9 +11,10 @@ import Gallery from "../../Components/Gallery/Gallery";
 import SearchBox from "../../Components/Form/SearchBox";
 import { FaSearchPlus } from "react-icons/fa";
 import Link from "next/link";
+import CONFIG from "../../CONFIG";
 
 /** Image page */
-const Image: NextPage = () => {
+const Image: NextPage<{product: any}> = ({product}) => {
   const router = useRouter();
   const { img } = router.query;
 
@@ -35,7 +36,7 @@ const Image: NextPage = () => {
           <div className="relative cursor-pointer">
             <img
               className="w-full"
-              src="https://source.unsplash.com/random/600x500"
+              src={`${CONFIG.API_URL}/product/image/${product[0].productPlaceHolder}`}
               alt=""
             />
             <FaSearchPlus className="text-white text-2xl drop-shadow-lg absolute bottom-0 right-0 m-5" />
@@ -59,24 +60,30 @@ const Image: NextPage = () => {
         </div>
         <div className="flex-1 lg:-mt-10">
           <h1 className="text-2xl font-bold">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Qui,
-            saepe.
+            {product[0].title}
           </h1>
-          <p className="text-slate-400 text-xs my-5">PHOTO ID- {img}</p>
+          <p className="text-slate-400 text-xs my-5">PHOTO ID- {product[0].productPlaceHolder.slice(0, -4)}</p>
           <p className="text-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
-            dolorem delectus dignissimos sit cupiditate quisquam repudiandae
-            alias. Aliquid quod tempora vitae voluptas quos veniam excepturi
-            optio fugiat illo assumenda nobis enim deserunt, placeat, rerum,
-            voluptatum provident quasi! Repellendus aliquam quibusdam quasi
-            esse, quod labore deleniti minima, error quia reprehenderit
-            provident?
+            {product[0].description}
           </p>
-          <p className="font-bold mt-2 text-lg">Rs. 2000 - Rs. 5000</p>
+          <p className="font-bold mt-2 text-lg">Rs. {product[0].price}</p>
         </div>
       </div>
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const id = context.params?.img as string
+
+  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/${id}`);
+  const ProductData = await ProductResponse.json();
+
+  return {
+    props: {
+      product: ProductData
+    },
+  };
 };
 
 export default Image;
