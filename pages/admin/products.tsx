@@ -12,13 +12,13 @@ import moment from "moment";
 import AdminLayout from "../../Components/Layout/AdminLayout";
 import CONFIG from "../../CONFIG";
 
-interface item {
-  id: string;
-  title: string;
-  reduced_40: string;
-  location: string;
-  createdAt: string;
-}
+// interface item {
+//   id: string;
+//   title: string;
+//   reduced_40: string;
+//   location: string;
+//   createdAt: string;
+// }
 
 // Image Overlay Component
 const overlayBox = (image: string, setImage: Function) => {
@@ -27,7 +27,7 @@ const overlayBox = (image: string, setImage: Function) => {
       onClick={() => setImage("")}
       className="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 bg-[#000000cd]  p-10 "
     >
-      <img className="w-8/12" src={image} />
+      <img style={{ height: "90vh" }} src={image} />
     </div>
   );
 };
@@ -41,10 +41,10 @@ interface pageProps {
 }
 
 // Page
-const Products: NextPage<pageProps> = ({ user, token }) => {
+const Products: NextPage<pageProps> = ({ user }) => {
+  const cookies = parseCookies();
   const [image, setImage] = useState("");
-  console.log(token);
-  const [data, setData] = useState<item[]>([]);
+  const [data, setData] = useState<any>();
   const [loading, setLoadingState] = useState(false);
 
   useEffect(() => {
@@ -60,14 +60,14 @@ const Products: NextPage<pageProps> = ({ user, token }) => {
   const deleteProduct = (id: string) => {
     fetch(`${CONFIG.API_URL}/product/${id}`, {
       method: "DELETE",
-      headers: {
-        Authentication: `Bearer ${token}`,
-      },
+      headers: new Headers({
+        Authorization: `Bearer ${cookies.jwt}`
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        console.log(id);
+        console.log(`${id}`);
       });
   };
 
@@ -75,80 +75,86 @@ const Products: NextPage<pageProps> = ({ user, token }) => {
     <>
       <AdminLayout username={user.username} className="flex" isLoggedIn={true}>
         {image == "" ? "" : overlayBox(image, setImage)}
-        <h1 className="text-3xl font-bold">We&#39;ve got some submissions </h1>
+        <h1 className="text-3xl font-bold">Approved Products</h1>
         <p className="text-gray-400">
-          Make sure to judge them before rejecting
+          All products that have been allowed on site
         </p>
-
-        <table className="w-full mt-10">
-          <thead className="w-full font-bold text-right">
-            <tr>
-              <td className="border p-3">#</td>
-              <td className="border p-3">Image</td>
-              {/* <td className="border p-3">Seller</td>
+        <p>{JSON.stringify(data)}</p>
+        {data && data.length != 0 ? (
+          <table className="w-full mt-10">
+            <thead className="w-full font-bold text-right">
+              <tr>
+                <td className="border p-3">#</td>
+                <td className="border p-3">Image</td>
+                {/* <td className="border p-3">Seller</td>
                 <td className="border p-3">Location</td> */}
-              {/* <td className="border p-3">Submission Date</td> */}
-              <td className="border p-3">Action</td>
-            </tr>
-          </thead>
-          <tbody className="w-full">
-            {data.map((item) => {
-              return (
-                <tr key={item.id}>
-                  <td className="border p-2">1</td>
-                  <td className="border p-2 flex gap-3">
-                    <>
-                      <img
-                        onClick={() =>
-                          setImage(
-                            `${CONFIG.API_URL}/product/image/${item.reduced_40}`
-                          )
-                        }
-                        className="cursor-pointer"
-                        width={200}
-                        src={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
-                      />
-                      {console.log(
-                        `${CONFIG.API_URL}/product/image/${item.reduced_40}`
-                      )}
-                      <div className="flex flex-col justify-between">
-                        <h2 className="text-sm">
-                          {item.title} -
-                          <span className="text-gray-400"> By Imtiazkun</span>
-                        </h2>
-                        <div className="text-sm">
-                          <p>{item.location}</p>
-                          <p>
-                            <small>
-                              Submitted{" "}
-                              {moment(item.createdAt, "YYYYMMDD").fromNow()}
-                            </small>
-                          </p>
+                {/* <td className="border p-3">Submission Date</td> */}
+                <td className="border p-3">Action</td>
+              </tr>
+            </thead>
+            <tbody className="w-full">
+              {data.map((item: any) => {
+                return (
+                  <tr key={item.id}>
+                    <td className="border p-2">1</td>
+                    <td className="border p-2 flex gap-3">
+                      <>
+                        <img
+                          onClick={() =>
+                            setImage(
+                              `${CONFIG.API_URL}/product/image/${item.reduced_40}`
+                            )
+                          }
+                          className="cursor-pointer"
+                          width={200}
+                          src={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
+                        />
+                        {console.log(
+                          `${CONFIG.API_URL}/product/image/${item.reduced_40}`
+                        )}
+                        <div className="flex flex-col justify-between">
+                          <h2 className="text-sm">
+                            {item.title} -
+                            <span className="text-gray-400"> By Imtiazkun</span>
+                          </h2>
+                          <div className="text-sm">
+                            <p>{item.location}</p>
+                            <p>
+                              <small>
+                                Submitted{" "}
+                                {moment(item.createdAt, "YYYYMMDD").fromNow()}
+                              </small>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </>
-                  </td>
-                  {/* <td className="border p-2">Seller</td>
+                      </>
+                    </td>
+                    {/* <td className="border p-2">Seller</td>
                 <td className="border p-2">Location</td> */}
-                  {/* <td className="border p-2">Submission Date</td> */}
-                  <td className="border p-2">
-                    <div className="flex justify-end h-full">
-                      <button className="bg-green-500 p-4 hover:bg-black text-white">
-                        <FaCheck />
-                      </button>
-                      <button
-                        onClick={() => deleteProduct(item.id)}
-                        className="bg-red-500 p-4 hover:bg-black text-white"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    {/* <td className="border p-2">Submission Date</td> */}
+                    <td className="border p-2">
+                      <div className="flex justify-end h-full">
+                        <button className="bg-green-500 p-4 hover:bg-black text-white">
+                          <FaCheck />
+                        </button>
+                        <button
+                          onClick={() => deleteProduct(item.id)}
+                          className="bg-red-500 p-4 hover:bg-black text-white"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <p className="mt-10 p-10 bg-gray-200 rounded-md font-bold text-gray-500 opacity-60">
+            No products approved yet
+          </p>
+        )}
       </AdminLayout>
     </>
   );

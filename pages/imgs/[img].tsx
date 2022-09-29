@@ -31,7 +31,7 @@ const Image: NextPage<{product: any}> = ({product}) => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 container mx-auto px-5 lg:px-20 my-10 items-center">
+      <div className="flex flex-col lg:flex-row gap-10 container mx-auto px-5 lg:px-20 my-10 items-start">
         <div className="flex-1 w-full">
           <div className="relative cursor-pointer">
             <img
@@ -51,14 +51,14 @@ const Image: NextPage<{product: any}> = ({product}) => {
             <button className="rounded-full text-xs font-bold border-[#F87C52] border-4 px-8 py-0.5 uppercase">
               Share
             </button>
-            <Link href="/checkout/select">
+            <Link href={`/checkout/select?id=${img}`}>
               <button className="rounded-full hover:bg-black hover:border-black text-xs font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-8 py-0.5 uppercase">
                 Download
               </button>
             </Link>
           </div>
         </div>
-        <div className="flex-1 lg:-mt-10">
+        <div className="flex-1">
           <h1 className="text-2xl font-bold">
             {product[0].title}
           </h1>

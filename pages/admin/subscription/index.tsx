@@ -12,6 +12,7 @@ import moment from "moment";
 import AdminLayout from "../../../Components/Layout/AdminLayout";
 import CONFIG from "../../../CONFIG";
 import Link from "next/link";
+import Button from "../../../Components/Form/Button";
 
 interface item {
   id: string;
@@ -96,66 +97,24 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
           <thead className="w-full font-bold text-right">
             <tr>
               <td className="border p-3">#</td>
-              <td className="border p-3">Image</td>
+              <td className="border p-3">Title</td>
+              <td className="border p-3">Total Images</td>
+              <td className="border p-3">Price</td>
+              <td className="border p-3">Created At</td>
               <td className="border p-3">Action</td>
             </tr>
           </thead>
           <tbody className="w-full">
-            {data.map((item) => {
-              return (
-                <tr key={item.id}>
-                  <td className="border p-2">1</td>
-                  <td className="border p-2 flex gap-3">
-                    <>
-                      <img
-                        onClick={() =>
-                          setImage(
-                            `${CONFIG.API_URL}/product/image/${item.reduced_40}`
-                          )
-                        }
-                        className="cursor-pointer"
-                        width={200}
-                        src={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
-                      />
-                      {console.log(
-                        `${CONFIG.API_URL}/product/image/${item.reduced_40}`
-                      )}
-                      <div className="flex flex-col justify-between">
-                        <h2 className="text-sm">
-                          {item.title} -
-                          <span className="text-gray-400"> By Imtiazkun</span>
-                        </h2>
-                        <div className="text-sm">
-                          <p>{item.location}</p>
-                          <p>
-                            <small>
-                              Submitted{" "}
-                              {moment(item.createdAt, "YYYYMMDD").fromNow()}
-                            </small>
-                          </p>
-                        </div>
-                      </div>
-                    </>
-                  </td>
-                  {/* <td className="border p-2">Seller</td>
-                <td className="border p-2">Location</td> */}
-                  {/* <td className="border p-2">Submission Date</td> */}
-                  <td className="border p-2">
-                    <div className="flex justify-end h-full">
-                      <button className="bg-green-500 p-4 hover:bg-black text-white">
-                        <FaCheck />
-                      </button>
-                      <button
-                        onClick={() => deleteProduct(item.id)}
-                        className="bg-red-500 p-4 hover:bg-black text-white"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            <tr className="text-right">
+              <td className="p-2">1</td>
+              <td className="p-2">Premium</td>
+              <td className="p-2">10</td>
+              <td className="p-2">1000</td>
+              <td className="p-2">Feb 10, 2022</td>
+              <td className="p-2 flex items-center justify-end gap-4">
+                <Button Label="Delete" icon={<FaTrash />} type="button" style="Danger" />
+              </td>
+            </tr>
           </tbody>
         </table>
       </AdminLayout>
