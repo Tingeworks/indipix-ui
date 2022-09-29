@@ -15,7 +15,7 @@ export default function Confirm(props: any) {
         description="Indipix Subscriptions"
         keywords="indipix, subscriptions"
       />
-
+  
     </Layout>
   );
 }
