@@ -4,8 +4,9 @@ import SEO from "../../Components/Misc/SEO";
 import { useState } from "react";
 import Button from "../../Components/Form/Button";
 import Link from "next/link";
+import CONFIG from "../../CONFIG";
 
-export default function Select(props: any) {
+export default function Select({ product }: any) {
   const [imageformat, setImageFormat] = useState(0);
   const [subscription, setSubscription] = useState(0);
 
@@ -28,62 +29,26 @@ export default function Select(props: any) {
           </h1>
 
           <div className="bg-white border-4 border-black p-10 mt-10 mb-10">
-            <div className="flex gap-10 items-center">
-              <div className="flex-1">
-                <img src="https://source.unsplash.com/random/600x400" alt="" />
+            <div className="flex gap-10 flex-col lg:flex-row items-center">
+              <div>
+                <img
+                  style={{
+                    height: "30vh"
+                  }}
+                  src={`${CONFIG.API_URL}/product/image/${product[0].productPlaceHolder}`}
+                  alt={product[0].title}
+                />
               </div>
               <div className="flex-1">
-                <h2 className="text-2xl font-bold">Planet earth at night</h2>
-                <p className="text-sm opacity-60">PHOTO ID: 01413676946</p>
+                <h2 className="text-2xl font-bold"> {product[0].title}</h2>
+                <p className="text-slate-400 text-xs my-5">PHOTO ID- {product[0].productPlaceHolder.slice(0, -4)}</p>
               </div>
             </div>
             <div className="flex gap-10 items-center mt-10">
               <div className="flex-1">
-                <h3 className="font-bold text-xl uppercase mb-5">
-                  Image Format
-                </h3>
-
-                <div
-                  onClick={() => setImageFormat(0)}
-                  className="flex items-center gap-2 mb-5 cursor-pointer"
-                >
-                  <span
-                    className={`w-5 h-5 inline-block p-1 border-4 rounded-full ${
-                      imageformat == 0 && "bg-[#EA6940]"
-                    } border-[#EA6940]`}
-                  ></span>
-                  LARGE (6000 x 3750 px)
-                </div>
-
-                <div
-                  onClick={() => setImageFormat(1)}
-                  className="flex items-center gap-2 mb-5 cursor-pointer"
-                >
-                  <span
-                    className={`w-5 h-5 inline-block p-1 border-4 rounded-full ${
-                      imageformat == 1 && "bg-[#EA6940]"
-                    } border-[#EA6940]`}
-                  ></span>
-                  MEDIUM (1000 x 625 px)
-                </div>
-
-                <div
-                  onClick={() => setImageFormat(2)}
-                  className="flex items-center gap-2 mb-5 cursor-pointer"
-                >
-                  <span
-                    className={`w-5 h-5 inline-block p-1 border-4 rounded-full ${
-                      imageformat == 2 && "bg-[#EA6940]"
-                    } border-[#EA6940]`}
-                  ></span>
-                  SMALL (500 x 313 px)
-                </div>
-              </div>
-
-              <div className="flex-1">
                 <div
                   onClick={() => setSubscription(0)}
-                  className="flex justify-between mb-5"
+                  className="flex mb-5  gap-10"
                 >
                   <div className="flex gap-5 items-center">
                     <span
@@ -107,7 +72,7 @@ export default function Select(props: any) {
 
                 <div
                   onClick={() => setSubscription(1)}
-                  className="flex justify-between mb-5"
+                  className="flex gap-10 mb-5"
                 >
                   <div className="flex gap-5 items-center">
                     <span
@@ -131,7 +96,7 @@ export default function Select(props: any) {
 
                 <div
                   onClick={() => setSubscription(2)}
-                  className="flex justify-between mb-5"
+                  className="flex gap-10 mb-5"
                 >
                   <div className="flex gap-5 items-center">
                     <span
@@ -168,3 +133,16 @@ export default function Select(props: any) {
     </Layout>
   );
 }
+
+export const getServerSideProps = async (context: any) => {
+  const id = context.query?.id as string;
+  console.log(id)
+  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/${id}`);
+  const ProductData = await ProductResponse.json();
+  console.log(ProductData)
+  return {
+    props: {
+      product: ProductData,
+    },
+  };
+};

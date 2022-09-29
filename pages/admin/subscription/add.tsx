@@ -43,10 +43,27 @@ interface pageProps {
 // Page
 const Subscription: NextPage<pageProps> = ({ user, token }) => {
   const [imageLimit, setImageLimit] = useState(0);
+  const { jwt } = parseCookies();
 
-  const submit = (e) => {
+  const submit = (e: any) => {
     e.preventDefault();
-  }
+    console.log(jwt)
+    fetch(`${CONFIG.API_URL}/subscription/`, {
+      method: "POST",
+      headers: new Headers({
+        // Authorization: `Bearer ${jwt}`,
+      }),
+      body: JSON.stringify({
+        name: e.target[0].value,
+        description: e.target[1].value,
+        downloadable_limit: e.target[2].value,
+        price: e.target[3].value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((result) => console.log(result))
+      .catch((error) => console.log("error", error));
+  };
 
   return (
     <>

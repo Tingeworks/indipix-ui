@@ -56,7 +56,7 @@ export async function getServerSideProps(context: any) {
   });
   const data = await response.json();
 
-  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/all`);
+  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
   const ProductData = await ProductResponse.json();
   
   if (data.statusCode >= 400) {

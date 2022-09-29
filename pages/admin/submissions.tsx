@@ -19,7 +19,6 @@ interface item {
   location: string;
   createdAt: string;
 }
-
 // Image Overlay Component
 const overlayBox = (image: string, setImage: Function) => {
   return (
@@ -27,47 +26,60 @@ const overlayBox = (image: string, setImage: Function) => {
       onClick={() => setImage("")}
       className="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 bg-[#000000cd]  p-10 "
     >
-      <img className="w-8/12" src={image} />
+      <img style={{ height: "90vh" }} src={image} />
     </div>
   );
 };
 
-interface pageProps {
-  user: {
-    username: string;
-  };
-  token: string;
-}
-
 // Page
-const Submissions: NextPage<pageProps> = ({ user, token }) => {
+const Submissions: NextPage = ({ user, token }: any) => {
   const [image, setImage] = useState("");
-  console.log(token)
+  console.log(token);
   const [data, setData] = useState<item[]>([]);
   const [loading, setLoadingState] = useState(false);
+
+  const cookies = parseCookies();
 
   useEffect(() => {
     fetch(`${CONFIG.API_URL}/product/all`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setData(data.filter((item: any) => item.status != "approved"));
         console.log(data);
       });
   }, []);
 
   // console.log(jwt)
-  const deleteProduct = (id: string) => {
-    fetch(`${CONFIG.API_URL}/product/${id}`, {
-      method: "DELETE",
+  const deleteProduct = (id: string, objectIndex: number) => {
+    const consent = confirm("Are you sure?");
+
+    if (consent == true) {
+      fetch(`${CONFIG.API_URL}/product/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${cookies.jwt}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.affected > 0) {
+            alert(`Deleted ${data.affected}`);
+            // console.log(data)
+          } else {
+            alert("Try again later");
+          }
+        });
+    }
+  };
+
+  const approveProduct = async (id: string) => {
+    fetch(`${CONFIG.API_URL}/product/approve/${id}`, {
       headers: {
-        Authentication: `Bearer ${token}`,
+        Authorization: `Bearer ${cookies.jwt}`,
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        console.log(id)
-      });
+      .then((data) => console.log(data));
   };
 
   return (
@@ -78,76 +90,84 @@ const Submissions: NextPage<pageProps> = ({ user, token }) => {
         <p className="text-gray-400">
           Make sure to judge them before rejecting
         </p>
-
-        <table className="w-full mt-10">
-          <thead className="w-full font-bold text-right">
-            <tr>
-              <td className="border p-3">#</td>
-              <td className="border p-3">Image</td>
-              {/* <td className="border p-3">Seller</td>
+        {data.length != 0 ? (
+          <table className="w-full mt-10">
+            <thead className="w-full font-bold text-right">
+              <tr>
+                <td className="border p-3">#</td>
+                <td className="border p-3">Image</td>
+                {/* <td className="border p-3">Seller</td>
                 <td className="border p-3">Location</td> */}
-              {/* <td className="border p-3">Submission Date</td> */}
-              <td className="border p-3">Action</td>
-            </tr>
-          </thead>
-          <tbody className="w-full">
-            {data.map((item) => {
-              return (
-                <tr key={item.id}>
-                  <td className="border p-2">1</td>
-                  <td className="border p-2 flex gap-3">
-                    <>
-                      <img
-                        onClick={() =>
-                          setImage(
-                            `${CONFIG.API_URL}/product/image/${item.reduced_40}`
-                          )
-                        }
-                        className="cursor-pointer"
-                        width={200}
-                        src={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
-                      />
-                      {console.log(
-                        `${CONFIG.API_URL}/product/image/${item.reduced_40}`
-                      )}
-                      <div className="flex flex-col justify-between">
-                        <h2 className="text-sm">
-                          {item.title} -
-                          <span className="text-gray-400"> By Imtiazkun</span>
-                        </h2>
-                        <div className="text-sm">
-                          <p>{item.location}</p>
-                          <p>
-                            <small>
-                              Submitted{" "}
-                              {moment(item.createdAt, "YYYYMMDD").fromNow()}
-                            </small>
-                          </p>
+                {/* <td className="border p-3">Submission Date</td> */}
+                <td className="border p-3">Action</td>
+              </tr>
+            </thead>
+            <tbody className="w-full">
+              {data.map((item, index) => {
+                return (
+                  <tr key={item.id}>
+                    <td className="border p-2">1</td>
+                    <td className="border p-2 flex gap-3">
+                      <>
+                        <img
+                          onClick={() =>
+                            setImage(
+                              `${CONFIG.API_URL}/product/image/${item.reduced_40}`
+                            )
+                          }
+                          className="cursor-pointer"
+                          width={200}
+                          src={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
+                        />
+                        {console.log(
+                          `${CONFIG.API_URL}/product/image/${item.reduced_40}`
+                        )}
+                        <div className="flex flex-col justify-between">
+                          <h2 className="text-sm">
+                            {item.title} -
+                            <span className="text-gray-400"> By Imtiazkun</span>
+                          </h2>
+                          <div className="text-sm">
+                            <p>{item.location}</p>
+                            <p>
+                              <small>
+                                Submitted{" "}
+                                {moment(item.createdAt, "YYYYMMDD").fromNow()}
+                              </small>
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </>
-                  </td>
-                  {/* <td className="border p-2">Seller</td>
+                      </>
+                    </td>
+                    {/* <td className="border p-2">Seller</td>
                 <td className="border p-2">Location</td> */}
-                  {/* <td className="border p-2">Submission Date</td> */}
-                  <td className="border p-2">
-                    <div className="flex justify-end h-full">
-                      <button className="bg-green-500 p-4 hover:bg-black text-white">
-                        <FaCheck />
-                      </button>
-                      <button
-                        onClick={() => deleteProduct(item.id)}
-                        className="bg-red-500 p-4 hover:bg-black text-white"
-                      >
-                        <FaTrash />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                    {/* <td className="border p-2">Submission Date</td> */}
+                    <td className="border p-2">
+                      <div className="flex justify-end h-full">
+                        <button
+                          onClick={() => approveProduct(item.id)}
+                          className="bg-green-500 p-4 hover:bg-black text-white"
+                        >
+                          <FaCheck />
+                        </button>
+                        <button
+                          onClick={() => deleteProduct(item.id, index)}
+                          className="bg-red-500 p-4 hover:bg-black text-white"
+                        >
+                          <FaTrash />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <p className="mt-10 p-10 bg-gray-200 rounded-md font-bold text-gray-500 opacity-60">
+            No new submissions
+          </p>
+        )}
       </AdminLayout>
     </>
   );
@@ -184,7 +204,6 @@ export async function getServerSideProps(context: any) {
         props: {
           loggedIn: true,
           user: data,
-          token: cookies.jwt,
         },
       };
     }

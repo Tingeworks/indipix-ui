@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = (props) => (
         }
         ${
           props.style == "Danger" &&
-          "bg-red-500 text-gray-500 hover:bg-gray-300 "
+          "bg-red-500 text-white hover:text-gray-500 hover:bg-gray-300 "
         }
         ${
           props.style == "Warning" &&

@@ -70,7 +70,7 @@ const AdminLayout: React.FC<AdminProps> = ({
                 </li>
               </Link>
 
-              <Link href="/admin">
+              <Link href="/admin/users">
                 <li className=" text-white text-sm items-center p-4 hover:bg-gray-800  cursor-pointer">
                   🧑 Users
                 </li>
