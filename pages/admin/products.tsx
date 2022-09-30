@@ -79,7 +79,6 @@ const Products: NextPage<pageProps> = ({ user }) => {
         <p className="text-gray-400">
           All products that have been allowed on site
         </p>
-        <p>{JSON.stringify(data)}</p>
         {data && data.length != 0 ? (
           <table className="w-full mt-10">
             <thead className="w-full font-bold text-right">
@@ -92,12 +91,12 @@ const Products: NextPage<pageProps> = ({ user }) => {
                 <td className="border p-3">Action</td>
               </tr>
             </thead>
-            <tbody className="w-full">
-              {data.map((item: any) => {
+            <tbody className="w-full text-right">
+              {data.map((item: any, index: number) => {
                 return (
                   <tr key={item.id}>
-                    <td className="border p-2">1</td>
-                    <td className="border p-2 flex gap-3">
+                    <td className="border p-2">{index + 1}</td>
+                    <td className="border p-2 flex gap-3 justify-between">
                       <>
                         <img
                           onClick={() =>
@@ -134,9 +133,6 @@ const Products: NextPage<pageProps> = ({ user }) => {
                     {/* <td className="border p-2">Submission Date</td> */}
                     <td className="border p-2">
                       <div className="flex justify-end h-full">
-                        <button className="bg-green-500 p-4 hover:bg-black text-white">
-                          <FaCheck />
-                        </button>
                         <button
                           onClick={() => deleteProduct(item.id)}
                           className="bg-red-500 p-4 hover:bg-black text-white"
