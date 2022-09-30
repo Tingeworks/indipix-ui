@@ -49,10 +49,10 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
   const [loading, setLoadingState] = useState(false);
 
   useEffect(() => {
-    fetch(`${CONFIG.API_URL}/product/all`)
+    fetch(`${CONFIG.API_URL}/subscription/`)
       .then((res) => res.json())
       .then((data) => {
-        setData(data);
+        setData(data.items);
         console.log(data);
       });
   }, []);
@@ -67,8 +67,8 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        console.log(id);
+        console.log(data.items);
+        setData(data.items);
       });
   };
 
@@ -78,18 +78,16 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
         {image == "" ? "" : overlayBox(image, setImage)}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">
-              Subscriptions
-            </h1>
+            <h1 className="text-3xl font-bold">Subscriptions</h1>
             <p className="text-gray-400">
               Make sure to judge them before rejecting
             </p>
           </div>
           <div>
             <Link href="/admin/subscription/add">
-            <button className="flex gap-3 bg-red-700 text-white px-8 py-2 rounded-md hover:bg-black items-center">
-              <FaPlus /> Add
-            </button>
+              <button className="flex gap-3 bg-red-700 text-white px-8 py-2 rounded-md hover:bg-black items-center">
+                <FaPlus /> Add
+              </button>
             </Link>
           </div>
         </div>
@@ -98,23 +96,34 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
             <tr>
               <td className="border p-3">#</td>
               <td className="border p-3">Title</td>
-              <td className="border p-3">Total Images</td>
+              <td className="border p-3">Description</td>
+              <td className="border p-3">Maximum Downloads</td>
               <td className="border p-3">Price</td>
               <td className="border p-3">Created At</td>
               <td className="border p-3">Action</td>
             </tr>
           </thead>
           <tbody className="w-full">
-            <tr className="text-right">
-              <td className="p-2">1</td>
-              <td className="p-2">Premium</td>
-              <td className="p-2">10</td>
-              <td className="p-2">1000</td>
-              <td className="p-2">Feb 10, 2022</td>
-              <td className="p-2 flex items-center justify-end gap-4">
-                <Button Label="Delete" icon={<FaTrash />} type="button" style="Danger" />
-              </td>
-            </tr>
+            {data.map((item, index) => (
+              <tr className="text-right">
+                <td className="p-2">{index}</td>
+                <td className="p-2">{item.name}</td>
+                <td className="p-2">{item.description}</td>
+                <td className="p-2">{item.downloadable_limit}</td>
+                <td className="p-2">{item.price}</td>
+                <td className="p-2">
+                  {moment(item.createdAt, "YYYYMMDD").fromNow()}
+                </td>
+                <td className="p-2 flex items-center justify-end gap-4">
+                  <Button
+                    Label="Delete"
+                    icon={<FaTrash />}
+                    type="button"
+                    style="Danger"
+                  />
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </AdminLayout>

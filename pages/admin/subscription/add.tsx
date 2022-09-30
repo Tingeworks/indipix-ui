@@ -51,13 +51,13 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
     fetch(`${CONFIG.API_URL}/subscription/`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${cookies.jwt}`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhYmNAYWJjLmFiYyIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWJjQGFiYy5hYmMiLCJpYXQiOjE2NjQ1NTA0MjMsImV4cCI6MTY2NzE0MjQyM30.sdFecGy0jajz6fcgqCg-Q2y3yVmCwAxKPHnPnXYEghY`,
       },
       body: JSON.stringify({
         name: e.target[0].value,
         description: e.target[1].value,
-        downloadable_limit: e.target[2].value,
-        price: e.target[3].value,
+        downloadable_limit: parseInt(e.target[2].value),
+        price: parseInt(e.target[3].value),
       }),
     })
       .then((response) => response.json())
@@ -75,16 +75,16 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
 
         <form onSubmit={submit} className="mt-5">
           <div className=" my-2">
-            <input className="w-full p-5" type="text" placeholder="Title" />
+            <input className="w-full p-5" type="text" placeholder="Title" name="name" />
           </div>
           <div className=" my-2">
             <textarea
               className="p-5 w-full"
               placeholder="List points and separate by comma i.e. 5 images, 1 month, for enterprices etc."
-              name=""
               id=""
               cols={30}
               rows={10}
+              name="description"
             ></textarea>
           </div>
           <div className="my-4">
@@ -98,7 +98,7 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
               onChange={(e) => setImageLimit(parseInt(e.target.value))}
               className="w-full"
               type="range"
-              name=""
+              name="downloadable_limit"
               id="limit"
             />
           </div>
@@ -109,8 +109,8 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
               step={0.1}
               min={0}
               type="number"
-              name=""
-              id=""
+              name="price"
+              id="price"
             />
           </div>
 
