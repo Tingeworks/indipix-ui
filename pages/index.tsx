@@ -33,7 +33,7 @@ const Home: NextPage = ({ loggedIn, user, products }: any) => {
               id={item.id}
               key={item.id}
               name={item.title}
-              imageURL={`${CONFIG.API_URL}/product/image/${item.productPlaceHolder}`}
+              imageURL={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
             />
           ))}
         </Gallery>  : 

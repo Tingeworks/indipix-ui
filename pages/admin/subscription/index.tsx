@@ -27,7 +27,7 @@ const overlayBox = (image: string, setImage: Function) => {
   return (
     <div
       onClick={() => setImage("")}
-      className="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 bg-[#000000cd]  p-10 "
+      className="flex justify-center items-center fixed top-0 left-0 right-0 bottom-0 bg-[#000000cd] p-10"
     >
       <img style={{ height: "90vh" }} src={image} />
     </div>
@@ -92,7 +92,7 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
           </div>
         </div>
         <table className="w-full mt-10">
-          <thead className="w-full font-bold text-right">
+          <thead className="w-full font-bold text-left">
             <tr>
               <td className="border p-3">#</td>
               <td className="border p-3">Title</td>
@@ -104,11 +104,11 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
             </tr>
           </thead>
           <tbody className="w-full">
-            {data.map((item, index) => (
-              <tr className="text-right">
+            {data.map((item: any, index) => (
+              <tr className="text-left">
                 <td className="p-2">{index}</td>
                 <td className="p-2">{item.name}</td>
-                <td className="p-2">{item.description}</td>
+                <td className="p-2">{item.description.split("\n").map((item: any)=> <li>{item}</li>)}</td>
                 <td className="p-2">{item.downloadable_limit}</td>
                 <td className="p-2">{item.price}</td>
                 <td className="p-2">

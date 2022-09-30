@@ -2,6 +2,7 @@
 import { NextPage } from "next";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import Router from "next/router";
 
 // Third Party Imports
 import nookies, { parseCookies } from "nookies";
@@ -51,7 +52,8 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
     fetch(`${CONFIG.API_URL}/subscription/`, {
       method: "POST",
       headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhYmNAYWJjLmFiYyIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiYWJjQGFiYy5hYmMiLCJpYXQiOjE2NjQ1NTA0MjMsImV4cCI6MTY2NzE0MjQyM30.sdFecGy0jajz6fcgqCg-Q2y3yVmCwAxKPHnPnXYEghY`,
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookies.jwt}`,
       },
       body: JSON.stringify({
         name: e.target[0].value,
@@ -61,7 +63,10 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
       }),
     })
       .then((response) => response.json())
-      .then((result) => console.log(result))
+      .then((result) => {
+        alert("Created!");
+        Router.reload();
+      })
       .catch((error) => console.log("error", error));
   };
 
@@ -75,7 +80,12 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
 
         <form onSubmit={submit} className="mt-5">
           <div className=" my-2">
-            <input className="w-full p-5" type="text" placeholder="Title" name="name" />
+            <input
+              className="w-full p-5"
+              type="text"
+              placeholder="Title"
+              name="name"
+            />
           </div>
           <div className=" my-2">
             <textarea

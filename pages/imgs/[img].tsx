@@ -36,7 +36,7 @@ const Image: NextPage<{product: any}> = ({product}) => {
           <div className="relative cursor-pointer">
             <img
               className="w-full"
-              src={`${CONFIG.API_URL}/product/image/${product[0].productPlaceHolder}`}
+              src={`${CONFIG.API_URL}/product/image/${product[0].reduced_40}`}
               alt=""
             />
             <FaSearchPlus className="text-white text-2xl drop-shadow-lg absolute bottom-0 right-0 m-5" />
