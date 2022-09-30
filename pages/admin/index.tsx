@@ -36,7 +36,7 @@ const Admin: NextPage = ({ user, loggedIn, totalUsers }: any) => {
             <span className="bg-white p-2 px-3 rounded-md text-blue-600 font-bold flex items-center gap-2">
               <FaUserAlt /> 4
             </span>
-            Total users {JSON.stringify(totalUsers)}
+            Total users {totalUsers.Count}
           </div>
           <div className="flex-1 p-10 bg-green-600 text-white rounded-sm flex gap-5 items-center">
             <span className="bg-white p-2 px-3 rounded-md text-green-600 font-bold flex items-center gap-2">

@@ -1,4 +1,3 @@
-import { url } from "inspector";
 import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import { useState, useEffect } from "react";
@@ -7,13 +6,15 @@ import Link from "next/link";
 import CONFIG from "../../CONFIG";
 import { parseCookies } from "nookies";
 
+import { useRouter } from "next/router";
+
 export default function Select({ product }: any) {
   const [imageformat, setImageFormat] = useState(0);
   const [subscription, setSubscription] = useState<number>(0);
   const [data, setData] = useState<any>();
-
   const cookies = parseCookies();
-
+  const router = useRouter();
+  // /checkout/confirm?id=${product[0].id}&package=${subscription}
   useEffect(() => {
     fetch(`${CONFIG.API_URL}/subscription/`)
       .then((res) => res.json())
@@ -24,20 +25,20 @@ export default function Select({ product }: any) {
   }, []);
 
   const Subscribe = (id: number) => {
-    console.log(id)
+    console.log(id);
     fetch(`${CONFIG.API_URL}/stripepayment/createPaymentIntent`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${cookies.jwt}`,
+        Authorization: `Bearer ${cookies.jwt}`,
       },
       body: JSON.stringify({
         type: "subscription",
         id: id,
       }),
     })
-      .then((response) => response.text())
-      .then((result) => console.log(result))
+      .then((response) => response.json())
+      .then((result) => router.push(`/checkout/confirm?secret=${result.clientSecret}`))
       .catch((error) => console.log("error", error));
   };
 
@@ -117,14 +118,14 @@ export default function Select({ product }: any) {
                 // <Link
                 //   href={`/checkout/confirm?id=${product[0].id}&package=${subscription}`}
                 // >
-                <button
-                  onClick={() => Subscribe(subscription)}
-                  className=" hover:bg-black uppercase bg-[#EA6940] text-white px-5 py-1 font-bold text-xl rounded-full"
-                >
-                  Continue
-                </button>
-              ) : (
+                  <button
+                    onClick={() => Subscribe(subscription)}
+                    className=" hover:bg-black uppercase bg-[#EA6940] text-white px-5 py-1 font-bold text-xl rounded-full"
+                  >
+                    Continue
+                  </button>
                 // </Link>
+              ) : (
                 <p className="uppercase py-5">Pick a subsciption to continue</p>
               )}
             </div>

@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import nookies, { parseCookies } from "nookies";
 import { FaCheck, FaTimes, FaTrash } from "react-icons/fa";
 import moment from "moment";
+import { useRouter } from "next/router";
 
 // Domestic Imports
 import AdminLayout from "../../Components/Layout/AdminLayout";
@@ -43,32 +44,45 @@ interface pageProps {
 // Page
 const Products: NextPage<pageProps> = ({ user }) => {
   const cookies = parseCookies();
+  const router = useRouter();
   const [image, setImage] = useState("");
   const [data, setData] = useState<any>();
   const [loading, setLoadingState] = useState(false);
 
-  useEffect(() => {
+  const loadData = () => {
     fetch(`${CONFIG.API_URL}/product/all`)
       .then((res) => res.json())
       .then((data) => {
         setData(data.filter((item: any) => item.status !== "draft"));
         console.log(data);
       });
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   // console.log(jwt)
-  const deleteProduct = (id: string) => {
-    fetch(`${CONFIG.API_URL}/product/${id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        Authorization: `Bearer ${cookies.jwt}`
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        console.log(`${id}`);
-      });
+  const deleteProduct = (id: string, objectIndex: number) => {
+    const consent = confirm("Are you sure?");
+
+    if (consent == true) {
+      fetch(`${CONFIG.API_URL}/product/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${cookies.jwt}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.affected > 0) {
+            alert(`Deleted ${data.affected}`);
+            router.reload();
+          } else {
+            alert("Try again later");
+          }
+        });
+    }
   };
 
   return (
@@ -134,7 +148,7 @@ const Products: NextPage<pageProps> = ({ user }) => {
                     <td className="border p-2">
                       <div className="flex justify-end h-full">
                         <button
-                          onClick={() => deleteProduct(item.id)}
+                          onClick={() => deleteProduct(item.id, index)}
                           className="bg-red-500 p-4 hover:bg-black text-white"
                         >
                           <FaTrash />
