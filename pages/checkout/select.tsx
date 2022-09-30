@@ -28,8 +28,8 @@ export default function Select({ product }: any) {
     fetch(`${CONFIG.API_URL}/stripepayment/createPaymentIntent`, {
       method: "POST",
       headers: {
-        // "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.jwt}`,
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${cookies.jwt}`,
       },
       body: JSON.stringify({
         type: "subscription",
