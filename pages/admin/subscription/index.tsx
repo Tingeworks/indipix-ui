@@ -105,10 +105,16 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
           </thead>
           <tbody className="w-full">
             {data.map((item: any, index) => (
-              <tr className="text-left">
+              <tr key={index} className="text-left">
                 <td className="p-2">{index}</td>
                 <td className="p-2">{item.name}</td>
-                <td className="p-2">{item.description.split("\n").map((item: any)=> <li>{item}</li>)}</td>
+                <td className="p-2">
+                  {item.description
+                    .split("\n")
+                    .map((item: any, index: number) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                </td>
                 <td className="p-2">{item.downloadable_limit}</td>
                 <td className="p-2">{item.price}</td>
                 <td className="p-2">

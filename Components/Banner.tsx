@@ -14,7 +14,7 @@ const Banner: React.FC = () => {
       <div className="flex items-center h-full container mx-auto px-5 lg:px-20">
         <div className="w-1/2">
           <h1 className="text-white font-bold text-5xl mb-8 capitalize">
-            India's Largest collection of stock images
+            India&apos;s Largest collection of stock images
           </h1>
           <SearchBox className="bg-white" />
           <ul className="flex mt-10">
