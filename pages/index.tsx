@@ -19,6 +19,7 @@ import ImageCard from "../Components/Gallery/ImageCard";
 /** Home page */
 const Home: NextPage = ({ loggedIn, user, products }: any) => {
   console.log(products)
+  console.log(process.env.STRIPE_SECRET)
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />

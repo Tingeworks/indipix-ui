@@ -9,7 +9,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import { FaCheck } from "react-icons/fa";
 
-const stripePromise = loadStripe("pk_test_TYooMQauvdEDq54NiTphI7jx");
+const stripePromise = loadStripe(process.env.STRIPE_SECRET as string);
 
 export default function Confirm(props: any) {
   const [imageformat, setImageFormat] = useState(0);
