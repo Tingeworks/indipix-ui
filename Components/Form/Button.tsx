@@ -10,6 +10,7 @@ interface ButtonProps {
   style: "Primary" | "Secondary" | "Danger" | "Warning";
   url?: string;
   className?: string;
+  disabled?: boolean;
   onClick?: Function;
 }
 
@@ -18,6 +19,7 @@ const Button: React.FC<ButtonProps> = (props) => (
   <>
     {!props.url ? (
       <button
+        disabled={props.disabled}
         onClick={() => props.onClick}
         type={props.type}
         className={`
@@ -35,7 +37,7 @@ const Button: React.FC<ButtonProps> = (props) => (
           " bg-orange-500 text-white hover:bg-black "
         } 
         ${props.className !== null && props.className}
-         px-2 py-2 rounded ${
+          ${
            props.icon !== null ? "flex items-center justify-center" : ""
          }`}
       >
@@ -49,6 +51,7 @@ const Button: React.FC<ButtonProps> = (props) => (
     ) : (
       <Link href={props.url}>
         <button
+          disabled={props.disabled}
           onClick={() => props.onClick}
           type={props.type}
           className={`
@@ -64,7 +67,7 @@ const Button: React.FC<ButtonProps> = (props) => (
         props.style == "Warning" && " bg-orange-500 text-white hover:bg-black "
       } 
       ${props.className !== null && props.className}
-       px-2 py-2 rounded ${
+        ${
          props.icon !== null ? "flex items-center justify-center" : ""
        }`}
         >
