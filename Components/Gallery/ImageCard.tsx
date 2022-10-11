@@ -1,17 +1,24 @@
 import Link from "next/link";
 import { useState } from "react";
-import { FaHeart, FaLink } from "react-icons/fa";
+import { FaHeart, FaLink, FaTrash } from "react-icons/fa";
 import Button from "../Form/Button";
 
 interface Images {
   id: string;
   name: string;
   imageURL: string;
+  inWishList: string;
 }
 
-const ImageCard = ({ id, imageURL, name }: Images) => {
+const ImageCard = ({ id, imageURL, name, inWishList }: Images) => {
   const [layoutStatus, setlayoutStatus] = useState(false);
   const [wishlistIncludeStatus, setWishlistIncludeStatus] = useState(false);
+
+  const deleteFromWishList = (id: string) => {
+    alert("Removed");
+
+    // Your code here
+  };
 
   return (
     // <Link href={`/imgs/${id}`}>
@@ -36,13 +43,22 @@ const ImageCard = ({ id, imageURL, name }: Images) => {
           layoutStatus ? "z-0 opacity-100" : "-z-10 opacity-0"
         } transition-opacity py-3 px-5 absolute gap-3 left-0 right-0 bottom-0 bg-[#ffffff75] flex items-center justify-between rounded-full m-2`}
       >
-        <FaHeart
-          onClick={() => setWishlistIncludeStatus(!wishlistIncludeStatus)}
-          className={`text-2xl ${
-            wishlistIncludeStatus ? "text-red-700" : "text-white"
-          } `}
-        />
-        {/* <Link href={`/imgs/${id}`}> */}
+        {!inWishList ? (
+          <FaHeart
+            onClick={() => setWishlistIncludeStatus(!wishlistIncludeStatus)}
+            className={`text-2xl ${
+              wishlistIncludeStatus ? "text-red-700" : "text-white"
+            } `}
+          />
+        ) : (
+          <FaTrash
+            onClick={() => deleteFromWishList(id)}
+            className={`text-2xl ${
+              wishlistIncludeStatus ? "text-red-700" : "text-white"
+            } `}
+          />
+        )}
+
         <Button
           className="rounded-full px-5 py-1"
           Label="Visit"
@@ -50,7 +66,6 @@ const ImageCard = ({ id, imageURL, name }: Images) => {
           type="button"
           url={`/imgs/${id}`}
         />
-        {/* </Link> */}
       </div>
     </div>
     // </Link>
