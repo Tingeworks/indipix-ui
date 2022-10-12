@@ -4,10 +4,10 @@ import { FaHeart, FaLink, FaTrash } from "react-icons/fa";
 import Button from "../Form/Button";
 
 interface Images {
-  id: string;
+  id: any;
   name: string;
   imageURL: string;
-  inWishList: string;
+  inWishList: boolean;
 }
 
 const ImageCard = ({ id, imageURL, name, inWishList }: Images) => {
@@ -27,8 +27,7 @@ const ImageCard = ({ id, imageURL, name, inWishList }: Images) => {
       onMouseEnter={() => setlayoutStatus(true)}
       className={`w-full relative ${
         layoutStatus ? "scale-95" : ""
-      } transition-all select-none`}
-    >
+      } transition-all select-none`}>
       <img
         onClick={() => setlayoutStatus(!layoutStatus)}
         title={name}
@@ -41,8 +40,7 @@ const ImageCard = ({ id, imageURL, name, inWishList }: Images) => {
         onClick={() => setlayoutStatus(true)}
         className={`${
           layoutStatus ? "z-0 opacity-100" : "-z-10 opacity-0"
-        } transition-opacity py-3 px-5 absolute gap-3 left-0 right-0 bottom-0 bg-[#ffffff75] flex items-center justify-between rounded-full m-2`}
-      >
+        } transition-opacity py-3 px-5 absolute gap-3 left-0 right-0 bottom-0 bg-[#ffffff75] flex items-center justify-between rounded-full m-2`}>
         {!inWishList ? (
           <FaHeart
             onClick={() => setWishlistIncludeStatus(!wishlistIncludeStatus)}

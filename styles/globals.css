@@ -5,3 +5,7 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+.search-bg {
+  background: linear-gradient(90deg, #f87c52 0%, #61de6d 100%);
+}
