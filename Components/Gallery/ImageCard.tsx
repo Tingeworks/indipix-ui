@@ -7,7 +7,7 @@ interface Images {
   id: string;
   name: string;
   imageURL: string;
-  inWishList: string;
+  inWishList?: string;
 }
 
 const ImageCard = ({ id, imageURL, name, inWishList }: Images) => {
