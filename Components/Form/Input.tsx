@@ -24,8 +24,7 @@ const Input: React.FC<InputProps> = (props) => (
     className={`flex items-center 
     ${props.style == "outline" && " outline outline-gray-300 "} 
     ${props.className !== null && props.className} 
-    `}
-  >
+    `}>
     {props.icon !== null && <span className="mr-2">{props.icon}</span>}
     {props.usingFormik == undefined ? (
       <input
