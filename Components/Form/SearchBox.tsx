@@ -14,14 +14,19 @@ const SearchBox: React.FC<props> = (props) => {
   const router = useRouter();
   return (
     <div
-      className={`w-full flex p-1 items-center rounded-full shadow-lg ${props.className}`}>
+      className={`w-full flex p-1 items-center rounded-full shadow-lg ${props.className}`}
+    >
       <Formik
         initialValues={{
           search: "",
         }}
         onSubmit={(values) => {
-          router.push(`/imgs/${values.search}`);
-        }}>
+          router.push({
+            pathname: "/search",
+            query: { value: values.search },
+          });
+        }}
+      >
         <Form className="flex-1 px-2">
           <Input
             usingFormik
@@ -35,11 +40,13 @@ const SearchBox: React.FC<props> = (props) => {
       </Formik>
       <div className=" text-white flex items-center">
         <button
+          type="submit"
           className="px-6 py-3 rounded-full"
           style={{
             background:
               "linear-gradient(270deg, rgba(234, 105, 64, 0.75) 0%, rgba(236, 48, 48, 0.75) 100%)",
-          }}>
+          }}
+        >
           <FaSearch />
         </button>
       </div>
