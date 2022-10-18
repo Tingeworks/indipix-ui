@@ -9,3 +9,7 @@ body {
 .search-bg {
   background: linear-gradient(90deg, #f87c52 0%, #61de6d 100%);
 }
+
+.support-bg {
+  background: linear-gradient(180deg, #d8a4e0 0%, #f4c8fb 0.01%, #d896e2 100%);
+}
