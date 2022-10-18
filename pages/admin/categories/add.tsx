@@ -75,7 +75,7 @@ const Add: NextPage<pageProps> = ({ user, token }) => {
       <AdminLayout username={user.username} className="flex" isLoggedIn={true}>
         <h1 className="text-3xl font-bold">Add categories</h1>
         <p className="text-gray-400">
-          Don't stress it, you can always make new categories.
+          Don&apos;t stress it, you can always make new categories.
         </p>
 
         <form onSubmit={submit} className="mt-5">
