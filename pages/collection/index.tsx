@@ -4,6 +4,7 @@ import CONFIG from "../../CONFIG";
 import ImageCard from "../../Components/Gallery/ImageCard";
 import SearchBox from "../../Components/Form/SearchBox";
 import Gallery from "../../Components/Gallery/Gallery";
+import SEO from "../../Components/Misc/SEO";
 
 export default function Collection({ loggedIn, products }: any) {
   console.log(products);
@@ -34,6 +35,7 @@ export default function Collection({ loggedIn, products }: any) {
   }
   return (
     <Layout isLoggedIn={loggedIn}>
+        <SEO title="Indipix | Categories" description="Indipix categories" keywords="Indipix, categories" />
       {/* Work from here */}
       <div className="h-[175px] flex items-center justify-center search-bg">
         <div className="container mx-auto px-5 lg:px-20 py-10">
