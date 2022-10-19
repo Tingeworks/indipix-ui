@@ -67,7 +67,7 @@ const Image: NextPage<{ product: any }> = ({ product }) => {
             />
             {/* <FaSearchPlus className="text-white text-2xl drop-shadow-lg absolute bottom-0 right-0 m-5" /> */}
           </div>
-          <div className="mt-5 flex justify-center gap-5">
+          <div className="mt-5 flex gap-5">
             <button
               onClick={() => handleSave()}
               className="rounded-full text-xs font-bold border-[#F87C52] border-4 px-8 py-0.5 uppercase">

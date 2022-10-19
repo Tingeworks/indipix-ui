@@ -35,13 +35,15 @@ const AdminLayout: React.FC<AdminProps> = ({
       >
         <div className="flex flex-col xl:w-2/12 h-screen">
           <div className=" p-4  flex gap-2  items-center">
-            <Image
-              className="cursor-pointer"
-              width={20}
-              height={20}
-              src="/logo_white_bg.png"
-              alt=""
-            />
+            <Link href="/">
+              <Image
+                className="cursor-pointer"
+                width={20}
+                height={20}
+                src="/logo_white_bg.png"
+                alt=""
+              />
+            </Link>
             <span className="font-bold">Indipix Dashboard</span>
           </div>
           <div className=" flex flex-col flex-1 bg-black h-full justify-between">

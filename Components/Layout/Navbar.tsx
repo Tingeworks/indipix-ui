@@ -24,6 +24,7 @@ import Button from "../Form/Button";
 import ButtonWithIcon from "../Form/ButtonWithIcon";
 import Input from "../Form/Input";
 import Modal from "../Modal/Modal";
+import nookies from "nookies";
 
 interface navbarProps {
   isLoggedIn: boolean;
@@ -82,7 +83,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
                   <div className="w-48">
                     <Button
                       url="/auth/login"
-                      className="w-full"
+                      className="w-full p-3 rounded-sm"
                       type="button"
                       Label="Login"
                       style="Secondary"
@@ -91,7 +92,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
 
                     <Button
                       url="/auth/register"
-                      className="w-full mt-5"
+                      className="w-full mt-5 p-3 rounded-sm"
                       type="button"
                       Label="Join"
                       style="Primary"
@@ -102,21 +103,27 @@ const Navbar: React.FC<navbarProps> = (props) => {
                   <div className="w-48">
                     <Button
                       url="/user/"
-                      className="w-full"
+                      className="w-full p-3 rounded-sm"
                       type="button"
                       Label="Profile"
                       style="Secondary"
                       icon={<FaUserAlt />}
                     />
 
-                    <Button
-                      url="/auth/register"
-                      className="w-full mt-5"
-                      type="button"
-                      Label="Sign out"
-                      style="Warning"
-                      icon={<FaSignOutAlt />}
-                    />
+                    <div
+                      onClick={function () {
+                        alert("Logging out");
+                        nookies.destroy(null, "jwt");
+                      }}
+                    >
+                      <Button
+                        className="w-full mt-5 p-2 rounded-sm"
+                        type="button"
+                        Label="Sign out"
+                        style="Warning"
+                        icon={<FaSignOutAlt />}
+                      />
+                    </div>
                   </div>
                 )}
               </Modal>
