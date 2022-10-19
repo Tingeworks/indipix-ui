@@ -7,11 +7,7 @@ interface Images {
   id: any;
   name: string;
   imageURL: string;
-<<<<<<< HEAD
-  inWishList?: string;
-=======
   inWishList: boolean;
->>>>>>> mahmud_d
 }
 
 const ImageCard = ({ id, imageURL, name, inWishList }: Images) => {
