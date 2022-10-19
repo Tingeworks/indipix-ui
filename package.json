@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@fontsource/poppins": "^4.5.9",
+    "@nextui-org/react": "^1.0.0-beta.10",
     "@stripe/react-stripe-js": "^1.12.0",
     "@stripe/stripe-js": "^1.38.1",
     "axios": "^0.27.2",

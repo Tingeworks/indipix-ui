@@ -42,7 +42,7 @@ interface pageProps {
 }
 
 // Page
-const Subscription: NextPage<pageProps> = ({ user, token }) => {
+const Categories: NextPage<pageProps> = ({ user, token }) => {
   const [image, setImage] = useState("");
   console.log(token);
   const [data, setData] = useState<item[]>([]);
@@ -78,13 +78,13 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
         {image == "" ? "" : overlayBox(image, setImage)}
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold">Subscriptions</h1>
+            <h1 className="text-3xl font-bold">Categories</h1>
             <p className="text-gray-400">
-              Make sure to judge them before rejecting
+              Virtual Folders that organize your images
             </p>
           </div>
           <div>
-            <Link href="/admin/subscription/add">
+            <Link href="/admin/categories/add">
               <button className="flex gap-3 bg-red-700 text-white px-8 py-2 rounded-md hover:bg-black items-center">
                 <FaPlus /> Add
               </button>
@@ -97,51 +97,31 @@ const Subscription: NextPage<pageProps> = ({ user, token }) => {
               <td className="border p-3">#</td>
               <td className="border p-3">Title</td>
               <td className="border p-3">Description</td>
-              <td className="border p-3">Maximum Downloads</td>
-              <td className="border p-3">Price</td>
+              <td className="border p-3">Total Images</td>
               <td className="border p-3">Created At</td>
               <td className="border p-3">Action</td>
             </tr>
-          </thead>
-          <tbody className="w-full">
+          </thead> 
+          <tbody className="w-full text-left">
             {data.map((item: any, index) => (
-              <tr
-                key={index}
-                className={`text-left ${index % 2 == 0 ? "bg-slate-300" : ""}`}
-              >
-                <td
-                  className={`p-2 border  ${
-                    index % 2 == 0 ? "border-gray-400" : "border-gray-200"
-                  }`}
-                >
-                  {index}
-                </td>
-                <td className={`p-2 border  ${
-                    index % 2 == 0 ? "border-gray-400" : "border-gray-200"
-                  }`}>{item.name}</td>
-                <td className={`p-2 border  ${
-                    index % 2 == 0 ? "border-gray-400" : "border-gray-200"
-                  }`}>
-                  {item.description
+              <tr key={index} className="text-left">
+                <td className="p-2">1</td>
+                <td className="p-2">Technology</td>
+                <td className="p-2">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae ducimus obcaecati veniam.
+                  {/* {item.description
                     .split("\n")
                     .map((item: any, index: number) => (
                       <li key={index}>{item}</li>
-                    ))}
+                    ))} */}
                 </td>
-                <td className={`p-2 border  ${
-                    index % 2 == 0 ? "border-gray-400" : "border-gray-200"
-                  }`}>{item.downloadable_limit}</td>
-                <td className={`p-2 border  ${
-                    index % 2 == 0 ? "border-gray-400" : "border-gray-200"
-                  }`}>{item.price}</td>
-                <td className={`p-2 border  ${
-                    index % 2 == 0 ? "border-gray-400" : "border-gray-200"
-                  }`}>
+                <td className="p-2">Total Images</td>
+                <td className="p-2">
                   {moment(item.createdAt, "YYYYMMDD").fromNow()}
                 </td>
                 <td className="p-2 flex items-center justify-end gap-4">
                   <Button
-                    className="p-3 rounded"
+                    className="px-2 p-3 rounded"
                     Label="Delete"
                     icon={<FaTrash />}
                     type="button"
@@ -195,4 +175,4 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-export default Subscription;
+export default Categories;
