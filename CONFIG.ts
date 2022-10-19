@@ -9,12 +9,17 @@ export default {
     {
       id: 2,
       label: "Sell",
-      url: "/user/submit",
+      url: "/sell",
     },
     {
       id: 3,
       label: "My Collections",
       url: "/collection",
     },
+    {
+      id: 4,
+      label: "Pricing",
+      url: "/price",
+    }
   ],
 };
