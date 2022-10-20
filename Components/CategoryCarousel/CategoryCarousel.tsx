@@ -11,8 +11,9 @@ const CategoryCarousel = (data: any) => {
     infinite: true,
     autoplay: true,
     speed: 500,
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    centerMode: false,
+    slidesToShow: 4,
+    slidesToScroll: 2,
   };
   const handleCategory = ({ id }: any) => {};
   let renderCarousel = "";

@@ -8,7 +8,7 @@ const PhotoCard = ({ handleClick, image, category }: any) => {
       {image ? (
         <div
           onClick={handleClick}
-          className="text-center mb-[70px] cursor-pointer"
+          className="text-center mb-[70px] pr-[10px] cursor-pointer"
         >
           <Image
             src={image}

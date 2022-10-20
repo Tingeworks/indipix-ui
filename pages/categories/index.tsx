@@ -3,7 +3,7 @@ import SearchBox from "../../Components/Form/SearchBox";
 import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import PhotoCard from "../../Components/PhotoCard/PhotoCard";
-
+import { Grid, Pagination } from "@nextui-org/react";
 export default function Categories(props: any) {
   let categoryCarousel = [
     {
@@ -23,6 +23,16 @@ export default function Categories(props: any) {
     },
     {
       id: "4",
+      url: "https://source.unsplash.com/random/300x400/?sig=4",
+      category: "art",
+    },
+    {
+      id: "5",
+      url: "https://source.unsplash.com/random/300x400/?sig=4",
+      category: "art",
+    },
+    {
+      id: "6",
       url: "https://source.unsplash.com/random/300x400/?sig=4",
       category: "art",
     },
@@ -58,8 +68,57 @@ export default function Categories(props: any) {
       </div>
       <div className="pl-5 lg:pl-20">
         {/* category card start */}
-        <div className="">
+        <div className="mb-[50px]">
+          <h2 className="text-[32px] mb-[30px] text-black font-bold">
+            TOP CATEGORIES
+          </h2>
           <CategoryCarousel data={categoryCarousel} />
+        </div>
+        <div className="  flex justify-center">
+          <Pagination total={20} initialPage={1} />
+        </div>
+        {/* category by pagination start */}
+        <Grid.Container className="mb-[60px] mt-10">
+          <Grid xs={2} md={4}>
+            <PhotoCard
+              image="https://source.unsplash.com/random/300x400/?sig=70"
+              category="architecture"
+            />
+          </Grid>
+          <Grid xs={2} md={4}>
+            <PhotoCard
+              image="https://source.unsplash.com/random/300x400/?sig=56"
+              category="architecture"
+            />
+          </Grid>
+          <Grid xs={2} md={4}>
+            <PhotoCard
+              image="https://source.unsplash.com/random/300x400/?sig=54"
+              category="architecture"
+            />
+          </Grid>
+          <Grid xs={2} md={4}>
+            <PhotoCard
+              image="https://source.unsplash.com/random/300x400/?sig=51"
+              category="architecture"
+            />
+          </Grid>
+          <Grid xs={2} md={4}>
+            <PhotoCard
+              image="https://source.unsplash.com/random/300x400/?sig=503"
+              category="architecture"
+            />
+          </Grid>
+          <Grid xs={2} md={4}>
+            <PhotoCard
+              image="https://source.unsplash.com/random/300x400/?sig=58"
+              category="architecture"
+            />
+          </Grid>
+        </Grid.Container>
+        {/* category by pagination end */}
+        <div className="flex items-center justify-center mb-[50px]">
+          <button className="load-more-btn">LOAD MORE</button>
         </div>
         {/* category card end */}
       </div>

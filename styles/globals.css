@@ -82,3 +82,16 @@ body {
   background: #d9d9d9;
   @apply flex justify-between text-black;
 }
+
+.load-more-btn {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 40px;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  width: 178px;
+  height: 40px;
+  border-radius: 101px;
+  text-align: center;
+  background: linear-gradient(180deg, #ea6940 0%, #ec3030 100%);
+}
