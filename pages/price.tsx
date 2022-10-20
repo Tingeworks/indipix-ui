@@ -7,9 +7,7 @@ export default function Price({ loggedIn }: any) {
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
-      <div className="">
-
-      </div>
+      <div className="container">Hello</div>
     </Layout>
   );
 }

@@ -899,6 +899,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-slick@^0.23.10":
+  "integrity" "sha512-ZiqdencANDZy6sWOWJ54LDvebuXFEhDlHtXU9FFipQR2BcYU2QJxZhvJPW6YK7cocibUiNn+YvDTbt1HtCIBVA=="
+  "resolved" "https://registry.npmjs.org/@types/react-slick/-/react-slick-0.23.10.tgz"
+  "version" "0.23.10"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@18.0.10":
   "integrity" "sha512-dIugadZuIPrRzvIEevIu7A1smqOAjkSMv8qOfwPt9Ve6i6JT/FQcCHyk2qIAxwsQNKZt5/oGR0T4z9h2dXRAkg=="
   "resolved" "https://registry.npmjs.org/@types/react/-/react-18.0.10.tgz"
