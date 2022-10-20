@@ -203,7 +203,6 @@ const User: NextPage = ({ user }: any) => {
                 disallowEmptySelection
                 selectionMode="single"
                 selectedKeys={selected}
-                onSelectionChange={setSelected}
               >
                 <Dropdown.Item key="English">English</Dropdown.Item>
                 <Dropdown.Item key="Hindi">Hindi</Dropdown.Item>
