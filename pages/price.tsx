@@ -46,7 +46,6 @@ export default function Price({ loggedIn }: any) {
           ))}
         </div>
       </div>
-      {/* </di1v> */}
     </Layout>
   );
 }

@@ -13,7 +13,7 @@ export default {
     },
     {
       id: 3,
-      label: "My Collections",
+      label: "Collections",
       url: "/collection",
     },
     {
