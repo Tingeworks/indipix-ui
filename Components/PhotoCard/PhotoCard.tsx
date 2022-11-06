@@ -1,8 +1,6 @@
 import React from "react";
 import Image from "next/image";
 const PhotoCard = ({ handleClick, image, category }: any) => {
-  console.log(image);
-
   return (
     <>
       {image ? (

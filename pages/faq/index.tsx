@@ -71,15 +71,15 @@ export default function Faq({ loggedIn }: any) {
       <div className="h-[289px] flex items-center justify-center search-bg">
         <div className="container mx-auto px-5 lg:px-20 py-10">
           <div className="pt[100px] pb-[30px] text-center">
-            <h2 className="text-[45px] font-bold text-[#312525]">
+            <h2 className="text-2xl  lg:text-[45px] font-bold text-[#312525]">
               How can we help you?
             </h2>
           </div>
           <SearchBox className="bg-white" />
         </div>
       </div>
-      <div className="container mx-auto px-5 lg:px-20 py-10 mt-[20px] lg:mt-[50px]">
-        <h2 className="text-[28px] lg:text-[28px] font-bold leading-[51px] text-[#312F2F] mb-[30px] ">
+      <div className="container mx-auto px-4 lg:px-20 lg:py-10 mt-[20px] lg:mt-[50px]">
+        <h2 className="text-[20px] lg:text-[28px] font-bold leading-[51px] text-[#312F2F] lg:mb-[30px]">
           FAQs
         </h2>
         {/* card start */}

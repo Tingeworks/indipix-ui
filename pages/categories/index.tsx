@@ -56,7 +56,7 @@ export default function Categories(props: any) {
             />
           ))}
         </div>
-        <h1 className="text-center text-4xl font-bold text-white mt-5 uppercase">
+        <h1 className="text-center text-2xl lg:text-4xl font-bold text-white mt-5 uppercase">
           Explore our collections
         </h1>
       </div>
@@ -74,44 +74,20 @@ export default function Categories(props: any) {
           </h2>
           <CategoryCarousel data={categoryCarousel} />
         </div>
-        <div className="  flex justify-center">
+        <div className=" lg:mt-0 mt-[-50px] flex justify-center">
           <Pagination total={20} initialPage={1} />
         </div>
         {/* category by pagination start */}
         <Grid.Container className="mb-[60px] mt-10">
-          <Grid xs={2} md={4}>
+          <Grid xs={6} md={4}>
             <PhotoCard
               image="https://source.unsplash.com/random/300x400/?sig=70"
               category="architecture"
             />
           </Grid>
-          <Grid xs={2} md={4}>
+          <Grid xs={6} md={4}>
             <PhotoCard
               image="https://source.unsplash.com/random/300x400/?sig=56"
-              category="architecture"
-            />
-          </Grid>
-          <Grid xs={2} md={4}>
-            <PhotoCard
-              image="https://source.unsplash.com/random/300x400/?sig=54"
-              category="architecture"
-            />
-          </Grid>
-          <Grid xs={2} md={4}>
-            <PhotoCard
-              image="https://source.unsplash.com/random/300x400/?sig=51"
-              category="architecture"
-            />
-          </Grid>
-          <Grid xs={2} md={4}>
-            <PhotoCard
-              image="https://source.unsplash.com/random/300x400/?sig=503"
-              category="architecture"
-            />
-          </Grid>
-          <Grid xs={2} md={4}>
-            <PhotoCard
-              image="https://source.unsplash.com/random/300x400/?sig=58"
               category="architecture"
             />
           </Grid>

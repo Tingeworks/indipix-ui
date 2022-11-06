@@ -18,7 +18,7 @@ const Accordion = ({ title, content }: accordion) => {
           show
             ? "rounded-t-[11px] pb-[10px] pt-[26px]"
             : "rounded-[11px] py-[26px]"
-        } flex justify-between items-center cursor-pointer bg-[#FFB649] px-[40px] `}
+        } flex justify-between items-center cursor-pointer bg-[#FFB649] px-[40px]`}
       >
         <div className="title">{title}</div>
         <div className="">
