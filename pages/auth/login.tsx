@@ -70,28 +70,22 @@ const Login: NextPage = () => {
               }}
               onSubmit={async (values) => {
                 const response = await axios.post(
-                  `${CONFIG.API_URL}/auth/login`,
+                  `${CONFIG.API_URL}/auth/local`,
                   {
-                    email: values.identifier,
+                    identifier: values.identifier,
                     password: values.password,
                   }
                 );
 
                 // const data = await response.json();
 
-                if (response.status == 201) {
-                  setCookie(null, "jwt", response.data.token, {
+                if (response.status == 200) {
+                  setCookie(null, "jwt", response.data.jwt, {
                     maxAge: 30 * 24 * 60 * 60 * 60 * 60,
                     path: "/",
                   });
 
-                  const { role } = decodeJWT(response.data.token);
-
-                  if (role == "admin") {
-                    Router.push("/admin");
-                  } else {
-                    Router.push("/");
-                  }
+                  Router.push("/");
                 }
               }}
             >
@@ -101,7 +95,7 @@ const Login: NextPage = () => {
                     usingFormik={true}
                     name="identifier"
                     id="identifier"
-                    type="email"
+                    type="text"
                     placeholder="Username or email address"
                     className="focus:outline-none border rounded p-2 text-sm w-full"
                   />
@@ -147,29 +141,29 @@ const Login: NextPage = () => {
   );
 };
 
-export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
+// export async function getServerSideProps(context: any) {
+//   const cookies = nookies.get(context);
+//   const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${cookies.jwt}`,
+//     },
+//   });
 
-  const data = await response.json();
+//   const data = await response.json();
 
-  if (data.statusCode >= 400) {
-    return {
-      props: {},
-    };
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/",
-      },
-    };
-  }
-}
+//   if (data.statusCode >= 400) {
+//     return {
+//       props: {},
+//     };
+//   } else {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: "/",
+//       },
+//     };
+//   }
+// }
 
 export default Login;

@@ -19,13 +19,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 /** Home page */
-const Home: NextPage = ({ loggedIn, user, products }: any) => {
-  console.log(products);
+const Home: NextPage = ({ loggedIn, user, products, tags }: any) => {
+  // console.log(tags);
 
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
-      <Banner />
+      <Banner tags={tags} />
       <div className="container mx-auto px-5 lg:px-20 py-10">
         <h2 className="text-2xl font-black">Last Viewed</h2>
         <p className="text-sm">Pick up where you left off</p>
@@ -74,37 +74,62 @@ const Home: NextPage = ({ loggedIn, user, products }: any) => {
   );
 };
 
+const qs = require("qs");
+
 export async function getServerSideProps(context: any) {
   try {
     const cookies = nookies.get(context);
-    const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+
+    const tagsQuery = qs.stringify({
+      sort: ["views:desc"],
+      pagination: {
+        page: 1,
+        pageSize: 5,
+      },
+    });
+    const tagsResponse = await fetch(`${CONFIG.API_URL}/tags?${tagsQuery}`, {
+      method: "GET",
+    });
+    const tagsData = await tagsResponse.json();
+
+
+    const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${cookies.jwt}`,
       },
     });
-    const data = await response.json();
+    const userData = await userResponse.json();
 
-    const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
-    const ProductData = await ProductResponse.json();
+    // const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
+    // const ProductData = await ProductResponse.json();
 
-    if (data.statusCode >= 400) {
-      return {
-        props: {
-          loggedIn: false,
-          products: ProductData || [],
-          user: {},
-        },
-      };
-    } else {
-      return {
-        props: {
-          loggedIn: true,
-          products: ProductData || [],
-          user: data,
-        },
-      };
-    }
+    // if (data.statusCode >= 400) {
+    //   return {
+    //     props: {
+    //       loggedIn: false,
+    //       products: ProductData || [],
+    //       user: {},
+    //     },
+    //   };
+    // } else {
+    //   return {
+    //     props: {
+    //       loggedIn: true,
+    //       products: ProductData || [],
+    //       user: data,
+    //     },
+    //   };
+    // }
+
+    return {
+      props: {
+        loggedIn: userResponse.status == 200 ? true : false,
+        user: {},
+        products: [],
+        tags: tagsData,
+      },
+    };
   } catch (error) {
     return {
       notFound: true,

@@ -1,5 +1,5 @@
 export default {
-  API_URL: "http://139.180.143.234:3001/api",
+  API_URL: "http://139.180.143.234:1337/api",
   Navigation: [
     {
       id: 1,
