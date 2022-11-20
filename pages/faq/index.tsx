@@ -8,23 +8,11 @@ import Gallery from "../../Components/Gallery/Gallery";
 import Accordion from "../../Components/Accordion/Accordion";
 import { Grid } from "@nextui-org/react";
 import Support from "../../Components/Support/Support";
+import SEO from "../../Components/Misc/SEO";
+import Head from "next/head";
 
-export default function Faq({ loggedIn }: any) {
+export default function Faq({ loggedIn, faqs }: any) {
   const [id, setId] = useState(null);
-  let faqData = [
-    {
-      id: 1,
-      title: "Enim elit etiam natoque pellentesque nibh egestas.",
-      content:
-        "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make",
-    },
-    {
-      id: 2,
-      title: "Enim elit etiam natoque pellentesque nibh egestas.",
-      content:
-        "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make",
-    },
-  ];
 
   let supportData = [
     {
@@ -48,25 +36,11 @@ export default function Faq({ loggedIn }: any) {
     },
   ];
 
-  let renderFaq = null;
-  if (faqData.length) {
-    renderFaq = faqData?.map((item, index) => {
-      return (
-        <Grid xs={12} sm={6} key={index}>
-          <Accordion title={item.title} key={index} content={item.content} />
-        </Grid>
-      );
-    });
-  } else {
-    renderFaq = (
-      <div className="p-10 bg-gray-50 rounded-sm mt-5 text-xl text-gray-500">
-        <p>No products added yet</p>
-      </div>
-    );
-  }
-
   return (
     <Layout isLoggedIn={loggedIn}>
+      <Head>
+        <title>Indipix - India&apos;s largest platform for stock images</title>
+      </Head>
       {/* Work from here */}
       <div className="h-[289px] flex items-center justify-center search-bg">
         <div className="container mx-auto px-5 lg:px-20 py-10">
@@ -84,9 +58,18 @@ export default function Faq({ loggedIn }: any) {
         </h2>
         {/* card start */}
         <div className="accordion mb-[100px]">
-          <Grid.Container gap={2} justify="center">
-            {renderFaq}
-          </Grid.Container>
+          <div className="flex items-center">
+            {faqs.data?.map((item: any, index: number) => {
+              return (
+                <div key={index} className="w-full md:lg-1/2 lg:w-1/3" >
+                  <Accordion
+                    title={item.attributes.question}
+                    content={item.attributes.answer}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
         {/* card end */}
         {/* support */}
@@ -127,27 +110,31 @@ export default function Faq({ loggedIn }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-  const data = await response.json();
-  if (data.statusCode >= 400) {
+  try {
+    const cookies = nookies.get(context);
+
+    const faqsResponse = await fetch(`${CONFIG.API_URL}/faqs`, {
+      method: "GET",
+    });
+    const faqsData = await faqsResponse.json();
+
+    const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    });
+    const userData = await userResponse.json();
+
     return {
       props: {
-        loggedIn: false,
-        user: {},
+        loggedIn: userResponse.status == 200 ? true : false,
+        faqs: faqsData,
       },
     };
-  } else {
+  } catch (error) {
     return {
-      props: {
-        loggedIn: true,
-        user: data,
-      },
+      notFound: true,
     };
   }
 }

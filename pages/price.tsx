@@ -4,7 +4,9 @@ import CONFIG from "../CONFIG";
 import SEO from "../Components/Misc/SEO";
 import PricingCard from "../Components/PricingCard/PricingCard";
 
-export default function Price({ loggedIn }: any) {
+export default function Price({ loggedIn, packages }: any) {
+  console.log(packages.data);
+
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
@@ -41,9 +43,25 @@ export default function Price({ loggedIn }: any) {
         </div>
 
         <div className="p-10  bg-[#AB1C1C] grid grid-cols-4 gap-10">
-          {[{id:1, name: "team", price: 3000, limit: 10}, {id:2, name: "Enterprise", price: 20000, limit: "Custom"}, {id:3, name: "Personal", price: 1000, limit: 5}, {id:4, name: "Studio", price: 5000, limit: 25}].map((item) => (
-            <PricingCard favourite={item.id == 1} key={item.id} limit={item.limit} title={item.name} description={"Gain access to the biggest stock library of India"} price={item.price} />
+          {packages.data.map((item: any) => (
+            <PricingCard
+              key={item.id}
+              favourite={item.attributes.recommended}
+              limit={item.attributes.limit}
+              title={item.attributes.title}
+              description={item.attributes.description}
+              price={item.attributes.price + " INR/month"}
+              buttonLabel={"Subscribe"}
+            />
           ))}
+          <PricingCard
+            favourite={false}
+            limit="Custom"
+            title="Enterprise"
+            description="For large companies and organizations"
+            price="Custom"
+            buttonLabel="Contact Us"
+          />
         </div>
       </div>
     </Layout>
@@ -52,28 +70,15 @@ export default function Price({ loggedIn }: any) {
 
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+  const packageResponse = await fetch(`${CONFIG.API_URL}/subscriptions`, {
     method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
   });
-
-  const data = await response.json();
-
-  if (data.statusCode >= 400) {
-    return {
-      props: {
-        loggedIn: false,
-        user: {},
-      },
-    };
-  } else {
-    return {
-      props: {
-        loggedIn: true,
-        user: data,
-      },
-    };
-  }
+  const packageData = await packageResponse.json();
+  console.log(packageData.data);
+  return {
+    props: {
+      packages: packageData,
+      loggedIn: true,
+    },
+  };
 }

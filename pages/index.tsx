@@ -20,8 +20,6 @@ import Link from "next/link";
 
 /** Home page */
 const Home: NextPage = ({ loggedIn, user, products, tags }: any) => {
-  // console.log(tags);
-
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
@@ -55,13 +53,14 @@ const Home: NextPage = ({ loggedIn, user, products, tags }: any) => {
         {products.length != 0 ? (
           <Gallery>
             {products.map((item: any) => (
-              <ImageCard
-                id={item.id}
-                key={item.id}
-                name={item.title}
-                inWishList={false}
-                imageURL={`${CONFIG.API_URL}/product/image/${item.reduced_40}`}
-              />
+              <Link key={item.id} href={"/imgs/" + item.id}>
+                <img
+                  className=" hover:scale-105 transition-transform rounded-sm active:scale-90 "
+                  src={`${CONFIG.ROOT_URL}${item.attributes.thumbnail.data.attributes.url}`}
+                  // height={item.attributes.thumbnail.data.attributes.height}
+                  // width={item.attributes.thumbnail.data.attributes.height}
+                />
+              </Link>
             ))}
           </Gallery>
         ) : (
@@ -92,6 +91,24 @@ export async function getServerSideProps(context: any) {
     });
     const tagsData = await tagsResponse.json();
 
+    const productsQuery = qs.stringify({
+      sort: ["views:desc"],
+      pagination: {
+        page: 1,
+        pageSize: 6,
+      },
+      populate: "*",
+    });
+
+    const productsResponse = await fetch(
+      `${CONFIG.API_URL}/products?${productsQuery}`,
+      {
+        method: "GET",
+      }
+    );
+    const productsData = await productsResponse.json();
+
+    console.log(productsData.data[0].attributes.thumbnail);
 
     const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
       method: "GET",
@@ -101,32 +118,11 @@ export async function getServerSideProps(context: any) {
     });
     const userData = await userResponse.json();
 
-    // const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
-    // const ProductData = await ProductResponse.json();
-
-    // if (data.statusCode >= 400) {
-    //   return {
-    //     props: {
-    //       loggedIn: false,
-    //       products: ProductData || [],
-    //       user: {},
-    //     },
-    //   };
-    // } else {
-    //   return {
-    //     props: {
-    //       loggedIn: true,
-    //       products: ProductData || [],
-    //       user: data,
-    //     },
-    //   };
-    // }
-
     return {
       props: {
         loggedIn: userResponse.status == 200 ? true : false,
         user: {},
-        products: [],
+        products: productsData.data,
         tags: tagsData,
       },
     };

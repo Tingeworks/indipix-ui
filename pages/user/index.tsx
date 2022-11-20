@@ -19,28 +19,36 @@ import CONFIG from "../../CONFIG";
 import Navbar from "../../Components/Layout/Navbar";
 
 /** Home page */
-const User: NextPage = ({ user }: any) => {
-  const [isLoggedIn, setLoggedInStatus] = useState(false);
+const User: NextPage = ({ user, loggedIn }: any) => {
   const [selected, setSelected] = useState(new Set(["English"]));
   const selectedValue = useMemo(
     () => Array.from(selected).join(", ").replaceAll("_", " "),
     [selected]
   );
-  useEffect(() => {
-    const { jwt } = parseCookies();
 
-    if (jwt) {
-      setLoggedInStatus(true);
+  const deleteAccount = (id: number) => {
+    const { jwt } = parseCookies();
+    const permission = confirm("Are you sure?");
+
+    if (permission == true) {
+      fetch(`${CONFIG.API_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + jwt,
+        },
+      }).then((res) => {
+        console.log(res);
+      });
     }
-  }, []);
+  };
 
   return (
     <>
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar isLoggedIn={loggedIn} />
       <SEO
         title={`${user.username} is on Indipix`}
-        description=""
-        keywords=""
+        description={`${user.username} is on Indipix`}
+        keywords={`indipix, indipix ${user.username}`}
       />
 
       <div className="grid grid-cols-12   flex-1 ">
@@ -86,11 +94,11 @@ const User: NextPage = ({ user }: any) => {
             <tbody>
               <tr className="mb-5">
                 <td>
-                  <span className="text-black text-[15px]">Username</span>
+                  <span className="text-black text-[15px]">Name</span>
                 </td>
                 <td>
                   <span className="text-[#545252] text-[15px]">
-                    bhavinijain
+                    {user.name}
                   </span>
                 </td>
                 <td>
@@ -104,14 +112,14 @@ const User: NextPage = ({ user }: any) => {
                   <span className="text-black text-[15px]">Password</span>
                 </td>
                 <td>
-                  <span className="text-[#545252] text-[15px]">
-                    bhavinijain
-                  </span>
+                  <span className="text-[#545252] text-[15px]">********</span>
                 </td>
                 <td>
-                  <button className="text-[#0E6EC6] text-[15px] underline">
-                    edit
-                  </button>
+                  <Link href={"/user/passwordreset"}>
+                    <button className="text-[#0E6EC6] text-[15px] underline">
+                      edit
+                    </button>
+                  </Link>
                 </td>
               </tr>
               <tr className="pb-5">
@@ -119,7 +127,9 @@ const User: NextPage = ({ user }: any) => {
                   <span className="text-black text-[15px]">User ID</span>
                 </td>
                 <td>
-                  <span className="text-[#545252] text-[15px]">user234</span>
+                  <span className="text-[#545252] text-[15px]">
+                    {user.username}
+                  </span>
                 </td>
                 <td>
                   <button className="text-[#0E6EC6] text-[15px] underline">
@@ -135,7 +145,7 @@ const User: NextPage = ({ user }: any) => {
                 </td>
                 <td>
                   <span className="text-[#545252] text-[15px]">
-                    bhavinisjain@gmail.com
+                    {user.email}
                   </span>
                 </td>
                 <td>
@@ -147,7 +157,7 @@ const User: NextPage = ({ user }: any) => {
             </tbody>
           </table>
           {/* preference */}
-          <div className="mt-[27px]">
+          <div className="mt-[27px] opacity-40  cursor-not-allowed">
             <h2 className="text-[28px] font-bold mb-[38px] text-black">
               PREFERENCES
             </h2>
@@ -165,7 +175,7 @@ const User: NextPage = ({ user }: any) => {
                   <td className="text-right">
                     <span className="switch-container ">
                       <label className="switch ">
-                        <input type="checkbox" />
+                        <input disabled type="checkbox" />
                         <span className="slider round"></span>
                       </label>
                     </span>
@@ -180,7 +190,11 @@ const User: NextPage = ({ user }: any) => {
                   <td className="text-right">
                     <span className="switch-container ">
                       <label className="switch ">
-                        <input type="checkbox" />
+                        <input
+                          disabled
+                          type="checkbox"
+                          className="select-none"
+                        />
                         <span className="slider round"></span>
                       </label>
                     </span>
@@ -189,11 +203,11 @@ const User: NextPage = ({ user }: any) => {
               </tbody>
             </table>
           </div>
-          <h4 className="text-[21px] font-bold mt-[50px] mb-[40px] text-black">
+          <h4 className="text-[21px] font-bold mt-[50px] mb-[40px] text-black  opacity-50 cursor-not-allowed">
             Language preference
           </h4>
-          <div className="mb-[50px] dropdown-element">
-            <Dropdown>
+          <div className="mb-[50px] dropdown-element opacity-50 cursor-not-allowed">
+            <Dropdown isDisabled={true}>
               <Dropdown.Button flat color="default" css={{ tt: "capitalize" }}>
                 {selectedValue}
               </Dropdown.Button>
@@ -209,7 +223,10 @@ const User: NextPage = ({ user }: any) => {
               </Dropdown.Menu>
             </Dropdown>
           </div>
-          <button className="text-[#EC3030] text-[18px] font-normal underline mb-20">
+          <button
+            onClick={() => deleteAccount(user.id)}
+            className="text-[#EC3030] text-[18px] font-normal underline mb-20"
+          >
             Delete account
           </button>
         </section>
@@ -221,39 +238,63 @@ const User: NextPage = ({ user }: any) => {
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
 
-  if (cookies.jwt) {
-    const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${cookies.jwt}`,
-      },
-    });
+  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+  const userData = await userResponse.json();
 
-    const userData = await response.json();
-    console.log(userData);
-    if (userData.statusCode >= 400) {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/auth/login",
-        },
-      };
-    } else {
-      return {
-        props: {
-          loggedIn: true,
-          user: userData,
-        },
-      };
-    }
-  } else {
+  if (userResponse.status !== 200) {
     return {
-      redirect: {
-        permanent: false,
-        destination: "/auth/login",
-      },
+      notFound: true,
     };
   }
+  return {
+    props: {
+      loggedIn: true,
+      user: userData,
+    },
+  };
 }
+
+// export async function getServerSideProps(context: any) {
+//   const cookies = nookies.get(context);
+
+//   if (cookies.jwt) {
+//     const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${cookies.jwt}`,
+//       },
+//     });
+
+//     const userData = await response.json();
+//     console.log(userData);
+//     if (userData.statusCode >= 400) {
+//       return {
+//         redirect: {
+//           permanent: false,
+//           destination: "/auth/login",
+//         },
+//       };
+//     } else {
+//       return {
+//         props: {
+//           loggedIn: true,
+//           user: userData,
+//         },
+//       };
+//     }
+//   } else {
+//     return {
+//       redirect: {
+//         permanent: false,
+//         destination: "/auth/login",
+//       },
+//     };
+//   }
+// }
 
 export default User;
