@@ -17,43 +17,45 @@ import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
 import Navbar from "../../Components/Layout/Navbar";
+import Offcanvas from "../../Components/Offcanvas/Offcanvas";
 
 /** Home page */
 const User: NextPage = ({ user, loggedIn }: any) => {
   const [selected, setSelected] = useState(new Set(["English"]));
-  const selectedValue = useMemo(
-    () => Array.from(selected).join(", ").replaceAll("_", " "),
-    [selected]
-  );
+  // const selectedValue = useMemo(
+  //   () => Array.from(selected).join(", ").replaceAll("_", " "),
+  //   [selected]
+  // );
 
-  const deleteAccount = (id: number) => {
-    const { jwt } = parseCookies();
-    const permission = confirm("Are you sure?");
-
-    if (permission == true) {
-      fetch(`${CONFIG.API_URL}/users/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + jwt,
-        },
-      }).then((res) => {
-        console.log(res);
-      });
-    }
-  };
+  // const deleteAccount = (id: number) => {
+  //   const { jwt } = parseCookies();
+  //   const permission = confirm("Are you sure?");
+  //
+  //   if (permission == true) {
+  //     fetch(`${CONFIG.API_URL}/users/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         Authorization: "Bearer " + jwt,
+  //       },
+  //     }).then((res) => {
+  //       console.log(res);
+  //     });
+  //   }
+  // };
 
   return (
     <>
       <Navbar isLoggedIn={loggedIn} />
-      <SEO
-        title={`${user.username} is on Indipix`}
-        description={`${user.username} is on Indipix`}
-        keywords={`indipix, indipix ${user.username}`}
-      />
+      {/*<SEO*/}
+      {/*  title={`${user.username} is on Indipix`}*/}
+      {/*  description={`${user.username} is on Indipix`}*/}
+      {/*  keywords={`indipix, indipix ${user.username}`}*/}
+      {/*/>*/}
 
-      <div className="grid grid-cols-12   flex-1 ">
+      <div className="grid grid-cols-12 flex-1 ">
+        <Offcanvas />
         {/* sidebar */}
-        <div className="bg-[#B83A3A] col-span-2 p-10 w-[250px] min-h-screen px-[18px] py-[50px]">
+        <div className="bg-[#B83A3A] col-span-2 p-10 w-[250px] min-h-screen px-[18px] py-[50px] hidden lg:block">
           <ul>
             <li className="pb-[19px] border-b-[.5px] mb-[18px] border-white">
               <Link href="#">
@@ -87,10 +89,10 @@ const User: NextPage = ({ user, loggedIn }: any) => {
         </div>
         {/* sidebar */}
         {/* main */}
-        <section className="pt-[50px] pl-[55px] col-span-10">
+        <section className="pt-[50px] px-5 lg:pl-[55px] lg:col-span-10 col-span-12">
           {/* user details */}
           <h2 className="text-[28px] font-bold ">USER DETAILS</h2>
-          <table className=" border-b border-slate table-auto border-separate w-10/12 border-spacing-y-6  text-left">
+          <table className=" border-b border-slate table-auto border-separate w-full lg:w-10/12 border-spacing-y-6  text-left">
             <tbody>
               <tr className="mb-5">
                 <td>
@@ -98,7 +100,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                 </td>
                 <td>
                   <span className="text-[#545252] text-[15px]">
-                    {user.name}
+                    {/*{user.name}*/}
                   </span>
                 </td>
                 <td>
@@ -128,7 +130,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                 </td>
                 <td>
                   <span className="text-[#545252] text-[15px]">
-                    {user.username}
+                    {/*{user.username}*/}
                   </span>
                 </td>
                 <td>
@@ -145,7 +147,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                 </td>
                 <td>
                   <span className="text-[#545252] text-[15px]">
-                    {user.email}
+                    {/*{user.email}*/}
                   </span>
                 </td>
                 <td>
@@ -164,7 +166,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
             <h4 className="text-[21px] font-bold  text-black">
               Email preferences
             </h4>
-            <table className="table-auto border-separate  w-10/12 border-spacing-y-6">
+            <table className="table-auto border-separate w-full lg:w-10/12 border-spacing-y-6">
               <tbody>
                 <tr>
                   <td>
@@ -207,94 +209,55 @@ const User: NextPage = ({ user, loggedIn }: any) => {
             Language preference
           </h4>
           <div className="mb-[50px] dropdown-element opacity-50 cursor-not-allowed">
-            <Dropdown isDisabled={true}>
-              <Dropdown.Button flat color="default" css={{ tt: "capitalize" }}>
-                {selectedValue}
-              </Dropdown.Button>
-              <Dropdown.Menu
-                aria-label="Single selection actions"
-                color="secondary"
-                disallowEmptySelection
-                selectionMode="single"
-                selectedKeys={selected}
-              >
-                <Dropdown.Item key="English">English</Dropdown.Item>
-                <Dropdown.Item key="Hindi">Hindi</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            {/*<Dropdown isDisabled={true}>*/}
+            {/*  <Dropdown.Button flat color="default" css={{ tt: "capitalize" }}>*/}
+            {/*    {selectedValue}*/}
+            {/*  </Dropdown.Button>*/}
+            {/*  <Dropdown.Menu*/}
+            {/*    aria-label="Single selection actions"*/}
+            {/*    color="secondary"*/}
+            {/*    disallowEmptySelection*/}
+            {/*    selectionMode="single"*/}
+            {/*    selectedKeys={selected}*/}
+            {/*  >*/}
+            {/*    <Dropdown.Item key="English">English</Dropdown.Item>*/}
+            {/*    <Dropdown.Item key="Hindi">Hindi</Dropdown.Item>*/}
+            {/*  </Dropdown.Menu>*/}
+            {/*</Dropdown>*/}
           </div>
-          <button
-            onClick={() => deleteAccount(user.id)}
-            className="text-[#EC3030] text-[18px] font-normal underline mb-20"
-          >
-            Delete account
-          </button>
+          {/*<button*/}
+          {/*  onClick={() => deleteAccount(user.id)}*/}
+          {/*  className="text-[#EC3030] text-[18px] font-normal underline mb-20"*/}
+          {/*>*/}
+          {/*  Delete account*/}
+          {/*</button>*/}
         </section>
       </div>
     </>
   );
 };
-
-export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-
-  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-  const userData = await userResponse.json();
-
-  if (userResponse.status !== 200) {
-    return {
-      notFound: true,
-    };
-  }
-  return {
-    props: {
-      loggedIn: true,
-      user: userData,
-    },
-  };
-}
-
+//
 // export async function getServerSideProps(context: any) {
 //   const cookies = nookies.get(context);
-
-//   if (cookies.jwt) {
-//     const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-//       method: "GET",
-//       headers: {
-//         Authorization: `Bearer ${cookies.jwt}`,
-//       },
-//     });
-
-//     const userData = await response.json();
-//     console.log(userData);
-//     if (userData.statusCode >= 400) {
-//       return {
-//         redirect: {
-//           permanent: false,
-//           destination: "/auth/login",
-//         },
-//       };
-//     } else {
-//       return {
-//         props: {
-//           loggedIn: true,
-//           user: userData,
-//         },
-//       };
-//     }
-//   } else {
+//
+//   const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${cookies.jwt}`,
+//     },
+//   });
+//   const userData = await userResponse.json();
+//
+//   if (userResponse.status !== 200) {
 //     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/auth/login",
-//       },
+//       notFound: true,
 //     };
 //   }
+//   return {
+//     props: {
+//       loggedIn: true,
+//       user: userData,
+//     },
+//   };
 // }
-
 export default User;
