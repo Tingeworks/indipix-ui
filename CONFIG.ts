@@ -1,5 +1,6 @@
 export default {
-  API_URL: "http://139.180.143.234:3001/api",
+  API_URL: "http://139.180.143.234:1337/api",
+  ROOT_URL: "http://139.180.143.234:1337",
   Navigation: [
     {
       id: 1,
@@ -18,8 +19,8 @@ export default {
     },
     {
       id: 4,
-      label: "Pricing",
-      url: "/price",
+      label: "FAQ",
+      url: "/faq",
     }
   ],
 };

@@ -16,23 +16,23 @@ const Accordion = ({ title, content }: accordion) => {
       <div
         className={`accordion-header  ${
           show
-            ? "rounded-t-[11px] pb-[10px] pt-[26px]"
-            : "rounded-[11px] py-[26px]"
-        } flex justify-between items-center cursor-pointer bg-[#FFB649] px-[40px]`}
+            ? "rounded-t-[11px] px-5 py-3"
+            : "rounded-[11px] py-3"
+        } flex justify-between items-center cursor-pointer bg-[#FFB649] px-[40px] `}
       >
-        <div className="title">{title}</div>
+        <div className="title text-white">{title}</div>
         <div className="">
           {show ? (
-            <MdKeyboardArrowUp size={30} color="#585555" />
+            <MdKeyboardArrowUp size={30} color="white" />
           ) : (
-            <MdKeyboardArrowDown size={30} color="#585555" />
+            <MdKeyboardArrowDown size={30} color="white" />
           )}
         </div>
       </div>
       <div
         className={`${
           show ? "block" : "hidden"
-        } bg-[#FFB649] px-[40px] pb-[26px] rounded-b-[11px]`}
+        } bg-[#ffb64980] rounded-b-[11px] px-10 py-3`}
       >
         {content}
       </div>

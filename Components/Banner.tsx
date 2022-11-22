@@ -2,7 +2,9 @@
 import React from "react";
 import SearchBox from "./Form/SearchBox";
 
-const Banner: React.FC = () => {
+const Banner: React.FC<any> = (props) => {
+  console.log(props.tags)
+
   return (
     <div
       style={{
@@ -18,10 +20,10 @@ const Banner: React.FC = () => {
           </h1>
           <SearchBox className="bg-white" />
           <ul className="flex mt-10">
-            {["Summer", "Business", "Water", "Abstract"].map((item, index) => (
+            {props.tags.data.map((item : any, index: number) => (
               <li key={index}>
                 <a className="cursor-pointer px-8 text-xs rounded-full py-1.5 text-white bg-[#ffffff6c] mr-3">
-                  {item}
+                  {item.attributes.label}
                 </a>
               </li>
             ))}

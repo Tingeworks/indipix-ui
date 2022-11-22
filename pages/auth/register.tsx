@@ -8,6 +8,7 @@ import Router from "next/router";
 import { Formik, Field, Form } from "formik";
 import nookies from "nookies";
 import { FaArrowCircleLeft, FaChevronRight } from "react-icons/fa";
+import { setCookie } from "nookies";
 
 // Domestic imports
 import SEO from "../../Components/Misc/SEO";
@@ -56,14 +57,14 @@ const Register: NextPage = () => {
               }}
               onSubmit={async (values) => {
                 const response = await fetch(
-                  `${CONFIG.API_URL}/auth/register`,
+                  `${CONFIG.API_URL}/auth/local/register`,
                   {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                       username: values.username,
                       email: values.email,
-                      fullName: values.first_name + " " + values.last_name,
+                      name: values.first_name + " " + values.last_name,
                       password: values.password,
                     }),
                   }
@@ -71,7 +72,11 @@ const Register: NextPage = () => {
 
                 const data = await response.json();
 
-                if (response.status == 201) {
+                if (response.status == 200) {
+                  setCookie(null, "jwt", data.jwt, {
+                    maxAge: 30 * 24 * 60 * 60 * 60 * 60,
+                    path: "/",
+                  });
                   Router.push("/auth/done");
                 }
               }}
@@ -126,10 +131,6 @@ const Register: NextPage = () => {
                   />
                 </div>
 
-                <p className="text-xs text-center text-red text-red-700">
-                  <Link href="/">Forgot Password</Link>
-                </p>
-
                 <button
                   type="submit"
                   className="flex items-center justify-center text-white bg-red-700 w-full mt-5 py-3 hover:bg-black rounded-sm select-none"
@@ -141,10 +142,10 @@ const Register: NextPage = () => {
             </Formik>
 
             <div className="text-xs text-center mt-5">
-              Don&apos;t have an account?{" "}
+              Have an account?{" "}
               <Link href="/">
                 <span className="text-red-700 cursor-pointer ml-1">
-                  Sign up
+                  Sign In
                 </span>
               </Link>
             </div>
@@ -154,30 +155,5 @@ const Register: NextPage = () => {
     </>
   );
 };
-
-export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-
-  const data = await response.json();
-
-  if (data.statusCode >= 400) {
-    return {
-      props: {},
-    };
-  } else {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/",
-      },
-    };
-  }
-}
 
 export default Register;
