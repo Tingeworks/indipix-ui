@@ -9,7 +9,7 @@ import ImageCard from "./ImageCard";
 
 const Gallery = (props: any) => {
   return (
-    <div className="my-5 gap-5 w-full columns-1 lg:columns-3 xl:columns-4 content-center">
+    <div className="my-5 w-full columns-1 lg:columns-3 xl:columns-4 content-center">
         {props.children}
     </div>
   );

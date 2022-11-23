@@ -45,16 +45,22 @@ export default function Categories({ categories }: any) {
         </div>
 
         {/* category by pagination start */}
-        <Grid.Container className="mb-[60px] mt-10">
+        {/* <Grid.Container className="mb-[60px] mt-10"> */}
+        {/* <div className="container flex mx-auto flex-wrap gap-5 items-start"> */}
+        <Gallery>
           {categories.data.map((item: any) => (
-            <Grid key={item.id} xs={2} md={4}>
-              <PhotoCard
-                image="http://139.180.143.234:1337/uploads/lorenzo_herrera_p0j_m_E6m_Go4_unsplash_1ee9aa9889.jpg"
-                category={item.attributes.title}
-              />
-            </Grid>
+            <Link key={item.id} href={`/categories/${item.id}`}>
+              <div className="relative">
+                <img
+                  className=" hover:scale-105 transition-transform rounded-sm active:scale-90 mb-3"
+                  src={`${CONFIG.ROOT_URL}${item.attributes.thumbnail.data.attributes.url}`}
+                />
+                <span className="absolute top-0 left-0 flex items-center justify-center right-0 bottom-0 text-white bg-[#00000063] opacity-0 hover:opacity-100 transition-opacity cursor-pointer">{`${item.attributes.title}`}</span>
+              </div>
+            </Link>
           ))}
-        </Grid.Container>
+        </Gallery>
+        {/* </Grid.Container> */}
         {/* category by pagination end */}
         <div className="pt-10 mb-20  flex justify-center">
           <Pagination
@@ -71,6 +77,8 @@ export default function Categories({ categories }: any) {
 const qs = require("qs");
 import nookies from "nookies";
 import CONFIG from "../../CONFIG";
+import Gallery from "../../Components/Gallery/Gallery";
+import Link from "next/link";
 
 export async function getServerSideProps(context: any) {
   try {

@@ -51,50 +51,53 @@ const Admin: NextPage = ({ user, loggedIn, totalUsers }: any) => {
 };
 
 export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
+  return {
+    notFound: true,
+  };
+  // const cookies = nookies.get(context);
+  // const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+  //   method: "GET",
+  //   headers: {
+  //     Authorization: `Bearer ${cookies.jwt}`,
+  //   },
+  // });
 
-  const data = await response.json();
+  // const data = await response.json();
 
-  const userCountResponse = await fetch(`${CONFIG.API_URL}/auth/getusercount`, {
-    redirect: "follow",
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-  const userCountData = await userCountResponse.json();
+  // const userCountResponse = await fetch(`${CONFIG.API_URL}/auth/getusercount`, {
+  //   redirect: "follow",
+  //   method: "GET",
+  //   headers: {
+  //     Authorization: `Bearer ${cookies.jwt}`,
+  //   },
+  // });
+  // const userCountData = await userCountResponse.json();
 
-  if (data.statusCode >= 400) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/auth/login",
-      },
-    };
-  } else {
-    if (data.role == "user") {
-      return {
-        redirect: {
-          permanent: false,
-          destination: "/auth/login",
-        },
-      };
-    } else {
-      return {
-        props: {
-          loggedIn: true,
-          totalUsers: userCountData,
-          user: data,
-        },
-      };
-    }
-  }
+  // if (data.statusCode >= 400) {
+  //   return {
+  //     redirect: {
+  //       permanent: false,
+  //       destination: "/auth/login",
+  //     },
+  //   };
+  // } else {
+  //   if (data.role == "user") {
+  //     return {
+  //       redirect: {
+  //         permanent: false,
+  //         destination: "/auth/login",
+  //       },
+  //     };
+  //   } else {
+  //     return {
+  //       props: {
+  //         loggedIn: true,
+  //         totalUsers: userCountData,
+  //         user: data,
+  //       },
+  //     };
+  //   }
+  // }
 }
 
 export default Admin;
