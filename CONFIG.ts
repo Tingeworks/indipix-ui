@@ -1,6 +1,6 @@
 export default {
-  API_URL: "http://139.180.143.234:1337/api",
-  ROOT_URL: "http://139.180.143.234:1337",
+  API_URL: "https://admin.indipix.in/api",
+  ROOT_URL: "https://admin.indipix.in",
   Navigation: [
     {
       id: 1,
