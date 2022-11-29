@@ -107,7 +107,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
                       type="button"
                       Label="Profile"
                       style="Secondary"
-                      icon={<FaUserAlt />}
+                      // icon={<FaUserAlt />}
                     />
 
                     <div
@@ -181,7 +181,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
           <div className="flex items-center mt-10">
             <div className="w-1/6">
               <Link href="/user">
-                <FaUserCircle className="text-4xl cursor-pointer" />
+                <p><FaUserCircle className="text-4xl cursor-pointer" /></p>
               </Link>
             </div>
             {/* <div className="flex-1"> */}

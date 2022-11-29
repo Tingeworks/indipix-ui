@@ -76,7 +76,7 @@ const Home: NextPage = ({ loggedIn, user, products, tags }: any) => {
 const qs = require("qs");
 
 export async function getServerSideProps(context: any) {
-  try {
+  // try {
     const cookies = nookies.get(context);
 
     const tagsQuery = qs.stringify({
@@ -86,6 +86,7 @@ export async function getServerSideProps(context: any) {
         pageSize: 5,
       },
     });
+
     const tagsResponse = await fetch(`${CONFIG.API_URL}/tags?${tagsQuery}`, {
       method: "GET",
     });
@@ -107,8 +108,7 @@ export async function getServerSideProps(context: any) {
       }
     );
     const productsData = await productsResponse.json();
-
-    console.log(productsData.data[0].attributes.thumbnail);
+      console.log(productsData)
 
     const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
       method: "GET",
@@ -126,11 +126,11 @@ export async function getServerSideProps(context: any) {
         tags: tagsData,
       },
     };
-  } catch (error) {
-    return {
-      notFound: true,
-    };
-  }
+  // } catch (error) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 }
 
 export default Home;

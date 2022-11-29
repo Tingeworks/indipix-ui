@@ -46,6 +46,7 @@ export default function Price({ loggedIn, packages }: any) {
           {packages.data.map((item: any) => (
             <PricingCard
               key={item.id}
+              id={item.id}
               favourite={item.attributes.recommended}
               limit={item.attributes.limit}
               title={item.attributes.title}

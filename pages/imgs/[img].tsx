@@ -1,23 +1,30 @@
 // NextJS & React imports
 import type { GetServerSideProps, NextPage } from "next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Modal, Text } from "@nextui-org/react";
 import { BsWhatsapp, BsFacebook, BsTwitter } from "react-icons/bs";
+import Link from "next/link";
+
 // Third Party imports
 import ReactMarkdown from "react-markdown";
+import { FaSearchPlus } from "react-icons/fa";
+import nookies, { parseCookies } from "nookies";
 // Domestic imports
 import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import Gallery from "../../Components/Gallery/Gallery";
 import SearchBox from "../../Components/Form/SearchBox";
-import { FaSearchPlus } from "react-icons/fa";
-import Link from "next/link";
 import CONFIG from "../../CONFIG";
+import jwtDecode from "jwt-decode";
 
 /** Image page */
-const Image: NextPage<{ product: any, products: any }> = ({ product, products }) => {
+const Image: NextPage<{ product: any; products: any }> = ({
+  product,
+  products,
+}) => {
   // console.log(product);
+  const cookies = parseCookies();
 
   const router = useRouter();
   const { img } = router.query;
@@ -45,10 +52,51 @@ const Image: NextPage<{ product: any, products: any }> = ({ product, products })
   const [isLoading, setIsloading] = useState(false);
   const handleSave = () => {
     setIsSave(!isSave);
-    // alert(img);
   };
   // save functionality end
 
+  const addToViewed = (userID: number, itemToAddID: number) => {
+    console.log("LOL")
+    fetch(`${CONFIG.API_URL}/users/${userID}?populate=*`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`
+      },
+    })
+      .then((res) => res.json())
+      .then((userdata) => {
+        console.log(userdata)
+        let viewed = [itemToAddID];
+
+        if (userdata.data.attributes.last_vieweds.length > 0) {
+          userdata.data.attributes.last_vieweds.forEach((element: any) => {
+            viewed.push(element.id);
+          });
+        }
+       
+
+        fetch(`${CONFIG.API_URL}/users/${userID}`, {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${cookies.jwt}`,
+          },
+          body: JSON.stringify({
+            data: {
+              last_vieweds: viewed,
+            },
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      });
+  };
+
+  useEffect(() => {
+    // console.log()
+    // addToViewed(jwtDecode(cookies.jwt).id as number, product.id);
+  }, [])
+  
+  
   return (
     <Layout isLoggedIn={getAccessToken() !== "" || undefined ? true : false}>
       <SEO
@@ -56,7 +104,11 @@ const Image: NextPage<{ product: any, products: any }> = ({ product, products })
         description=""
         keywords=""
       />
-      <div className="py-5" style={{ backgroundImage: "url(/banner.png)" }}>
+      <div
+        // onLoad={() => }
+        className="py-5"
+        style={{ backgroundImage: "url(/banner.png)" }}
+      >
         <div className="container mx-auto px-5 lg:px-20">
           <SearchBox className="bg-white" />
         </div>
@@ -102,7 +154,7 @@ const Image: NextPage<{ product: any, products: any }> = ({ product, products })
             {product.attributes.price} INR
           </h5>
 
-          <Link href={`/checkout/select?id=${img}`}>
+          <Link href={`/price`}>
             <button className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase">
               Download
             </button>
@@ -163,7 +215,7 @@ const Image: NextPage<{ product: any, products: any }> = ({ product, products })
   );
 };
 
-const qs = require("qs") 
+const qs = require("qs");
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.params?.img as string;
@@ -192,7 +244,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       product: ProductData.data,
-      products: productsData.data
+      products: productsData.data,
     },
   };
 };

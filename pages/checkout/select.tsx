@@ -5,41 +5,22 @@ import Button from "../../Components/Form/Button";
 import Link from "next/link";
 import CONFIG from "../../CONFIG";
 import { parseCookies } from "nookies";
-
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
+import CheckoutForm from "../../Components/Form/CheckoutForm";
 
-export default function Select({ product }: any) {
+const stripePromise = loadStripe("pk_test_NwaCFZRZ6BPD8OtMkBv5nTAl00r0Mh2LBP");
+
+export default function Select({ packageData }: any) {
   const [imageformat, setImageFormat] = useState(0);
   const [subscription, setSubscription] = useState<number>(0);
   const [data, setData] = useState<any>();
   const cookies = parseCookies();
   const router = useRouter();
-  // /checkout/confirm?id=${product[0].id}&package=${subscription}
-  useEffect(() => {
-    fetch(`${CONFIG.API_URL}/subscription/`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data.items);
-        console.log(data);
-      });
-  }, []);
 
-  const Subscribe = (id: number) => {
-    console.log(id);
-    fetch(`${CONFIG.API_URL}/stripepayment/createPaymentIntent`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${cookies.jwt}`,
-      },
-      body: JSON.stringify({
-        type: "subscription",
-        id: id,
-      }),
-    })
-      .then((response) => response.json())
-      .then((result) => router.push(`/checkout/confirm?secret=${result.clientSecret}`))
-      .catch((error) => console.log("error", error));
+  const options = {
+    clientSecret: router.query.pi,
   };
 
   return (
@@ -52,84 +33,21 @@ export default function Select({ product }: any) {
       <div
         style={{
           background: 'url("/background-subscriptions.png")',
+          height: "90vh",
         }}
+        className="flex items-center w-full justify-center"
       >
-        <div className=" container mx-auto px-5 lg:px-10 flex items-center flex-col">
-          <h1 className="text-2xl lg:text-4xl font-bold text-center pt-16 lg:px-32">
-            Great! Now all you have to do is select your image formats and
-            subscription details
+        <div className="p-10 bg-white rounded-xl shadow-lg">
+          <h1 className="text-3xl font-bold capitalize">
+            Thanks for showing interest in our products
           </h1>
-
-          <div className="bg-white border-4 border-black p-10 mt-10 mb-10">
-            <div className="flex gap-10 flex-col lg:flex-row items-center">
-              <div>
-                <img
-                  style={{
-                    height: "30vh",
-                  }}
-                  src={`${CONFIG.API_URL}/product/image/${product[0].reduced_40}`}
-                  alt={product[0].title}
-                />
-              </div>
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold"> {product[0].title}</h2>
-                <p className="text-slate-400 text-xs my-5">
-                  PHOTO ID- {product[0].productPlaceHolder.slice(0, -4)}
-                </p>
-              </div>
-            </div>
-            <div className="flex gap-10 items-center mt-10">
-              <div className="flex-1">
-                {data &&
-                  data.map((item: any) => (
-                    <div
-                      key={item.id}
-                      onClick={() => setSubscription(item.id)}
-                      className="flex mb-5  gap-10 cursor-pointer"
-                    >
-                      <div className="flex gap-5 items-center">
-                        <span
-                          className={`w-5 h-5 inline-block border-4 rounded-full ${
-                            subscription == item.id && "bg-[#EA6940]"
-                          } border-[#EA6940]`}
-                        ></span>
-
-                        <div>
-                          <h3 className="font-bold text-xl">{item.name}</h3>
-                          <p>
-                            <span className="font-bold">
-                              Rs. {item.price / item.downloadable_limit}
-                            </span>{" "}
-                            per image
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="text-2xl">
-                        <span className="font-bold">Rs. {item.price}</span>/mo
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-
-            <div className="text-center mt-5">
-              {subscription != undefined ? (
-                // <Link
-                //   href={`/checkout/confirm?id=${product[0].id}&package=${subscription}`}
-                // >
-                  <button
-                    onClick={() => Subscribe(subscription)}
-                    className=" hover:bg-black uppercase bg-[#EA6940] text-white px-5 py-1 font-bold text-xl rounded-full"
-                  >
-                    Continue
-                  </button>
-                // </Link>
-              ) : (
-                <p className="uppercase py-5">Pick a subsciption to continue</p>
-              )}
-            </div>
-          </div>
+          <p>Please fill up payment details to procceed with the purchase</p>
+          <Elements
+            stripe={stripePromise}
+            options={{ clientSecret: router.query.pi as string }}
+          >
+            <CheckoutForm />
+          </Elements>
         </div>
       </div>
     </Layout>
@@ -137,14 +55,15 @@ export default function Select({ product }: any) {
 }
 
 export const getServerSideProps = async (context: any) => {
-  const id = context.query?.id as string;
-  console.log(id);
-  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/${id}`);
-  const ProductData = await ProductResponse.json();
-  console.log(ProductData);
+  console.log(context.query.id);
+  const packageResponse = await fetch(
+    `${CONFIG.API_URL}/subscriptions/${context.query.id}`
+  );
+  const packageData = await packageResponse.json();
+  console.log(packageData);
   return {
     props: {
-      product: ProductData,
+      packageData: packageData.data,
     },
   };
 };

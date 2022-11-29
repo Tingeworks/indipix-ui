@@ -141,29 +141,4 @@ const Login: NextPage = () => {
   );
 };
 
-// export async function getServerSideProps(context: any) {
-//   const cookies = nookies.get(context);
-//   const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
-//     method: "GET",
-//     headers: {
-//       Authorization: `Bearer ${cookies.jwt}`,
-//     },
-//   });
-
-//   const data = await response.json();
-
-//   if (data.statusCode >= 400) {
-//     return {
-//       props: {},
-//     };
-//   } else {
-//     return {
-//       redirect: {
-//         permanent: false,
-//         destination: "/",
-//       },
-//     };
-//   }
-// }
-
 export default Login;
