@@ -19,10 +19,6 @@ export default function Select({ packageData }: any) {
   const cookies = parseCookies();
   const router = useRouter();
 
-  const options = {
-    clientSecret: router.query.pi,
-  };
-
   return (
     <Layout isLoggedIn={true}>
       <SEO
@@ -44,8 +40,12 @@ export default function Select({ packageData }: any) {
           <p>Please fill up payment details to procceed with the purchase</p>
           <Elements
             stripe={stripePromise}
-            options={{ clientSecret: router.query.pi as string }}
+            options={{
+              clientSecret: router.query.pi as string,
+              appearance: {},
+            }}
           >
+            {/* {router.query.pi} */}
             <CheckoutForm />
           </Elements>
         </div>

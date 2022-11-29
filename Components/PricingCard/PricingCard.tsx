@@ -21,9 +21,7 @@ export default function PricingCard(props: any) {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data)
-      alert("");
-      // router.push(`/checkout/select?pi=${data.clientSecret}`);
+      router.push(`/checkout/select?pi=${data.clientSecret}`);
     })
   }
 
