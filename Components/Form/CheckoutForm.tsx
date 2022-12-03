@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
+import { parseCookies } from 'nookies';
 
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const cookies = parseCookies();
 
   const [errorMessage, setErrorMessage] = useState<any>(null);
 
@@ -22,7 +24,7 @@ const CheckoutForm = () => {
       //`Elements` instance that was used to create the Payment Element
       elements,
       confirmParams: {
-        return_url: 'https://indipix.in/auth/done',
+        return_url: `https://indipix.in/${cookies.redirect_user_to}`,
       },
     });
 
@@ -39,6 +41,8 @@ const CheckoutForm = () => {
     }
   };
 
+
+  console.log(cookies.redirect_user_to)
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />

@@ -35,6 +35,8 @@ const decodeJWT = (
 
 /** Login page */
 const Login: NextPage = () => {
+  const [loginError, setLoginError] = useState("");
+
   return (
     <>
       <SEO title="Login in to Indipix" description="" keywords="" />
@@ -69,24 +71,30 @@ const Login: NextPage = () => {
                 password: "",
               }}
               onSubmit={async (values) => {
-                const response = await axios.post(
-                  `${CONFIG.API_URL}/auth/local`,
-                  {
+                fetch(`${CONFIG.API_URL}/auth/local`, {
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  method: "POST",
+                  body: JSON.stringify({
                     identifier: values.identifier,
                     password: values.password,
-                  }
-                );
+                  }),
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    if (!data.jwt) {
+                      setLoginError("Either password or username is wrong.");
+                    } else {
+                      setCookie(null, "jwt", data.jwt, {
+                        maxAge: 30 * 24 * 60 * 60 * 60 * 60,
+                        path: "/",
+                      });
 
-                // const data = await response.json();
-
-                if (response.status == 200) {
-                  setCookie(null, "jwt", response.data.jwt, {
-                    maxAge: 30 * 24 * 60 * 60 * 60 * 60,
-                    path: "/",
+                      Router.push("/");
+                    }
                   });
-
-                  Router.push("/");
-                }
               }}
             >
               <Form>
@@ -98,6 +106,7 @@ const Login: NextPage = () => {
                     type="text"
                     placeholder="Username or email address"
                     className="focus:outline-none border rounded p-2 text-sm w-full"
+                    required
                   />
                 </div>
 
@@ -111,6 +120,12 @@ const Login: NextPage = () => {
                     className="focus:outline-none border rounded p-2 text-sm w-full"
                   />
                 </div>
+
+                {loginError != "" && (
+                  <div className="my-5 px-2 py-1 bg-red-100 rounded-md text-red-700">
+                    <p>{loginError}</p>
+                  </div>
+                )}
 
                 <div className="text-xs text-center text-red text-red-700">
                   <Link href="/">Forgot Password</Link>

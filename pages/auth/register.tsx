@@ -19,9 +19,11 @@ import CONFIG from "../../CONFIG";
 
 /** Register page */
 const Register: NextPage = () => {
+  const [errorMessage, setErrorMessage] = useState("");
+
   return (
     <>
-      <SEO title="Login in to Indipix" description="" keywords="" />
+      <SEO title="Register to access Indipix" description="" keywords="" />
       <div className="h-screen flex justify-center">
         <div className="w-1/2 overflow-hidden relative hidden lg:inline-flex">
           <Link href="/">
@@ -69,15 +71,28 @@ const Register: NextPage = () => {
                     }),
                   }
                 );
+                console.log(response);
 
                 const data = await response.json();
-
-                if (response.status == 200) {
+                if (response.status !== 400) {
                   setCookie(null, "jwt", data.jwt, {
                     maxAge: 30 * 24 * 60 * 60 * 60 * 60,
                     path: "/",
                   });
                   Router.push("/auth/done");
+                } else {
+                  if (
+                    data.error.message.slice(0, 17).trim() ==
+                    "queryMx ENOTFOUND"
+                  ) {
+                    setErrorMessage(
+                      `Email Address with domain @${
+                        values.email.split("@")[1]
+                      } not recognized.`
+                    );
+                  } else {
+                    setErrorMessage(data.error.message);
+                  }
                 }
               }}
             >
@@ -130,6 +145,13 @@ const Register: NextPage = () => {
                     placeholder="Password"
                   />
                 </div>
+
+                {errorMessage != "" && (
+                  <p className="p-3 leading-tight bg-red-50 text-red-700 rounded-md">
+                    {errorMessage.charAt(0).toUpperCase() +
+                      errorMessage.slice(1)}
+                  </p>
+                )}
 
                 <button
                   type="submit"

@@ -16,6 +16,7 @@ interface InputProps {
   margin?: string;
   padding?: string;
   usingFormik?: boolean;
+  required?: boolean;
 }
 
 /** Textfield in the banner component */
@@ -24,10 +25,12 @@ const Input: React.FC<InputProps> = (props) => (
     className={`flex items-center 
     ${props.style == "outline" && " outline outline-gray-300 "} 
     ${props.className !== null && props.className} 
-    `}>
+    `}
+  >
     {props.icon !== null && <span className="mr-2">{props.icon}</span>}
     {props.usingFormik == undefined ? (
       <input
+        required={props.required}
         id={props.id}
         name={props.name}
         type={props.type}
@@ -38,6 +41,7 @@ const Input: React.FC<InputProps> = (props) => (
       />
     ) : (
       <Field
+        required={props.required}
         id={props.id}
         name={props.name}
         type={props.type}

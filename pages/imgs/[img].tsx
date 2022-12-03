@@ -9,7 +9,7 @@ import Link from "next/link";
 // Third Party imports
 import ReactMarkdown from "react-markdown";
 import { FaSearchPlus } from "react-icons/fa";
-import nookies, { parseCookies } from "nookies";
+import nookies, { parseCookies, setCookie } from "nookies";
 // Domestic imports
 import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
@@ -56,16 +56,16 @@ const Image: NextPage<{ product: any; products: any }> = ({
   // save functionality end
 
   const addToViewed = (userID: number, itemToAddID: number) => {
-    console.log("LOL")
+    console.log("LOL");
     fetch(`${CONFIG.API_URL}/users/${userID}?populate=*`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${cookies.jwt}`
+        Authorization: `Bearer ${cookies.jwt}`,
       },
     })
       .then((res) => res.json())
       .then((userdata) => {
-        console.log(userdata)
+        console.log(userdata);
         let viewed = [itemToAddID];
 
         if (userdata.data.attributes.last_vieweds.length > 0) {
@@ -73,7 +73,6 @@ const Image: NextPage<{ product: any; products: any }> = ({
             viewed.push(element.id);
           });
         }
-       
 
         fetch(`${CONFIG.API_URL}/users/${userID}`, {
           method: "PUT",
@@ -91,16 +90,35 @@ const Image: NextPage<{ product: any; products: any }> = ({
       });
   };
 
+  const Download = (id: number) => {
+    fetch(`${CONFIG.API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.credit <= 0) {
+          setCookie(null, "redirect_user_to", `/imgs/${id}`, {
+            maxAge: 30 * 24 * 60 * 60 * 60 * 60,
+            path: "/",
+          });
+
+          router.push(`/price`);
+        }
+      });
+  };
+
   useEffect(() => {
     // console.log()
     // addToViewed(jwtDecode(cookies.jwt).id as number, product.id);
-  }, [])
-  
-  
+  }, []);
+
   return (
     <Layout isLoggedIn={getAccessToken() !== "" || undefined ? true : false}>
       <SEO
-        title={`Indipix | ${product.attributes.title}`}
+        title={`Indipix | ${product !== null && product.attributes.title}`}
         description=""
         keywords=""
       />
@@ -118,8 +136,8 @@ const Image: NextPage<{ product: any; products: any }> = ({
           <div className="relative cursor-pointer">
             <img
               className="w-full"
-              src={`${CONFIG.ROOT_URL}${product.attributes.thumbnail.data.attributes.url}`}
-              alt={product.attributes.title}
+              src={`${CONFIG.ROOT_URL}${product !== null && product.attributes.thumbnail.data.attributes.url}`}
+              alt={product !== null && product.attributes.title}
             />
             {/* <FaSearchPlus className="text-white text-2xl drop-shadow-lg absolute bottom-0 right-0 m-5" /> */}
           </div>
@@ -142,30 +160,33 @@ const Image: NextPage<{ product: any; products: any }> = ({
           </div>
         </div>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold">{product.attributes.title}</h1>
+          <h1 className="text-2xl font-bold">{product !== null && product.attributes.title}</h1>
           <p className="text-slate-400 text-xs my-5">
             {/* PHOTO ID- {product[0].productPlaceHolder.slice(0, -4)} */}
           </p>
           <div className="my-5 opacity-80 markdown">
-            <ReactMarkdown>{product.attributes.description}</ReactMarkdown>
+            <ReactMarkdown>{product !== null && product.attributes.description.toString()}</ReactMarkdown>
           </div>
 
           <h5 className="text-3xl font-bold text-orange-600">
-            {product.attributes.price} INR
+            {product !== null && product.attributes.price} INR
           </h5>
 
-          <Link href={`/price`}>
-            <button className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase">
-              Download
-            </button>
-          </Link>
+          {/* <Link href={`/price`}> */}
+          <button
+            onClick={() => Download(product !== null && product.id)}
+            className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase"
+          >
+            Download
+          </button>
+          {/* </Link> */}
         </div>
       </div>
 
       <div className="container mx-auto px-5 lg:px-20 py-10">
         <h2 className="text-2xl font-black">Popular images</h2>
         <p className="text-sm">Explore what&apos;s been trending recently</p>
-        {products.length != 0 ? (
+        {product !== null && products.length != 0 ? (
           <Gallery>
             {products.map((item: any) => (
               <Link key={item.id} href={"/imgs/" + item.id}>

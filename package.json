@@ -29,6 +29,7 @@
     "react-dropzone": "^14.2.2",
     "react-icons": "^4.4.0",
     "react-markdown": "^8.0.3",
+    "react-responsive-carousel": "^3.2.23",
     "react-slick": "^0.29.0",
     "sharp": "^0.31.1",
     "slick-carousel": "^1.8.1"

@@ -3,7 +3,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import Router from "next/router";
 import { useCallback, useEffect, useState } from "react";
-const FormData = require('form-data');
+const FormData = require("form-data");
 // Third Party imports
 import nookies, { parseCookies } from "nookies";
 import { Field, Form, Formik } from "formik";
@@ -27,18 +27,20 @@ interface pageProps {
 const filesInTheBuscat = {
   filename: "W",
   filePath: "w",
-
-}
+};
 let theMainForm = new FormData();
-
 
 const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
   let mfile: any;
   const { jwt } = parseCookies();
-  const [images, setImages,] = useState<{ file: "" | {}, preview: string }>({
-    file: "undefined",
-    preview: "",
-
+  const [images, setImages] = useState<{
+    files: "" | {};
+    previewThumbnail: string;
+    previewMain: string;
+  }>({
+    files: "undefined",
+    previewThumbnail: "",
+    previewMain: "",
   });
   const [debugImage, setDebugImage] = useState(null);
 
@@ -46,19 +48,18 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
     accept: {
       "image/jpeg": [".jpeg", ".png"],
     },
-    maxFiles: 1,
+    maxFiles: 2,
 
     onDrop: (acceptedFiles) => {
       theMainForm.append("productPlaceHolder", acceptedFiles[0]);
       console.log(acceptedFiles);
       setImages({
-        file: acceptedFiles[0],
-        preview: URL.createObjectURL(acceptedFiles[0]),
+        files: acceptedFiles,
+        previewMain: URL.createObjectURL(acceptedFiles[0]),
+        previewThumbnail: URL.createObjectURL(acceptedFiles[0]),
       });
     },
-
   });
-
 
   return (
     <Layout isLoggedIn={loggedIn}>
@@ -71,19 +72,27 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
           {/* {images.file == "undefined" ? ( */}
           <div
             {...getRootProps()}
-            className={`mt-5 ${images.file == "undefined" ? " p-20 " : " "
-              } bg-gray-100 border-4 border-dashed rounded border-gray-200 relative`}
+            className={`mt-5 ${
+              images.files == "undefined" ? " p-20 " : " "
+            } bg-gray-100 border-4 border-dashed rounded border-gray-200 relative`}
           >
             <input
               className="absolute top-0 left-0 right-0 bottom-0"
               {...getInputProps()}
             />
-            {images.file !== "undefined" && (
-              <img
-                className="w-full"
-                // {...getInputProps()}
-                src={images.preview}
-              />
+            {images.files !== "undefined" && (
+              <>
+                <img
+                  className="w-full"
+                  // {...getInputProps()}
+                  src={images.previewThumbnail}
+                />
+                <img
+                  className="w-full"
+                  // {...getInputProps()}
+                  src={images.previewMain}
+                />
+              </>
             )}
           </div>
         </div>
@@ -100,14 +109,13 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
             onSubmit={(values) => {
               const formData = new FormData();
               console.log(values);
-              console.log(images.file);
+              console.log(images.files);
               console.log(debugImage);
               theMainForm.append("title", values.name);
               theMainForm.append("description", values.description);
               theMainForm.append("location", values.location);
               theMainForm.append("price", values.price);
               // formData.append("productPlaceHolder", images.file);
-
 
               // formData.append(
               //   "productPlaceHolder",
@@ -120,10 +128,10 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
               // );
 
               console.log(formData);
-              fetch(`${CONFIG.API_URL}/product`, {
+              fetch(`${CONFIG.API_URL}/products`, {
                 method: "POST",
                 headers: {
-                  "Authorization": `Bearer ${jwt}`,
+                  Authorization: `Bearer ${jwt}`,
                   // "Content-Type": "undefined"
                 },
                 body: theMainForm,
@@ -149,7 +157,6 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
               </div>
 
               <div className="flex flex-col w-full mt-5">
-
                 <label className="font-bold" htmlFor="name">
                   Location
                 </label>
@@ -265,7 +272,7 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
           </Formik>
         </div>
       </div>
-    </Layout >
+    </Layout>
   );
 };
 
