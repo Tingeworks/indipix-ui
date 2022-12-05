@@ -19,16 +19,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 /** Home page */
-const Home: NextPage = ({ loggedIn, user, products, tags }: any) => {
+const Home: NextPage = ({ loggedIn, products, tags, featured }: any) => {
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
-      <Banner tags={tags} />
-      <div className="container mx-auto px-5 lg:px-20 py-10">
+      <Banner featured={featured} tags={tags} />
+      <div className="container mx-auto px-5 lg:px-20 my-10">
         <h2 className="text-2xl font-black">Last Viewed</h2>
         <p className="text-sm">Pick up where you left off</p>
         {products.length != 0 ? (
-          <div className="flex mt-4 gap-4">
+          <div className="flex mt-10 gap-4">
             {products.map((item: any) => (
               <Link key={item.id} href={`/imgs/${item.id}`}>
                 <Image
@@ -118,10 +118,17 @@ export async function getServerSideProps(context: any) {
     });
     const userData = await userResponse.json();
 
+
+
+    const featuredResponse = await fetch(`${CONFIG.API_URL}/special-picks?populate=*`);
+    const featuredData = await featuredResponse.json();
+
+
+
     return {
       props: {
         loggedIn: userResponse.status == 200 ? true : false,
-        user: {},
+        featured: featuredData,
         products: productsData.data,
         tags: tagsData,
       },

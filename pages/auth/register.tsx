@@ -69,7 +69,7 @@ const Register: NextPage = () => {
                       name: values.first_name + " " + values.last_name,
                       password: values.password,
                     }),
-                  }
+                  } 
                 );
                 console.log(response);
 
