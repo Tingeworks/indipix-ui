@@ -95,6 +95,16 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
               </>
             )}
           </div>
+
+          <div className="mt-5">
+            <p className="text-gray-400 text-lg font-bold">Rules</p>
+
+            <ul className="list-disc list-outside mt-2 ml-5">
+              <li className="text-sm">Submit 2 Images</li>
+              <li className="text-sm">High Resolution image should be named as 01.png or 01.jpg</li>
+              <li className="text-sm">Low Resolution thumbnail image should be named as 02.png or 02.jpg</li>
+            </ul>
+          </div>
         </div>
 
         <div className="pt-12 flex-1 text-sm">
@@ -115,17 +125,6 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
               theMainForm.append("description", values.description);
               theMainForm.append("location", values.location);
               theMainForm.append("price", values.price);
-              // formData.append("productPlaceHolder", images.file);
-
-              // formData.append(
-              //   "productPlaceHolder",
-              //   URL.createObjectURL(images.preview))
-              // );
-              // formData.append(
-              //   "productPlaceHolder",
-              //   images.file
-              //   // URL.createObjectURL(debugImage)
-              // );
 
               console.log(formData);
               fetch(`${CONFIG.API_URL}/products`, {
@@ -236,7 +235,7 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
                 </label>
                 <input
                   placeholder="e.g. Hill Tracks"
-                  className="w-full p-2 focus:outline-none border rounded mt-1 "
+                  className="w-full p-2 focus:outline-none border rounded mt-1 mb-2"
                   id="name"
                   name="name"
                   type="text"

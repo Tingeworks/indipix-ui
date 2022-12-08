@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useState } from "react";
 import {
   FaDownload,
@@ -36,7 +36,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
   const router = useRouter();
 
   return (
-    <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-5 justify-between gap-0">
+    <nav className="container px-5 lg:px-10 xl:px-20 mx-auto flex items-center py-5 justify-between gap-0 z-50">
       <div>
         <Link href="/">
           <div className="font-bold flex items-center">
@@ -112,8 +112,8 @@ const Navbar: React.FC<navbarProps> = (props) => {
 
                     <div
                       onClick={function () {
-                        alert("Logging out");
                         nookies.destroy(null, "jwt");
+                        Router.reload();
                       }}
                     >
                       <Button
