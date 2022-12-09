@@ -1,26 +1,19 @@
 import Image from "next/image";
 import { BsTwitter } from "react-icons/bs";
-import { FaFacebookF, FaInstagramSquare, FaPinterestP } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaInstagramSquare, FaPinterestP } from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io";
 
-
-const Footer:React.FC = () => {
+const Footer: React.FC = () => {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-zinc-800 px-5 lg:px-10 xl:px-20 mx-auto pt-20 pb-5">
+    <footer className="bg-zinc-800 pt-20 pb-5">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 ">
         <div>
           <div className="flex">
             <Image src="/logoN.svg" height={54} width={164} alt="logo"></Image>
-            {/* <p className="text-white text-4xl font-semibold font-inter">
-              Indi<span className="text-red-700">pix</span>
-            </p> */}
           </div>
-
           <p className="text-white text-sm mt-10 text-justify font-nunito">
-            orporate clients and leisure travelers has been relying on
-            Groundlink for dependable safe, and professional chauffeured car
-            service in major cities across World.
+            India's Largest Collection Of Stock Images
           </p>
         </div>
 
@@ -97,19 +90,19 @@ const Footer:React.FC = () => {
           </p>
         </div>
         <div className="md:mr-10 flex md:text-2xl gap-5">
-          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+          <a className=" p-1 text-white rounded-md" href="#">
             <FaFacebookF />
           </a>
-          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+          <a className="p-1 text-white rounded-md" href="#">
             <BsTwitter />
           </a>
-          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
-            <FaInstagramSquare />
+          <a className="p-1 text-white rounded-md" href="#">
+            <FaInstagram />
           </a>
-          <a className="bg-red-600 p-1 text-white rounded-md" href="#">
+          <a className=" p-1 text-white rounded-md" href="#">
             <IoLogoYoutube />
           </a>
-          <a className="bg-gray-700 p-1 text-white rounded-md" href="#">
+          <a className=" p-1 text-white rounded-md" href="#">
             <FaPinterestP />
           </a>
         </div>

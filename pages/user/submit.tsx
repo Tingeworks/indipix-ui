@@ -8,7 +8,7 @@ const FormData = require("form-data");
 import nookies, { parseCookies } from "nookies";
 import { Field, Form, Formik } from "formik";
 import { useDropzone } from "react-dropzone";
-import { FaCheck, FaImage } from "react-icons/fa";
+import { FaCheck, FaImage, FaUpload } from "react-icons/fa";
 // import FormData from "form-data";
 
 // Domestic imports
@@ -64,36 +64,15 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Submit a new photo | Indipix" description="" keywords="" />
-      <div className="flex flex-col md:flex-row gap-10 container mx-auto px-5 lg:px-10 xl:px-20 py-20">
+      <div className="flex flex-col md:flex-row gap-20 container mx-auto px-5 lg:px-10 xl:px-20 py-20">
         <div className="w-full md:w-4/12">
           <h2 className=" text-2xl font-bold ">Upload your images</h2>
           <p className="text-sm">PNG &amp; JPEG files are allowed</p>
-
-          {/* {images.file == "undefined" ? ( */}
-          <div
-            {...getRootProps()}
-            className={`mt-5 ${
-              images.files == "undefined" ? " p-20 " : " "
-            } bg-gray-100 border-4 border-dashed rounded border-gray-200 relative`}
-          >
-            <input
-              className="absolute top-0 left-0 right-0 bottom-0"
-              {...getInputProps()}
-            />
-            {images.files !== "undefined" && (
-              <>
-                <img
-                  className="w-full"
-                  // {...getInputProps()}
-                  src={images.previewThumbnail}
-                />
-                <img
-                  className="w-full"
-                  // {...getInputProps()}
-                  src={images.previewMain}
-                />
-              </>
-            )}
+          <div className="p-10 h-48 bg-gray-100 rounded-lg mt-5 flex flex-col items-center justify-center">
+            <p>
+              <FaUpload className="text-3xl text-gray-300 mb-2" />
+            </p>
+            <p className="text-gray-300">Drop your images here</p>
           </div>
 
           <div className="mt-5">
@@ -101,174 +80,100 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
 
             <ul className="list-disc list-outside mt-2 ml-5">
               <li className="text-sm">Submit 2 Images</li>
-              <li className="text-sm">High Resolution image should be named as 01.png or 01.jpg</li>
-              <li className="text-sm">Low Resolution thumbnail image should be named as 02.png or 02.jpg</li>
+              <li className="text-sm">
+                High Resolution image should be named as 01.png or 01.jpg
+              </li>
+              <li className="text-sm">
+                Low Resolution thumbnail image should be named as 02.png or
+                02.jpg
+              </li>
             </ul>
           </div>
         </div>
 
-        <div className="pt-12 flex-1 text-sm">
-          <Formik
-            initialValues={{
-              name: "",
-              description: " ",
-              location: " ",
-              price: "",
-              testFile: "",
-            }}
-            onSubmit={(values) => {
-              const formData = new FormData();
-              console.log(values);
-              console.log(images.files);
-              console.log(debugImage);
-              theMainForm.append("title", values.name);
-              theMainForm.append("description", values.description);
-              theMainForm.append("location", values.location);
-              theMainForm.append("price", values.price);
+        <div className="w-full md:w-8/12">
+          <h2 className=" text-2xl font-bold ">Fill up the details</h2>
+          <p className="text-sm">
+            Add all details properly to increase your chances of getting
+            accepted
+          </p>
 
-              console.log(formData);
-              fetch(`${CONFIG.API_URL}/products`, {
-                method: "POST",
-                headers: {
-                  Authorization: `Bearer ${jwt}`,
-                  // "Content-Type": "undefined"
-                },
-                body: theMainForm,
-              })
-                .then((res) => res.json())
-                .then((data) => {
-                  console.log(data);
-                });
-            }}
-          >
-            <Form encType="multipart/form">
-              <div className="flex flex-col w-full">
-                <label className="font-bold" htmlFor="name">
-                  Name
-                </label>
-                <Field
-                  placeholder="e.g. Hill Tracks"
-                  className="w-full p-2 focus:outline-none border rounded mt-1 "
-                  id="name"
-                  name="name"
-                  type="text"
-                />
-              </div>
+          <div className="mt-5 w-full">
+            <p>Title</p>
+            <input
+              placeholder="e.g. Taj Mahal Afternoon Shots"
+              type="text"
+              className="bg-gray-50 w-full p-5 text-sm"
+            />
+            <p className="text-sm text-gray-400 mt-1">
+              Add relevant keywords that describe your product for better search
+              visibility
+            </p>
+          </div>
 
-              <div className="flex flex-col w-full mt-5">
-                <label className="font-bold" htmlFor="name">
-                  Location
-                </label>
-                <div className="flex gap-3">
-                  <input
-                    placeholder="India"
-                    className="p-2 focus:outline-none border rounded mt-1 w-1/3"
-                    id="country"
-                    name="country"
-                    type="text"
-                    disabled
-                  />
-                  <Field
-                    placeholder="e.g. Jaipur, Rajasthan"
-                    className="w-full p-2 focus:outline-none border rounded mt-1"
-                    id="location"
-                    name="location"
-                    type="text"
-                  />
-                </div>
-              </div>
+          <div className="flex gap-10">
+            <div className="mt-5 w-1/4">
+              <p>Country</p>
+              <input
+                disabled
+                value="India"
+                placeholder="e.g. Taj Mahal Afternoon Shots"
+                type="text"
+                className="bg-gray-50 w-full p-5 text-sm text-gray-400 cursor-not-allowed"
+              />
+            </div>
 
-              <div className="flex flex-col w-full mt-5">
-                <label className="font-bold" htmlFor="description">
-                  Description
-                </label>
-                <Field
-                  as="textarea"
-                  placeholder="Summarize your image"
-                  className="w-full p-2 focus:outline-none border rounded mt-1 "
-                  id="description"
-                  name="description"
-                  rows={5}
-                />
-              </div>
+            <div className="mt-5 flex-1">
+              <p>Location</p>
+              <input
+                placeholder="e.g. Agra, UP"
+                type="text"
+                className="bg-gray-50 w-full p-5 text-sm"
+              />
+              <p className="text-sm text-gray-400 mt-1">
+                Location helps improve your products visibility
+              </p>
+            </div>
+          </div>
 
-              <div className="flex gap-5 mt-5 w-full">
-                <div className="w-3/12">
-                  <label className="font-bold" htmlFor="name">
-                    Price
-                  </label>
-                  <div className="flex  p-2 border rounded mt-1 gap-5">
-                    <span className="text-gray-500">₹</span>
-                    <input
-                      placeholder="00.00"
-                      className="w-full focus:outline-none text-right"
-                      id="name"
-                      name="name"
-                      type="number"
-                      step={1.0}
-                    />
-                  </div>
-                </div>
+          <div className="mt-3 w-full">
+            <p>Description</p>
+            <textarea
+              rows={4}
+              placeholder="e.g. Agra, UP"
+              className="bg-gray-50 w-full p-5 text-sm"
+            ></textarea>
+            <p className="text-sm text-gray-400 mt-1">
+              A proper description increases your product&apos;s chances to be
+              accepted
+            </p>
+          </div>
 
-                <div className="flex-1">
-                  <label className="font-bold" htmlFor="name">
-                    You&apos;ll recieve
-                  </label>
-                  <div className="flex  p-2 border rounded mt-1 gap-5 opacity-80">
-                    <span className="text-gray-500">₹</span>
-                    <input
-                      disabled
-                      placeholder="00.00"
-                      className="w-full focus:outline-none text-right bg-white"
-                      id="name"
-                      name="name"
-                      type="number"
-                      step={1.0}
-                    />
-                  </div>
-                </div>
-              </div>
+          <div className="mt-5 flex-1">
+            <p>Tags</p>
+            <input
+              placeholder="e.g. Taj Mahal, UP, afternoon, wonder"
+              type="text"
+              className="bg-gray-50 w-full p-5 text-sm"
+            />
+            <p className="text-sm text-gray-400 mt-1">
+              Tags help in increasing search visibility
+            </p>
+          </div>
 
-              <div className="flex flex-col w-full mt-5">
-                <label className="font-bold" htmlFor="name">
-                  Additional Tags
-                </label>
-                <input
-                  placeholder="e.g. Hill Tracks"
-                  className="w-full p-2 focus:outline-none border rounded mt-1 mb-2"
-                  id="name"
-                  name="name"
-                  type="text"
-                />
-                <small>Maximum 5 tags, separate using comma</small>
-              </div>
+          <div className="mt-5 w-full">
+            <p>Price</p>
+            <input
+              placeholder="e.g. Taj Mahal Afternoon Shots"
+              type="text"
+              className="bg-gray-50 w-full p-5 text-sm"
+            />
+          </div>
 
-              <div className="mt-5 flex gap-3">
-                <input type="checkbox" name="" id="" />
-                <p className="text-gray-500">
-                  By submiting I agree to comply with the{" "}
-                  <Link passHref href="/policy">
-                    <a
-                      className="
-                text-[#C72127]"
-                    >
-                      terms and condition
-                    </a>
-                  </Link>
-                </p>
-              </div>
 
-              <div className="mt-20">
-                <button
-                  className="bg-[#C72127] hover:bg-black text-white py-3 px-10 rounded w-full md:w-auto "
-                  type="submit"
-                >
-                  Submit
-                </button>
-                {/* <Button className="px-20" Label="Submit" type="submit" style="Primary" /> */}
-              </div>
-            </Form>
-          </Formik>
+          <div className="mt-5 flex">
+            
+          </div>
         </div>
       </div>
     </Layout>

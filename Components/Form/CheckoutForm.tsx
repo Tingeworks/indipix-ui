@@ -46,7 +46,7 @@ const CheckoutForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
-      <button disabled={!stripe}>Submit</button>
+      <button className="py-3 px-5 bg-red-700 block text-white mt-5 w-full hover:bg-red-900 rounded-sm" disabled={!stripe}>Submit</button>
       {/* Show error message to your customers */}
       {errorMessage && <div>{errorMessage}</div>}
     </form>

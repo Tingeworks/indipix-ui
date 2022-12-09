@@ -4,8 +4,17 @@ import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import PhotoCard from "../../Components/PhotoCard/PhotoCard";
 import { Grid, Pagination } from "@nextui-org/react";
+import { useRouter } from 'next/router'
+
 
 export default function Categories({ categories }: any) {
+  const router = useRouter()
+
+
+  const onPageChange = (page: number) => {
+    console.log("onPageChange page:", page);
+  };
+
   return (
     <Layout isLoggedIn={false}>
       <SEO
@@ -13,14 +22,14 @@ export default function Categories({ categories }: any) {
         description="Indipix categories"
         keywords="Indipix, categories"
       />
-      <div className="bg-[#EA6940]" style={{ height: "90vh" }}>
+      <div className="bg-[#EA6940] py-5" style={{ minHeight: "50vh" }}>
         <div className="flex items-center justify-center -translate-x-1/12 overflow-x-hidden pt-10">
-          {[1, 2, 3, 2, 1].map((item) => (
+          {[1, 2, 3, 2, 1].map((item, index) => (
             <img
               className={`mx-3 border-8 border-white ${
                 item == 1 && `scale-75`
               } ${item == 2 && `scale-90`} ${item == 3 && `scale-100`}`}
-              key={item}
+              key={index}
               src={`https://source.unsplash.com/random/300x400/?sig=${item}`}
             />
           ))}
@@ -30,12 +39,12 @@ export default function Categories({ categories }: any) {
         </h1>
       </div>
 
-      <div className="container mx-auto px-5 lg:px-20">
+      <div className="lg:px-10 xl:px-20 mx-auto container">
         <div className="mt-[50px] mb-[75px]">
           <SearchBox className="bg-[#C1BBBB9E] text-black" />
         </div>
       </div>
-      <div className="pl-5 lg:pl-20">
+      <div className="lg:px-10 xl:px-20 mx-auto container">
         {/* category card start */}
         <div className="mb-[50px]">
           <h2 className="text-[32px] mb-[30px] text-black font-bold">
@@ -64,8 +73,13 @@ export default function Categories({ categories }: any) {
         {/* category by pagination end */}
         <div className="pt-10 mb-20  flex justify-center">
           <Pagination
+            rounded
+            onChange={(page)=> {
+              router.push(`/categories?page=${page}`)
+            }}
             total={categories.meta.pagination.pageCount}
-            initialPage={1}
+            // initialPage={categories.meta.pagination.page}
+            page={categories.meta.pagination.page}
           />
         </div>
         {/* category card end */}
@@ -79,6 +93,7 @@ import nookies from "nookies";
 import CONFIG from "../../CONFIG";
 import Gallery from "../../Components/Gallery/Gallery";
 import Link from "next/link";
+import Router from "next/router";
 
 export async function getServerSideProps(context: any) {
   try {
@@ -87,7 +102,7 @@ export async function getServerSideProps(context: any) {
     const categoryQuery = qs.stringify({
       sort: ["views:desc"],
       pagination: {
-        page: 1,
+        page: context.query.page || 1,
         pageSize: 6,
       },
       populate: "*",
@@ -100,7 +115,6 @@ export async function getServerSideProps(context: any) {
     );
     const categoriesData = await categoriesResponse.json();
 
-    console.log(categoriesData.data[0].attributes.thumbnail);
     const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
       method: "GET",
       headers: {
@@ -108,27 +122,6 @@ export async function getServerSideProps(context: any) {
       },
     });
     const userData = await userResponse.json();
-
-    // const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
-    // const ProductData = await ProductResponse.json();
-
-    // if (data.statusCode >= 400) {
-    //   return {
-    //     props: {
-    //       loggedIn: false,
-    //       products: ProductData || [],
-    //       user: {},
-    //     },
-    //   };
-    // } else {
-    //   return {
-    //     props: {
-    //       loggedIn: true,
-    //       products: ProductData || [],
-    //       user: data,
-    //     },
-    //   };
-    // }
 
     return {
       props: {

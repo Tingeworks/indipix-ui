@@ -5,10 +5,7 @@ export default function Modal(props: any) {
       style={{
         zIndex: 99999
       }}
-      className={
-        "bg-white drop-shadow-2xl rounded border p-5 absolute top-0" +
-        props.className
-      }>
+      className="absolute right-0 p-5 bg-white rounded-lg w-56 drop-shadow-xl top-10">
       {props.children}
     </div>
   );

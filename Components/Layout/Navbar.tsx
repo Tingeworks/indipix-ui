@@ -30,6 +30,64 @@ interface navbarProps {
   isLoggedIn: boolean;
 }
 
+const ModalContainer: React.FC = ({ modal, setModal, props }: any) => {
+  return (
+    <>
+      {modal && (
+        <Modal onMouseLeave={() => setModal(false)}>
+          {props.isLoggedIn != true ? (
+            <div className="w-full bg-white">
+              <Button
+                url="/auth/login"
+                className="w-full p-3 rounded-sm"
+                type="button"
+                Label="Login"
+                style="Secondary"
+                icon={<FaSignInAlt />}
+              />
+
+              <Button
+                url="/auth/register"
+                className="w-full p-3 rounded-sm"
+                type="button"
+                Label="Join"
+                style="Primary"
+                // icon={<FaSignInAlt />}
+              />
+            </div>
+          ) : (
+            <div className="w-full bg-white">
+              <Button
+                url="/user/"
+                className="w-full p-3 rounded-sm"
+                type="button"
+                Label="Profile"
+                style="Secondary"
+                // icon={<FaUserAlt />}
+              />
+
+              <div
+                onClick={function () {
+                  nookies.destroy(null, "jwt");
+                  Router.reload();
+                }}
+              >
+                <Button
+                  className="w-full p-2 rounded-sm"
+                  type="button"
+                  Label="Sign out"
+                  style="Warning"
+                  icon={<FaSignOutAlt />}
+                />
+              </div>
+            </div>
+          )}
+        </Modal>
+      )}
+    </>
+  );
+};
+
 const Navbar: React.FC<navbarProps> = (props) => {
   const [menuStatus, setMenuStatus] = useState(false);
   const [modal, setModal] = useState(false);
@@ -77,57 +135,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
               className="text-2xl"
               onClick={() => setModal(!modal)}
             />
-            {modal && (
-              <Modal onMouseLeave={() => setModal(false)} className="right-0">
-                {props.isLoggedIn != true ? (
-                  <div className="w-48">
-                    <Button
-                      url="/auth/login"
-                      className="w-full p-3 rounded-sm"
-                      type="button"
-                      Label="Login"
-                      style="Secondary"
-                      icon={<FaSignInAlt />}
-                    />
-
-                    <Button
-                      url="/auth/register"
-                      className="w-full mt-5 p-3 rounded-sm"
-                      type="button"
-                      Label="Join"
-                      style="Primary"
-                      // icon={<FaSignInAlt />}
-                    />
-                  </div>
-                ) : (
-                  <div className="w-48">
-                    <Button
-                      url="/user/"
-                      className="w-full p-3 rounded-sm"
-                      type="button"
-                      Label="Profile"
-                      style="Secondary"
-                      // icon={<FaUserAlt />}
-                    />
-
-                    <div
-                      onClick={function () {
-                        nookies.destroy(null, "jwt");
-                        Router.reload();
-                      }}
-                    >
-                      <Button
-                        className="w-full mt-5 p-2 rounded-sm"
-                        type="button"
-                        Label="Sign out"
-                        style="Warning"
-                        icon={<FaSignOutAlt />}
-                      />
-                    </div>
-                  </div>
-                )}
-              </Modal>
-            )}
+            {ModalContainer({ modal, setModal, props })}
           </li>
         </ul>
       </div>
@@ -181,7 +189,9 @@ const Navbar: React.FC<navbarProps> = (props) => {
           <div className="flex items-center mt-10">
             <div className="w-1/6">
               <Link href="/user">
-                <p><FaUserCircle className="text-4xl cursor-pointer" /></p>
+                <p>
+                  <FaUserCircle className="text-4xl cursor-pointer" />
+                </p>
               </Link>
             </div>
             {/* <div className="flex-1"> */}

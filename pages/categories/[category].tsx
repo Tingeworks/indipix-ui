@@ -6,7 +6,7 @@ import PhotoCard from "../../Components/PhotoCard/PhotoCard";
 import { Grid, Pagination } from "@nextui-org/react";
 
 export default function Categories({ category }: any) {
-  console.log(category)
+  console.log(category);
   return (
     <Layout isLoggedIn={false}>
       <SEO
@@ -14,13 +14,15 @@ export default function Categories({ category }: any) {
         description="Indipix categories"
         keywords="Indipix, categories"
       />
-      <div
-        className="bg-[#EA6940] flex items-center container mx-auto px-5 lg:px-20"
-        style={{ height: "30vh" }}
-      >
-        <h1 className="text-4xl font-bold text-white mt-5 uppercase">
-          EXPLORE {category.attributes.title} on Indipix
-        </h1>
+      <div className="bg-[#EA6940] ">
+        <div
+          className="flex items-center container mx-auto px-5 lg:px-20"
+          style={{ minHeight: "20vh" }}
+        >
+          <h1 className="text-4xl font-bold text-white mt-5 uppercase">
+            EXPLORE  on Indipix
+          </h1>
+        </div>
       </div>
       <div className="container mx-auto px-5 lg:px-20"></div>
       <div className="pl-5 lg:pl-20">
@@ -53,14 +55,24 @@ export async function getServerSideProps(context: any) {
 
     const categoryQuery = qs.stringify({
       populate: "*",
+      filters: {
+        categories: {
+          id: {
+            $eq: context.params.category
+          }
+        }
+      }
     });
-    const categoryResponse = await fetch(
-      `${CONFIG.API_URL}/categories/${context.params.category}?${categoryQuery}`,
+    const productsResponse = await fetch(
+      `${CONFIG.API_URL}/products/${context.params.category}?${categoryQuery}`,
       {
         method: "GET",
       }
     );
-    const categoryData = await categoryResponse.json();
+    const productsData = await productsResponse.json();
+
+    console.log(productsData);
+
     const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
       method: "GET",
       headers: {
@@ -73,7 +85,7 @@ export async function getServerSideProps(context: any) {
       props: {
         loggedIn: userResponse.status == 200 ? true : false,
         user: {},
-        category: categoryData.data,
+        products: productsData,
       },
     };
   } catch (error) {
