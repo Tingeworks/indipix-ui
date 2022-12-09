@@ -19,19 +19,16 @@ import CONFIG from "../../CONFIG";
 import jwtDecode from "jwt-decode";
 
 /** Image page */
-const Image: NextPage<{ product: any; products: any }> = ({
+const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
   product,
   products,
+  isLoggedIn
 }) => {
   // console.log(product);
   const cookies = parseCookies();
 
   const router = useRouter();
   const { img } = router.query;
-
-  const getAccessToken = () => {
-    if (typeof window !== "undefined") return localStorage.getItem("token");
-  };
 
   // share functionality
   const [isModalShow, setModalShow] = useState(false);
@@ -116,7 +113,7 @@ const Image: NextPage<{ product: any; products: any }> = ({
   }, []);
 
   return (
-    <Layout isLoggedIn={getAccessToken() !== "" || undefined ? true : false}>
+    <Layout isLoggedIn={isLoggedIn}>
       <SEO
         title={`Indipix | ${product !== null && product.attributes.title}`}
         description=""
@@ -240,6 +237,8 @@ const qs = require("qs");
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const id = context.params?.img as string;
+  const cookies = nookies.get(context);
+
   const ProductResponse = await fetch(
     `${CONFIG.API_URL}/products/${id}?populate=*`
   );
@@ -262,8 +261,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   const productsData = await productsResponse.json();
 
+  
+  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+  const userData = await userResponse.json();
+
+
   return {
     props: {
+      loggedIn: userResponse.status == 200 ? true : false,
       product: ProductData.data,
       products: productsData.data,
     },

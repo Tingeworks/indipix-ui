@@ -10,7 +10,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import CheckoutForm from "../../Components/Form/CheckoutForm";
 
-const stripePromise = loadStripe(process.env.STRIPE_SECRET as string);
+const stripePromise = loadStripe("pk_test_51MBbjnSHaMiLE9dDkBPbWfLAcTRMqYAIf2RleKVq04r97EfUXcUstsQXbYog9W02YVcKkLHn11WeTxnrtsYCRTTX00PxoYAoBa");
 
 export default function Select({ packageData }: any) {
   const [imageformat, setImageFormat] = useState(0);
