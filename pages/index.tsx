@@ -110,7 +110,6 @@ export async function getServerSideProps(context: any) {
     }
   );
   const productsData = await productsResponse.json();
-  console.log(productsData);
 
   const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
     method: "GET",

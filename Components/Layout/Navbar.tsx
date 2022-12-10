@@ -113,7 +113,7 @@ const Navbar: React.FC<navbarProps> = (props) => {
       <div className="pl-4 hidden md:inline-flex flex-1 uppercase text-md">
         <ul className="flex text-sm gap-10 items-center justify-center w-full">
           {CONFIG.Navigation.map((item) => (
-            <li key={item.id} className="text-xs font-semibold px-10">
+            <li key={item.id} className="text-xs font-semibold">
               <Link href={item.url}>
                 <a>{item.label}</a>
               </Link>

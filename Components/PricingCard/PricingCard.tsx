@@ -1,8 +1,8 @@
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import CONFIG from "../../CONFIG";
-import nookies, { parseCookies } from "nookies"
-import {useRouter} from "next/router";
+import nookies, { parseCookies } from "nookies";
+import { useRouter } from "next/router";
 
 export default function PricingCard(props: any) {
   const cookies = parseCookies();
@@ -12,18 +12,18 @@ export default function PricingCard(props: any) {
     fetch(`${CONFIG.API_URL}/orders/createOrder`, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${cookies.jwt}`,
-        "Content-Type": "application/json"
+        Authorization: `Bearer ${cookies.jwt}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        subscriptionId: id as number
-      })
+        subscriptionId: id as number,
+      }),
     })
-    .then(res => res.json())
-    .then(data => {
-      router.push(`/checkout/select?pi=${data.clientSecret}`);
-    })
-  }
+      .then((res) => res.json())
+      .then((data) => {
+        router.push(`/checkout/select?pi=${data.clientSecret}`);
+      });
+  };
 
   return (
     <div className={`bg-white`}>
@@ -46,9 +46,20 @@ export default function PricingCard(props: any) {
         <p className="text-xl font-bold">{props.price}</p>
 
         {/* <Link href={`/checkout/select?id=${props.id}`}> */}
-          <button onClick={()=> subscribe(props.id)} className="px-5 py-2 border-2 border-black rounded-full mt-5 hover:bg-black hover:text-white">
+        {props.price != "Custom" ? (
+          <button
+            onClick={() => subscribe(props.id)}
+            className="px-5 py-2 border-2 border-black rounded-full mt-5 hover:bg-black hover:text-white"
+          >
             {props.buttonLabel}
           </button>
+        ) : (
+          <Link href="/contact">
+            <button className="px-5 py-2 border-2 border-black rounded-full mt-5 hover:bg-black hover:text-white">
+              {props.buttonLabel}
+            </button>
+          </Link>
+        )}
         {/* </Link> */}
 
         <ul className="list-disc list-inside p-5 mt-5">

@@ -17,10 +17,13 @@ import Layout from "../../Components/Layout/Layout";
 import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
 import Navbar from "../../Components/Layout/Navbar";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 /** Home page */
 const User: NextPage = ({ user, loggedIn }: any) => {
   const [selected, setSelected] = useState(new Set(["English"]));
+  const [panelStatus, setPanelStatus] = useState(true);
+
   const selectedValue = useMemo(
     () => Array.from(selected).join(", ").replaceAll("_", " "),
     [selected]
@@ -43,43 +46,35 @@ const User: NextPage = ({ user, loggedIn }: any) => {
   };
 
   return (
-    <>
-      <Navbar isLoggedIn={loggedIn} />
+    <Layout isLoggedIn={loggedIn}>
       <SEO
         title={`${user.username} is on Indipix`}
         description={`${user.username} is on Indipix`}
         keywords={`indipix, indipix ${user.username}`}
       />
 
-      <div className="grid grid-cols-12   flex-1 ">
+      <div className="grid grid-cols-12 flex-1">
         {/* sidebar */}
-        <div className="bg-[#B83A3A] col-span-2 p-10 w-[250px] min-h-screen px-[18px] py-[50px]">
+        <div className="bg-[#B83A3A] col-span-2 min-h-screen px-[18px] pt-5 hidden lg:block">
           <ul>
             <li className="pb-[19px] border-b-[.5px] mb-[18px] border-white">
-              <Link href="#">
+              <Link href="/user">
                 <span className="text-white text-[15px] font-light cursor-pointer">
-                  Plans
+                  Information
                 </span>
               </Link>
             </li>
             <li className="pb-[19px] border-b-[.5px] mb-[18px] border-white">
-              <Link href="#">
+              <Link href="/user/purchasehistory">
                 <span className="text-white text-[15px] font-light cursor-pointer">
                   Purchase history
                 </span>
               </Link>
             </li>
             <li className="pb-[19px] border-b-[.5px] mb-[18px] border-white">
-              <Link href="#">
+              <Link href="/user/collections">
                 <span className="text-white text-[15px] font-light cursor-pointer">
                   Saved collections
-                </span>
-              </Link>
-            </li>
-            <li className="pb-[19px] border-b-[.5px] mb-[18px] border-white">
-              <Link href="#">
-                <span className="text-white text-[15px] font-light cursor-pointer">
-                  Billing details
                 </span>
               </Link>
             </li>
@@ -87,9 +82,28 @@ const User: NextPage = ({ user, loggedIn }: any) => {
         </div>
         {/* sidebar */}
         {/* main */}
-        <section className="pt-[50px] pl-[55px] col-span-10">
+        <section className="px-10 pt-5 col-span-12 lg:col-span-10">
+          <div className="block lg:hidden">
+            <ul className="flex justify-between items-end gap-2">
+              <Link href="/user">
+                <li className="p-2 px-4 bg-red-700 text-white  text-sm self-stretch">
+                  Information
+                </li>
+              </Link>
+              <Link href="/user/purchasehistory">
+                <li className="p-2  px-4 bg-red-700 text-white text-sm">
+                  Purchase History
+                </li>
+              </Link>
+              <Link href="/user/purchasehistory">
+                <li className="p-2  px-4 bg-red-700 text-white text-sm">
+                  Saved Collections
+                </li>
+              </Link>
+            </ul>
+          </div>
           {/* user details */}
-          <h2 className="text-[28px] font-bold ">USER DETAILS</h2>
+          <h2 className="text-[28px] font-bold">USER DETAILS</h2>
           <table className=" border-b border-slate table-auto border-separate w-10/12 border-spacing-y-6  text-left">
             <tbody>
               <tr className="mb-5">
@@ -101,11 +115,6 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                     {user.name}
                   </span>
                 </td>
-                <td>
-                  <button className="text-[#0E6EC6] text-[15px] underline">
-                    edit
-                  </button>
-                </td>
               </tr>
               <tr className="pb-5">
                 <td>
@@ -113,13 +122,6 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                 </td>
                 <td>
                   <span className="text-[#545252] text-[15px]">********</span>
-                </td>
-                <td>
-                  <Link href={"/user/passwordreset"}>
-                    <button className="text-[#0E6EC6] text-[15px] underline">
-                      edit
-                    </button>
-                  </Link>
                 </td>
               </tr>
               <tr className="pb-5">
@@ -130,11 +132,6 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                   <span className="text-[#545252] text-[15px]">
                     {user.username}
                   </span>
-                </td>
-                <td>
-                  <button className="text-[#0E6EC6] text-[15px] underline">
-                    edit
-                  </button>
                 </td>
               </tr>
               <tr className="pb-5">
@@ -147,11 +144,6 @@ const User: NextPage = ({ user, loggedIn }: any) => {
                   <span className="text-[#545252] text-[15px]">
                     {user.email}
                   </span>
-                </td>
-                <td>
-                  <button className="text-[#0E6EC6] text-[15px] underline">
-                    edit
-                  </button>
                 </td>
               </tr>
             </tbody>
@@ -231,7 +223,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
           </button>
         </section>
       </div>
-    </>
+    </Layout>
   );
 };
 
