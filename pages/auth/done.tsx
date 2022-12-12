@@ -37,8 +37,10 @@ const Done: NextPage = () => {
   );
 };
 
-export async function getServerSideProps(context: any) {
+// export async function getServerSideProps(context: any) {
+//   return {
 
-}
+//   }
+// }
 
 export default Done;

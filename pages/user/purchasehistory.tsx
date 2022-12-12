@@ -110,6 +110,8 @@ const PurchaseHistory: NextPage = ({ user, loggedIn }: any) => {
   );
 };
 
+const qs = require("qs");
+
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
 
@@ -120,6 +122,26 @@ export async function getServerSideProps(context: any) {
     },
   });
   const userData = await userResponse.json();
+
+  const orderQS = qs.stringify({
+    populate: "*",
+    // filters: {
+    //   user: {
+    //     // id: {
+    //       $ep: userData.id,
+    //     // }
+    //   },
+    // },
+  });
+  const orderHistoryResponse = await fetch(`${CONFIG.API_URL}/order?${orderQS}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+
+  const orderHistoryData = await orderHistoryResponse.json();
+  console.log(orderHistoryData.data);
 
   if (userResponse.status !== 200) {
     return {

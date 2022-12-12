@@ -20,6 +20,7 @@ import Link from "next/link";
 
 /** Home page */
 const Home: NextPage = ({ loggedIn, products, tags, featured }: any) => {
+  console.log(products)
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
