@@ -19,11 +19,12 @@ import CONFIG from "../../CONFIG";
 import jwtDecode from "jwt-decode";
 
 /** Image page */
-const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
-  product,
-  products,
-  isLoggedIn
-}) => {
+const Image: NextPage<{
+  product: any;
+  products: any;
+  loggedIn: boolean;
+  user: any;
+}> = ({ product, products, loggedIn, user }) => {
   // console.log(product);
   const cookies = parseCookies();
 
@@ -113,7 +114,7 @@ const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
   }, []);
 
   return (
-    <Layout isLoggedIn={isLoggedIn}>
+    <Layout isLoggedIn={loggedIn}>
       <SEO
         title={`Indipix | ${product !== null && product.attributes.title}`}
         description=""
@@ -133,7 +134,10 @@ const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
           <div className="relative cursor-pointer">
             <img
               className="w-full"
-              src={`${CONFIG.ROOT_URL}${product !== null && product.attributes.thumbnail.data.attributes.url}`}
+              src={`${CONFIG.ROOT_URL}${
+                product !== null &&
+                product.attributes.thumbnail.data.attributes.url
+              }`}
               alt={product !== null && product.attributes.title}
             />
             {/* <FaSearchPlus className="text-white text-2xl drop-shadow-lg absolute bottom-0 right-0 m-5" /> */}
@@ -157,7 +161,9 @@ const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
           </div>
         </div>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold">{product !== null && product.attributes.title}</h1>
+          <h1 className="text-2xl font-bold">
+            {product !== null && product.attributes.title}
+          </h1>
           <p className="text-slate-400 text-xs my-5">
             {/* PHOTO ID- {product[0].productPlaceHolder.slice(0, -4)} */}
           </p>
@@ -170,12 +176,22 @@ const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
           </h5>
 
           {/* <Link href={`/price`}> */}
-          <button
-            onClick={() => Download(product !== null && product.id)}
-            className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase"
-          >
-            Download
-          </button>
+          {user.credit > 0 ? (
+            <button
+              onClick={() => alert("Under construction")}
+              className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase"
+            >
+              Download
+            </button>
+          ) : (
+            <button
+              onClick={() => Download(product !== null && product.id)}
+              className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase"
+            >
+              Buy
+            </button>
+          )}
+
           {/* </Link> */}
         </div>
       </div>
@@ -261,7 +277,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   const productsData = await productsResponse.json();
 
-  
   const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
     method: "GET",
     headers: {
@@ -270,12 +285,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   });
   const userData = await userResponse.json();
 
-
   return {
     props: {
-      loggedIn: userResponse.status == 200 ? true : false,
+      loggedIn: userResponse.status == 200,
       product: ProductData.data,
       products: productsData.data,
+      user: userData,
     },
   };
 };

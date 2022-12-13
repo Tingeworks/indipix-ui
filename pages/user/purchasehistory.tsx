@@ -20,7 +20,7 @@ import Navbar from "../../Components/Layout/Navbar";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 /** Home page */
-const PurchaseHistory: NextPage = ({ user, loggedIn }: any) => {
+const PurchaseHistory: NextPage = ({ user, loggedIn, orders }: any) => {
   const [selected, setSelected] = useState(new Set(["English"]));
   const [panelStatus, setPanelStatus] = useState(true);
 
@@ -103,7 +103,39 @@ const PurchaseHistory: NextPage = ({ user, loggedIn }: any) => {
             </ul>
           </div>
           {/* user details */}
-          <h2 className="text-[28px] font-bold">Purchase History</h2>
+          <h2 className="text-[28px] font-bold">
+            Purchase History ({orders.meta.pagination.total}){" "}
+          </h2>
+          <table className="mt-10">
+            <thead>
+              <tr>
+                <th className="p-5 text-left border">#</th>
+                <th className="p-5 text-left border">Status</th>
+                <th className="p-5 text-left border">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.data.map((item: any) => (
+                <tr key={item.id}>
+                  <td className="p-5 text-left border">{item.id}</td>
+                  <td
+                    className={`p-5 text-left border capitalize ${
+                      item.attributes.status == "approved"
+                        ? "bg-green-500 text-white"
+                        : "bg-gray-300 text-gray-600"
+                    }`}
+                  >
+                    {item.attributes.status}
+                  </td>
+                  <td className="p-5 text-left border uppercase">
+                    {moment(item.attributes.createdAt).format(
+                      "MMMM Do YYYY, h:mm a"
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </section>
       </div>
     </Layout>
@@ -125,24 +157,24 @@ export async function getServerSideProps(context: any) {
 
   const orderQS = qs.stringify({
     populate: "*",
-    // filters: {
-    //   user: {
-    //     // id: {
-    //       $ep: userData.id,
-    //     // }
-    //   },
-    // },
-  });
-  const orderHistoryResponse = await fetch(`${CONFIG.API_URL}/order?${orderQS}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
+    filters: {
+      userID: {
+        $eq: "34",
+      },
     },
   });
+  const orderHistoryResponse = await fetch(
+    `${CONFIG.API_URL}/order?${orderQS}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    }
+  );
 
   const orderHistoryData = await orderHistoryResponse.json();
-  console.log(orderHistoryData.data);
-
+  console.log(orderHistoryData);
   if (userResponse.status !== 200) {
     return {
       notFound: true,
@@ -151,6 +183,7 @@ export async function getServerSideProps(context: any) {
   return {
     props: {
       loggedIn: true,
+      orders: orderHistoryData,
       user: userData,
     },
   };
