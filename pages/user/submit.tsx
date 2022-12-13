@@ -136,17 +136,17 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
     // productFormdata.append("price", payload.price);
 
     const imageFiles: { name?: string } = images.files[0];
-    ImageFormdata.append("files.thumbnail", imageFiles, imageFiles.name);
+    productFormdata.append("files.thumbnail", imageFiles, imageFiles.name);
 
     // Posting Image
-    const imagePostConfig = {
+
+    fetch(`${CONFIG.API_URL}/products`, {
+      method: "POST",
       headers: {
         "content-type": "multipart/form-data",
       },
-    };
-
-    axios
-      .post(`${CONFIG.API_URL}/images`, ImageFormdata, imagePostConfig)
+      body: productFormdata
+    })
       .then((res) => {
         console.log(res);
       })
