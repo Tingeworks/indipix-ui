@@ -162,7 +162,7 @@ const Image: NextPage<{ product: any; products: any; isLoggedIn: boolean }> = ({
             {/* PHOTO ID- {product[0].productPlaceHolder.slice(0, -4)} */}
           </p>
           <div className="my-5 opacity-80 markdown">
-            <ReactMarkdown>{product !== null && product.attributes.description.toString()}</ReactMarkdown>
+            {/* <ReactMarkdown>{product !== null && product.attributes.description}</ReactMarkdown> */}
           </div>
 
           <h5 className="text-3xl font-bold text-orange-600">

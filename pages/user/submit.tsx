@@ -121,14 +121,22 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
     let productFormdata = new FormData();
     let ImageFormdata = new FormData();
 
-    productFormdata.append("title", payload.title);
-    productFormdata.append("location", "India, " + payload.location);
-    productFormdata.append("description", payload.description);
-    productFormdata.append("author", jwtDecoded.id);
-    productFormdata.append("price", payload.price);
+    productFormdata.append("data", {
+      "title": payload.title,
+      "location": "India, " + payload.location,
+      "description": payload.description,
+      "author": jwtDecoded.id,
+      "price": payload.price
+    });
+
+    // productFormdata.append("", imageFiles[])
+    // productFormdata.append("location", "India, " + payload.location);
+    // productFormdata.append("description", payload.description);
+    // productFormdata.append("author", jwtDecoded.id);
+    // productFormdata.append("price", payload.price);
 
     const imageFiles: { name?: string } = images.files[0];
-    ImageFormdata.append("image", imageFiles, imageFiles.name);
+    ImageFormdata.append("files.thumbnail", imageFiles, imageFiles.name);
 
     // Posting Image
     const imagePostConfig = {
