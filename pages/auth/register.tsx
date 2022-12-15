@@ -45,7 +45,7 @@ const Register: NextPage = () => {
               <hr className="my-5" />
               <p className="-mt-9 text-center">
                 <span className="bg-white px-4 text-sm">
-                  or Sign up with Email
+                  Sign up to download images
                 </span>
               </p>
             </div>
@@ -69,7 +69,7 @@ const Register: NextPage = () => {
                       name: values.first_name + " " + values.last_name,
                       password: values.password,
                     }),
-                  } 
+                  }
                 );
                 console.log(response);
 
@@ -80,7 +80,7 @@ const Register: NextPage = () => {
                     path: "/",
                   });
                   Router.push("/auth/done");
-                } else {
+                } else {                  
                   if (
                     data.error.message.slice(0, 17).trim() ==
                     "queryMx ENOTFOUND"
@@ -165,7 +165,7 @@ const Register: NextPage = () => {
 
             <div className="text-xs text-center mt-5">
               Have an account?{" "}
-              <Link href="/">
+              <Link href="/auth/login">
                 <span className="text-red-700 cursor-pointer ml-1">
                   Sign In
                 </span>

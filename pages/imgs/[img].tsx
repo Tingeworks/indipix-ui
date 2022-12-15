@@ -54,7 +54,6 @@ const Image: NextPage<{
   // save functionality end
 
   const addToViewed = (userID: number, itemToAddID: number) => {
-    console.log("LOL");
     fetch(`${CONFIG.API_URL}/users/${userID}?populate=*`, {
       method: "GET",
       headers: {
@@ -89,23 +88,31 @@ const Image: NextPage<{
   };
 
   const Download = (id: number) => {
-    fetch(`${CONFIG.API_URL}/users/me`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${cookies.jwt}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.credit <= 0) {
-          setCookie(null, "redirect_user_to", `/imgs/${id}`, {
-            maxAge: 30 * 24 * 60 * 60 * 60 * 60,
-            path: "/",
-          });
-
-          router.push(`/price`);
-        }
+    if (cookies.jwt !== "") {
+      fetch(`${CONFIG.API_URL}/users/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${cookies.jwt}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.credit <= 0) {
+            setCookie(null, "redirect_user_to", `/imgs/${id}`, {
+              maxAge: 30 * 24 * 60 * 60 * 60 * 60,
+              path: "/",
+            });
+  
+            router.push(`/price`);
+          }
+        });
+    } else {
+      setCookie(null, "redirect_user_to", `/imgs/${id}`, {
+        maxAge: 30 * 24 * 60 * 60 * 60 * 60,
+        path: "/",
       });
+      router.push("/auth/register");
+    }
   };
 
   useEffect(() => {

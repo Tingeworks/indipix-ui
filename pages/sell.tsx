@@ -47,12 +47,13 @@ export default function Sell({ loggedIn }: any) {
 
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/auth/me`, {
+  const response = await fetch(`${CONFIG.API_URL}/users/me`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${cookies.jwt}`,
     },
   });
+  console.log(response.status)
   const data = await response.json();
 
   const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
@@ -69,7 +70,7 @@ export async function getServerSideProps(context: any) {
   } else {
     return {
       props: {
-        loggedIn: true,
+        loggedIn: response.status == 200,
         products: ProductData || [],
         user: data,
       },

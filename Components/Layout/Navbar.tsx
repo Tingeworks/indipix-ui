@@ -24,7 +24,7 @@ import Button from "../Form/Button";
 import ButtonWithIcon from "../Form/ButtonWithIcon";
 import Input from "../Form/Input";
 import Modal from "../Modal/Modal";
-import nookies from "nookies";
+import nookies, { setCookie } from "nookies";
 
 interface navbarProps {
   isLoggedIn: boolean;
@@ -68,7 +68,7 @@ const ModalContainer: React.FC = ({ modal, setModal, props }: any) => {
 
               <div
                 onClick={function () {
-                  nookies.destroy(null, "jwt");
+                  setCookie(null, "jwt", "");
                   Router.reload();
                 }}
               >

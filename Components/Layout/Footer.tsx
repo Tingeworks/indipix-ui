@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
             <Image src="/logoN.svg" height={54} width={164} alt="logo"></Image>
           </div>
           <p className="text-white text-sm mt-10 text-justify font-nunito">
-            India's Largest Collection Of Stock Images
+            India&apos;s Largest Collection Of Stock Images
           </p>
         </div>
 

@@ -15,7 +15,7 @@ import ImageCard from "../../Components/Gallery/ImageCard";
 import Link from "next/link";
 import SearchBox from "../../Components/Form/SearchBox";
 
-const Search: NextPage = ({ loggedIn, user, products, RelatedProduct }: any) => {
+const Tag: NextPage = ({ loggedIn, user, products, RelatedProduct }: any) => {
   const [values, setValues] = useState<any>({});
   const router = useRouter();
   return (
@@ -147,4 +147,4 @@ export async function getServerSideProps(context: any) {
   }
 }
 
-export default Search;
+export default Tag;

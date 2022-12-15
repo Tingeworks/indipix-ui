@@ -14,7 +14,7 @@ const SearchBox: React.FC<props> = (props) => {
   const router = useRouter();
   return (
     <div
-      className={`w-full flex p-1 items-center rounded-full shadow-lg ${props.className}`}
+      className={`w-full flex items-center rounded-full shadow-lg p-2 ${props.className}`}
     >
       <Formik
         initialValues={{
@@ -27,29 +27,29 @@ const SearchBox: React.FC<props> = (props) => {
           });
         }}
       >
-        <Form className="flex-1 px-2">
+        <Form className="flex-1 flex justify-between">
           <Input
             usingFormik
             id="search"
             name="search"
             placeholder="Search for humans, plants and more"
             type="text"
-            className="focus:outline-none pl-1 flex-1"
+            className="focus:outline-none pl-6 flex-1"
           />
+          <div className=" text-white flex items-center">
+            <button
+              type="submit"
+              className="px-6 py-6 rounded-full"
+              style={{
+                background:
+                  "linear-gradient(270deg, rgba(234, 105, 64, 0.75) 0%, rgba(236, 48, 48, 0.75) 100%)",
+              }}
+            >
+              <FaSearch />
+            </button>
+          </div>
         </Form>
       </Formik>
-      <div className=" text-white flex items-center">
-        <button
-          type="submit"
-          className="px-6 py-3 rounded-full"
-          style={{
-            background:
-              "linear-gradient(270deg, rgba(234, 105, 64, 0.75) 0%, rgba(236, 48, 48, 0.75) 100%)",
-          }}
-        >
-          <FaSearch />
-        </button>
-      </div>
     </div>
   );
 };

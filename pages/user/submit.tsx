@@ -121,13 +121,16 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
     let productFormdata = new FormData();
     let ImageFormdata = new FormData();
 
-    productFormdata.append("data", {
-      "title": payload.title,
-      "location": "India, " + payload.location,
-      "description": payload.description,
-      "author": jwtDecoded.id,
-      "price": payload.price
-    });
+    productFormdata.append(
+      "data",
+      {
+        "title": payload.title,
+        // "location": "India, " + payload.location,
+        "description": payload.description,
+        // "author": jwtDecoded.id,
+        "price": payload.price,
+      }
+    );
 
     // productFormdata.append("", imageFiles[])
     // productFormdata.append("location", "India, " + payload.location);
@@ -135,7 +138,7 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
     // productFormdata.append("author", jwtDecoded.id);
     // productFormdata.append("price", payload.price);
 
-    const imageFiles: { name?: string } = images.files[0];
+    const imageFiles: { name?: string } = images.files[1];
     productFormdata.append("files.thumbnail", imageFiles, imageFiles.name);
 
     // Posting Image
@@ -143,16 +146,12 @@ const Submit: NextPage<pageProps> = ({ loggedIn, user }) => {
     fetch(`${CONFIG.API_URL}/products`, {
       method: "POST",
       headers: {
-        "content-type": "multipart/form-data",
+        "Authorization": `Bearer ${jwt}`
       },
-      body: productFormdata
+      body: productFormdata,
     })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(res => res.json())
+      .then(data => console.log(data))
   };
 
   return (

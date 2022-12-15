@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 // Third Party imports
-import nookies from "nookies";
+import nookies, {parseCookies} from "nookies";
 import { Formik, Field, Form } from "formik";
 import { setCookie } from "nookies";
 import axios from "axios";
@@ -35,6 +35,7 @@ const decodeJWT = (
 
 /** Login page */
 const Login: NextPage = () => {
+  const cookies = parseCookies();
   const [loginError, setLoginError] = useState("");
 
   return (
@@ -61,7 +62,7 @@ const Login: NextPage = () => {
               <hr className="my-5" />
               <p className="-mt-9 text-center">
                 <span className="bg-white px-4 text-sm">
-                  or Sign in with Email
+                  Sign in to download images
                 </span>
               </p>
             </div>
@@ -92,7 +93,11 @@ const Login: NextPage = () => {
                         path: "/",
                       });
 
-                      Router.push("/");
+                      if (cookies.redirect_user_to) {
+                        Router.push(cookies.redirect_user_to);
+                      } else {
+                        Router.push("/")
+                      }
                     }
                   });
               }}
