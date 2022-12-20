@@ -75,11 +75,19 @@ export async function getServerSideProps(context: any) {
     method: "GET",
   });
   const packageData = await packageResponse.json();
+
+  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${cookies.jwt}`,
+    },
+  });
+
   console.log(packageData.data);
   return {
     props: {
       packages: packageData,
-      loggedIn: true,
+      loggedIn: userResponse.status == 200,
     },
   };
 }
