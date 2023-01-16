@@ -102,6 +102,23 @@ const User: NextPage = ({ user, loggedIn }: any) => {
               </Link>
             </ul>
           </div>
+          {/* Dashboard */}
+          <h2 className="text-[28px] font-bold">Dashboard</h2>
+          <p>Products that you added through subscription</p>
+          <div className="mb-10">
+            <div className="flex gap-5 flex-wrap">
+              {user.downloadable_products.map((item) => (
+                <div className="flex flex-col">
+                  <img
+                    className="w-36 h-36 object-cover"
+                    src={`${CONFIG.ROOT_URL}${item.thumbnail.url}`}
+                  />
+                  <a className="w-full bg-red-700 px-2 text-white py-2 block mt-2 text-center">Download</a>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {/* user details */}
           <h2 className="text-[28px] font-bold">USER DETAILS</h2>
           <table className=" border-b border-slate table-auto border-separate w-10/12 border-spacing-y-6  text-left">
@@ -230,7 +247,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
 export async function getServerSideProps(context: any) {
   const cookies = nookies.get(context);
 
-  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+  const userResponse = await fetch(`${CONFIG.API_URL}/users/me?populate=deep`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${cookies.jwt}`,

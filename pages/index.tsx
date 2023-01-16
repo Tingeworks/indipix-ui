@@ -19,8 +19,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 /** Home page */
-const Home: NextPage = ({ loggedIn, products, tags, featured }: any) => {
-  console.log(products)
+const Home: NextPage = ({
+  loggedIn,
+  products,
+  tags,
+  featured,
+  lastViewed,
+}: any) => {
   return (
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
@@ -29,7 +34,8 @@ const Home: NextPage = ({ loggedIn, products, tags, featured }: any) => {
         <div className="container mx-auto px-5 lg:px-20 my-10">
           <h2 className="text-2xl font-black">Last Viewed</h2>
           <p className="text-sm">Pick up where you left off</p>
-          {products.length != 0 ? (
+          <p className="py-5">Nothing Viewed Yet</p>
+          {/* {lastViewed.length != 0 ? (
             <div className="flex mt-10 gap-4">
               {products.map((item: any) => (
                 <Link key={item.id} href={`/imgs/${item.id}`}>
@@ -46,10 +52,9 @@ const Home: NextPage = ({ loggedIn, products, tags, featured }: any) => {
             <div className="p-10 bg-gray-50 rounded-sm mt-5 text-xl text-gray-500">
               <p>No products added yet</p>
             </div>
-          )}
+          )} */}
         </div>
       )}
-
       <div className="container mx-auto px-5 lg:px-20 py-10">
         <h2 className="text-2xl font-black">Popular images</h2>
         <p className="text-sm">Explore what&apos;s been trending recently</p>
@@ -125,12 +130,25 @@ export async function getServerSideProps(context: any) {
   );
   const featuredData = await featuredResponse.json();
 
+  const lastViewedProductsResponse = await fetch(
+    `${CONFIG.API_URL}/product/lastView/?populate=*`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    }
+  );
+
+  const lastViewedProductsData = await lastViewedProductsResponse.json();
+
   return {
     props: {
       loggedIn: userResponse.status == 200 ? true : false,
       featured: featuredData,
       products: productsData.data,
       tags: tagsData,
+      lastViewed: userResponse.status == 200 ? lastViewedProductsData : [],
     },
   };
   // } catch (error) {

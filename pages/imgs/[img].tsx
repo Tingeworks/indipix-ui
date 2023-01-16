@@ -1,6 +1,6 @@
 // NextJS & React imports
 import type { GetServerSideProps, NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import { Modal, Text } from "@nextui-org/react";
 import { BsWhatsapp, BsFacebook, BsTwitter } from "react-icons/bs";
@@ -102,7 +102,7 @@ const Image: NextPage<{
               maxAge: 30 * 24 * 60 * 60 * 60 * 60,
               path: "/",
             });
-  
+
             router.push(`/price`);
           }
         });
@@ -116,7 +116,6 @@ const Image: NextPage<{
   };
 
   useEffect(() => {
-    // console.log()
     // addToViewed(jwtDecode(cookies.jwt).id as number, product.id);
   }, []);
 
@@ -181,15 +180,25 @@ const Image: NextPage<{
           <h5 className="text-3xl font-bold text-orange-600">
             {product !== null && product.attributes.price} INR
           </h5>
-
           {/* <Link href={`/price`}> */}
           {user.credit > 0 ? (
-            <button
-              onClick={() => alert("Under construction")}
-              className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase"
-            >
-              Download
-            </button>
+            <div className="text-left">
+              {user.downloadable_products.filter((e: any) => e.id == product.id)
+                .length > 0 ? (
+                <Link href="/user/">
+                  <a className="inline-block rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase">
+                    Download from dashboard
+                  </a>
+                </Link>
+              ) : (
+                <button
+                  onClick={() => Download(product !== null && product.id)}
+                  className="rounded-sm hover:bg-black hover:border-black text-xs mt-5 py-5 font-bold border-[#F87C52] text-white bg-[#F87C52] border-4 px-20 uppercase"
+                >
+                  Download
+                </button>
+              )}
+            </div>
           ) : (
             <button
               onClick={() => Download(product !== null && product.id)}
@@ -213,8 +222,6 @@ const Image: NextPage<{
                 <img
                   className=" hover:scale-105 transition-transform rounded-sm active:scale-90 "
                   src={`${CONFIG.ROOT_URL}${item.attributes.thumbnail.data.attributes.url}`}
-                  // height={item.attributes.thumbnail.data.attributes.height}
-                  // width={item.attributes.thumbnail.data.attributes.height}
                 />
               </Link>
             ))}
@@ -273,7 +280,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       page: 1,
       pageSize: 6,
     },
-    populate: "*",
+    populate: "deep",
   });
 
   const productsResponse = await fetch(
@@ -284,7 +291,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   const productsData = await productsResponse.json();
 
-  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+  const userResponse = await fetch(`${CONFIG.API_URL}/users/me?populate=deep`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${cookies.jwt}`,

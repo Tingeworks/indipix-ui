@@ -1,6 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import { BsTwitter } from "react-icons/bs";
-import { FaFacebookF, FaInstagram, FaInstagramSquare, FaPinterestP } from "react-icons/fa";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaInstagramSquare,
+  FaPinterestP,
+} from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io";
 
 const Footer: React.FC = () => {
@@ -17,50 +23,28 @@ const Footer: React.FC = () => {
           </p>
         </div>
 
-        <div className="text-white md:pl-32 ">
-          <h1 className="text-2xl font-semibold">Usefull links</h1>
-          <div className="mt-8 text-sm flex flex-col gap-2">
-            <p>
-              <a href="#">About</a>
-            </p>
-            <p>
-              <a href="#">News</a>
-            </p>
-            <p>
-              <a href="#">Partners</a>
-            </p>
-            <p>
-              <a href="#">Blog</a>
-            </p>
-            <p>
-              <a href="#">Gallery</a>
-            </p>
-            <p>
-              <a href="#">Contacts</a>
-            </p>
-          </div>
-        </div>
-
         <div className="text-white md:pl-24 font-nunito">
           <h1 className="text-2xl font-semibold">Help?</h1>
           <div className="mt-8 text-sm flex flex-col gap-2">
             <p>
-              <a href="#">FAQ</a>
+              <Link href="/faq">
+                <a>FAQ</a>
+              </Link>
             </p>
             <p>
-              <a href="#">Term & conditions</a>
+              <Link href="/policy/terms">
+                <a>Term & conditions</a>
+              </Link>
             </p>
             <p>
-              <a href="#">Reporting</a>
+              <Link href="/policy/refund">
+                <a>Refund Policy</a>
+              </Link>
             </p>
             <p>
-              <a href="#">Documentation</a>
-            </p>
-            <p>
-              <a href="#">Support Policy</a>
-            </p>
-            <p>
-              <a href="#">Privacy</a>
+              <Link href="/policy/privacy">
+                <a>Privacy Policy</a>
+              </Link>
             </p>
           </div>
         </div>

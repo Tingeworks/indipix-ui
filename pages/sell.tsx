@@ -10,18 +10,22 @@ export default function Sell({ loggedIn }: any) {
     <Layout isLoggedIn={loggedIn}>
       <SEO title="Indipix" description="" keywords="" />
       <div
-        className="flex bg-cover items-center justify-center"
+        className="flex bg-cover items-center justify-center relative"
         style={{
-          height: "80vh",
+          height: "90vh",
           backgroundImage: "url(/seller-landing-page.png)",
         }}
       >
-        <div className="text-center flex flex-col items-center">
-          <h1 className="text-4xl font-bold text-white">Capture and Earn</h1>
-          <p className="text-white text-xl">
-            Take great pictures and sell them on indipix
-          </p>
-          {loggedIn ? (
+        <div className="absolute top-0 bottom-0 left-0 right-0 bg-[#00000025] flex items-center justify-center">
+          <div className="text-center flex flex-col items-center">
+            <h1 className="text-4xl font-bold text-red-700">
+              Capture and Earn
+            </h1>
+            <p className="text-white text-xl">
+              Take great pictures and sell them on indipix
+            </p>
+            <p className="mt-5 text-3xl capitalize font-semibold text-white">Indipix Update 2.0 is coming soon</p>
+            {/* {loggedIn ? (
             <Button
               className="px-5 py-3 mt-10"
               Label="Continue"
@@ -37,10 +41,10 @@ export default function Sell({ loggedIn }: any) {
               type="button"
               url="/auth/login"
             />
-          )}
+          )} */}
+          </div>
         </div>
       </div>
-      <div className="container mx-auto px-5 lg:px-20 py-10"></div>
     </Layout>
   );
 }
@@ -53,7 +57,7 @@ export async function getServerSideProps(context: any) {
       Authorization: `Bearer ${cookies.jwt}`,
     },
   });
-  console.log(response.status)
+  console.log(response.status);
   const data = await response.json();
 
   const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);

@@ -125,7 +125,7 @@ const PurchaseHistory: NextPage = ({ user, loggedIn, orders }: any) => {
                         : "bg-gray-300 text-gray-600"
                     }`}
                   >
-                    {item.attributes.status}
+                    {item.attributes.status == "approved"? "Successful" : "Pending"}
                   </td>
                   <td className="p-5 text-left border uppercase">
                     {moment(item.attributes.createdAt).format(
@@ -159,7 +159,7 @@ export async function getServerSideProps(context: any) {
     populate: "*",
     filters: {
       userID: {
-        $eq: "34",
+        $eq: userData.id,
       },
     },
   });

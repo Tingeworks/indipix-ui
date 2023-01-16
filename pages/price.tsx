@@ -45,6 +45,7 @@ export default function Price({ loggedIn, packages }: any) {
         <div className="p-10  bg-[#AB1C1C] grid grid-cols-4 gap-10">
           {packages.data.map((item: any) => (
             <PricingCard
+              loggedIn={loggedIn}
               key={item.id}
               id={item.id}
               favourite={item.attributes.recommended}
@@ -56,6 +57,7 @@ export default function Price({ loggedIn, packages }: any) {
             />
           ))}
           <PricingCard
+            loggedIn={loggedIn}
             favourite={false}
             limit="Custom"
             title="Enterprise"
