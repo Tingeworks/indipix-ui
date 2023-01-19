@@ -104,6 +104,20 @@ const Image: NextPage<{
             });
 
             router.push(`/price`);
+          } else {
+            fetch(`${CONFIG.API_URL}/orders/?productid=${id}`, {
+              method: "GET",
+              headers: {
+                "Authorization": `Bearer ${cookies.jwt}`,
+                // "Content-Type": ""
+              },
+            })
+            .then(res=> res.json())
+            .then(data => {
+              if(data.error.status == 404) {
+                router.push("/user");
+              }
+            })
           }
         });
     } else {

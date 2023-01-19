@@ -21,7 +21,11 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 /** Home page */
 const User: NextPage = ({ user, loggedIn }: any) => {
+  const { jwt } = parseCookies();
+
   const [selected, setSelected] = useState(new Set(["English"]));
+  const [downloadData, setDownloadData] = useState({ state: 0, productImage: "" });
+
   const [panelStatus, setPanelStatus] = useState(true);
 
   const selectedValue = useMemo(
@@ -30,7 +34,6 @@ const User: NextPage = ({ user, loggedIn }: any) => {
   );
 
   const deleteAccount = (id: number) => {
-    const { jwt } = parseCookies();
     const permission = confirm("Are you sure?");
 
     if (permission == true) {
@@ -43,6 +46,19 @@ const User: NextPage = ({ user, loggedIn }: any) => {
         console.log(res);
       });
     }
+  };
+
+  const download = (id: number) => {
+    fetch(`${CONFIG.API_URL}/orders/?productid=1`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + jwt,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setDownloadData({ state: 1, ...data });
+      });
   };
 
   return (
@@ -60,7 +76,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
             <li className="pb-[19px] border-b-[.5px] mb-[18px] border-white">
               <Link href="/user">
                 <span className="text-white text-[15px] font-light cursor-pointer">
-                  Information
+                  Dashboard
                 </span>
               </Link>
             </li>
@@ -103,19 +119,52 @@ const User: NextPage = ({ user, loggedIn }: any) => {
             </ul>
           </div>
           {/* Dashboard */}
-          <h2 className="text-[28px] font-bold">Dashboard</h2>
-          <p>Products that you added through subscription</p>
-          <div className="mb-10">
+          <div className="flex">
+            <h2 className="text-[28px] font-bold">Dashboard</h2>
+          </div>
+          <div className="mb-10 mt-5 flex gap-10">
             <div className="flex gap-5 flex-wrap">
-              {user.downloadable_products.map((item) => (
-                <div className="flex flex-col">
+              {user.downloadable_products.map((item: any, index: number) => (
+                <div key={index} className="flex flex-col">
                   <img
                     className="w-36 h-36 object-cover"
                     src={`${CONFIG.ROOT_URL}${item.thumbnail.url}`}
                   />
-                  <a className="w-full bg-red-700 px-2 text-white py-2 block mt-2 text-center">Download</a>
+                  {downloadData.state == 0 ? (
+                    <a
+                      onClick={() => download(item.id)}
+                      className="w-full bg-red-700 px-2 text-white py-2 block mt-2 text-center"
+                    >
+                      Generate Link
+                    </a>
+                  ) : (
+                    <a
+                      href={`${CONFIG.ROOT_URL}${downloadData.productImage}`}
+                      className="w-full bg-red-700 px-2 text-white py-2 block mt-2 text-center"
+                      download
+                    >
+                      Download
+                    </a>
+                  )}
                 </div>
               ))}
+            </div>
+
+            <div className="w-48">
+              <div>
+                <h2 className="text-6xl font-bold">
+                  {user.credit.toString().length > 1
+                    ? user.credit
+                    : "0" + user.credit}
+                </h2>
+                <p className="text-3xl font-bold">
+                  Credit{user.credit <= 1 ? "" : "s"}
+                </p>
+                <p className="leading-tight text-sm">
+                  Credits allow you to download new images that you have not
+                  added to your account yet.{" "}
+                </p>
+              </div>
             </div>
           </div>
 
