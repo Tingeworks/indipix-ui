@@ -18,6 +18,7 @@ import SEO from "../../Components/Misc/SEO";
 import CONFIG from "../../CONFIG";
 import Navbar from "../../Components/Layout/Navbar";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import DashboardImageCard from "../../Components/PhotoCard/DashboardImageCard";
 
 /** Home page */
 const User: NextPage = ({ user, loggedIn }: any) => {
@@ -125,28 +126,7 @@ const User: NextPage = ({ user, loggedIn }: any) => {
           <div className="mb-10 mt-5 flex gap-10">
             <div className="flex gap-5 flex-wrap">
               {user.downloadable_products.map((item: any, index: number) => (
-                <div key={index} className="flex flex-col">
-                  <img
-                    className="w-36 h-36 object-cover"
-                    src={`${CONFIG.ROOT_URL}${item.thumbnail.url}`}
-                  />
-                  {downloadData.state == 0 ? (
-                    <a
-                      onClick={() => download(item.id)}
-                      className="w-full bg-red-700 px-2 text-white py-2 block mt-2 text-center"
-                    >
-                      Generate Link
-                    </a>
-                  ) : (
-                    <a
-                      href={`${CONFIG.ROOT_URL}${downloadData.productImage}`}
-                      className="w-full bg-red-700 px-2 text-white py-2 block mt-2 text-center"
-                      download
-                    >
-                      Download
-                    </a>
-                  )}
-                </div>
+                <DashboardImageCard key={index} index={index} item={item} />
               ))}
             </div>
 
