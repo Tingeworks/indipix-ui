@@ -72,24 +72,30 @@ export default function Price({ loggedIn, packages }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-  const packageResponse = await fetch(`${CONFIG.API_URL}/subscriptions`, {
-    method: "GET",
-  });
-  const packageData = await packageResponse.json();
+  try {
+    const cookies = nookies.get(context);
+    const packageResponse = await fetch(`${CONFIG.API_URL}/subscriptions`, {
+      method: "GET",
+    });
+    const packageData = await packageResponse.json();
 
-  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
+    const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    });
 
-  console.log(packageData.data);
-  return {
-    props: {
-      packages: packageData,
-      loggedIn: userResponse.status == 200,
-    },
-  };
+    console.log(packageData.data);
+    return {
+      props: {
+        packages: packageData,
+        loggedIn: userResponse.status == 200,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 }

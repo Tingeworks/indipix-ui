@@ -49,7 +49,7 @@ const Banner: React.FC<any> = (props) => {
             <p className="text-white text-2xl my-5">Start exploring now!</p>
             <SearchBox className="bg-[#ffffff44]" />
             <ul className="flex justify-center mt-10">
-              {props.tags.data.map((item: any, index: number) => (
+              {props.tags && props.tags.data.map((item: any, index: number) => (
                 <li key={index}>
                   <Link href={`/search?value=${item.attributes.label}`}>
                     <a className="cursor-pointer px-8 text-xs rounded-full py-2 text-white bg-[#EA6940] mr-3">

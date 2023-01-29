@@ -24,7 +24,9 @@ export default function Sell({ loggedIn }: any) {
             <p className="text-white text-xl">
               Take great pictures and sell them on indipix
             </p>
-            <p className="mt-5 text-3xl capitalize font-semibold text-white">Indipix Update 2.0 is coming soon</p>
+            <p className="mt-5 text-3xl capitalize font-semibold text-white">
+              Indipix Update 2.0 is coming soon
+            </p>
             {/* {loggedIn ? (
             <Button
               className="px-5 py-3 mt-10"
@@ -50,34 +52,40 @@ export default function Sell({ loggedIn }: any) {
 }
 
 export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
-  const response = await fetch(`${CONFIG.API_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-  console.log(response.status);
-  const data = await response.json();
-
-  const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
-  const ProductData = await ProductResponse.json();
-
-  if (data.statusCode >= 400) {
-    return {
-      props: {
-        loggedIn: false,
-        products: ProductData || [],
-        user: {},
+  try {
+    const cookies = nookies.get(context);
+    const response = await fetch(`${CONFIG.API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
       },
-    };
-  } else {
+    });
+    console.log(response.status);
+    const data = await response.json();
+
+    const ProductResponse = await fetch(`${CONFIG.API_URL}/product/`);
+    const ProductData = await ProductResponse.json();
+
+    if (data.statusCode >= 400) {
+      return {
+        props: {
+          loggedIn: false,
+          products: ProductData || [],
+          user: {},
+        },
+      };
+    } else {
+      return {
+        props: {
+          loggedIn: response.status == 200,
+          products: ProductData || [],
+          user: data,
+        },
+      };
+    }
+  } catch (error) {
     return {
-      props: {
-        loggedIn: response.status == 200,
-        products: ProductData || [],
-        user: data,
-      },
+      notFound: true,
     };
   }
 }

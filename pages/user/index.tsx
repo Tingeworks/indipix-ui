@@ -25,7 +25,10 @@ const User: NextPage = ({ user, loggedIn }: any) => {
   const { jwt } = parseCookies();
 
   const [selected, setSelected] = useState(new Set(["English"]));
-  const [downloadData, setDownloadData] = useState({ state: 0, productImage: "" });
+  const [downloadData, setDownloadData] = useState({
+    state: 0,
+    productImage: "",
+  });
 
   const [panelStatus, setPanelStatus] = useState(true);
 
@@ -274,27 +277,36 @@ const User: NextPage = ({ user, loggedIn }: any) => {
 };
 
 export async function getServerSideProps(context: any) {
-  const cookies = nookies.get(context);
+  try {
+    const cookies = nookies.get(context);
 
-  const userResponse = await fetch(`${CONFIG.API_URL}/users/me?populate=deep`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-  const userData = await userResponse.json();
+    const userResponse = await fetch(
+      `${CONFIG.API_URL}/users/me?populate=deep`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${cookies.jwt}`,
+        },
+      }
+    );
+    const userData = await userResponse.json();
 
-  if (userResponse.status !== 200) {
+    if (userResponse.status !== 200) {
+      return {
+        notFound: true,
+      };
+    }
+    return {
+      props: {
+        loggedIn: true,
+        user: userData,
+      },
+    };
+  } catch (error) {
     return {
       notFound: true,
     };
   }
-  return {
-    props: {
-      loggedIn: true,
-      user: userData,
-    },
-  };
 }
 
 // export async function getServerSideProps(context: any) {

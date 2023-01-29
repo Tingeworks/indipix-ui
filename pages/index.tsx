@@ -102,7 +102,7 @@ const Home: NextPage = ({
 const qs = require("qs");
 
 export async function getServerSideProps(context: any) {
-  // try {
+  try {
   const cookies = nookies.get(context);
 
   const tagsQuery = qs.stringify({
@@ -169,11 +169,11 @@ export async function getServerSideProps(context: any) {
       lastViewed: userResponse.status == 200 ? lastViewedProductsData.products.map((item: any) => item.id) : [],
     },
   };
-  // } catch (error) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 }
 
 export default Home;

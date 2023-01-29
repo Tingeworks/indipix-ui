@@ -20,15 +20,14 @@ export default function Contact() {
           message: event.target[2].value,
         },
       }),
-    })
-      .then((res) => {
-        if (res.status == 200) {
-            alert("Your message was received. Thanks!");
-            Router.reload();
-        } else {
-            alert("Something went wrong; Try again later.");
-        }
-      })
+    }).then((res) => {
+      if (res.status == 200) {
+        alert("Your message was received. Thanks!");
+        Router.reload();
+      } else {
+        alert("Something went wrong; Try again later.");
+      }
+    });
   };
 
   return (
@@ -106,19 +105,25 @@ export default function Contact() {
 }
 
 export async function getServerside(context: any) {
-  const cookies = nookies.get(context);
+  try {
+    const cookies = nookies.get(context);
 
-  const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${cookies.jwt}`,
-    },
-  });
-  const userData = await userResponse.json();
+    const userResponse = await fetch(`${CONFIG.API_URL}/users/me`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${cookies.jwt}`,
+      },
+    });
+    const userData = await userResponse.json();
 
-  return {
-    props: {
-      loggedIn: userResponse.status == 200 ? true : false,
-    },
-  };
+    return {
+      props: {
+        loggedIn: userResponse.status == 200 ? true : false,
+      },
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
 }

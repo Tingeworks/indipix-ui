@@ -33,11 +33,21 @@ export default function Collection({ loggedIn, collections }: any) {
             MY COLLECTIONS
           </h2>
 
+
+          {
+            collections.data.map((item: any)=> {
+              return <div className="mt-10" key={item.id}>
+                {item.attributes.title}
+                {JSON.stringify(item.attributes.products.data)}
+                </div>
+            })
+          }
+
           {/* <Gallery> */}
-          {collections.meta.pagination.total > 0 &&
+          {/* {collections.meta.pagination.total > 0 &&
             collections.data.map((item: any) => (
               <MotionCard key={item.id} item={item} />
-            ))}
+            ))} */}
           {/* </Gallery> */}
           {/* card end */}
         </div>
@@ -72,7 +82,8 @@ export async function getServerSideProps(context: any) {
       page: 1,
       pageSize: 5,
     },
-    populate: "*",
+    // fields: ['url'],
+    populate: "deep",
   });
 
   const collectionsResponse = await fetch(
